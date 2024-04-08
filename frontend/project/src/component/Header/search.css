@@ -1,0 +1,25 @@
+.btn-search {
+    background-color: #fff;
+    border-radius: none;
+    border-top: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+    border-left: none;
+    border-radius:0px 0.345rem 0.345rem 0px; 
+    padding: 2px;
+}
+.btn-search:hover{
+    opacity: 0.7;
+}
+.none-bd-r{
+    border-right: none;
+}
+
+@media (max-width: 576px) {
+    .navbar-expand-sm .navbar-collapse {
+        flex-grow: 1;
+    }
+    .search {
+        display: none;
+    }
+}

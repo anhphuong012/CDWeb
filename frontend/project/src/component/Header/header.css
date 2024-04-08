@@ -1,0 +1,223 @@
+
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.bg-white {
+background-color: #fff;
+}
+.boder-bot {
+    border-bottom: 1px solid #f7f8f9;
+}
+
+
+.site-brand img {
+    width: 150px;
+    height: 50px;
+    display: block;
+}
+
+@media (max-width: 768px) 
+{
+    .site-brand img {
+            width: 117px;
+            height: auto;
+    }
+        .product-infor p {
+            font-size: 10px !important;
+            line-height: 14px !important;
+    
+        }
+        .product-name {
+  
+                    font-size: 14px !important;
+                    line-height: 16px !important;
+
+     }
+         .list-product {
+            max-height: 350px !important;
+         }
+                 .total-price {
+                    font-size: 14px !important;
+                        line-height: 14px !important;
+                 }
+                .product-price {
+                    font-size: 12px !important;
+                }
+              .sub-product input{
+                font-size: 12px !important;
+              }
+          .wrap-btn-cart .btn {
+              font-size: 14px !important;
+          }
+}
+
+
+.flex-grow-none {
+    flex-grow: 0 !important;
+}
+.right-component {
+    display: flex;
+}
+
+.btn {
+    background-color: #f7f8f9;
+
+}
+.btn-icon {
+    padding: 2px;
+    margin-left: 3px;
+
+}
+.btn .badge {
+    position: absolute !important;
+    right: -16px !important;
+    top:-2px !important;
+
+}
+.cart {
+    position: relative;
+}
+.cart-title {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 30px;
+    position: relative;
+}
+.container-head-cart {
+    margin: 10px;
+}
+.cart-number {
+    margin-left: 6px;
+    align-content: center;
+}
+.product-card {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    width: calc(100%-10%);
+    /* Điều chỉnh kích thước card tùy ý */
+    margin: 10px;
+    margin-top: 15px;
+}
+
+.product-card img {
+    width: 150px;
+    /* Điều chỉnh kích thước ảnh sản phẩm */
+    height: 150px;
+    object-fit: cover;
+    /* Đảm bảo ảnh không bị méo khi thay đổi kích thước */
+}
+
+.product-details {
+    padding: 10px;
+}
+
+.product-details h2 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.product-details p {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+
+.product-card img {
+    width: 64px;
+    height: 96px;
+}
+.product-name {
+    font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        color: #3E3E3F;
+        margin-bottom: 8px;
+        
+}
+.product-infor {
+    display: flex;
+
+}
+.product-infor p{
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 24px;
+    display: inline-block;
+    margin-right: 20px;
+    margin-bottom: 0;
+
+}
+.sub-product {
+    margin-top: 10px;
+}
+.sub-product input {
+    font-weight: normal;
+        font-size: 14px ;
+        line-height: 16px;
+        height: 24px;
+        padding: 4px 0 !important;
+        width: 48px;
+        text-align: center;
+        border: 1px solid #E7E8E9;
+            border-radius: 4px;
+            color: #57585A;
+            font-family: 'Montserrat', sans-serif;
+}
+.price-quantity {
+
+            background: #FFFFFF;
+            border: 1px solid #E7E8E9;
+            border-radius: 8px 0px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+
+}
+.infor-price-quanlity {
+    display: flex;
+}
+.product-price {
+    font-weight: 600;
+        font-size: 14px;
+        line-height: 16px;
+        text-decoration: none;
+        color: #AC2F33;
+        vertical-align: middle;
+        align-content: center;
+}
+.list-product {
+    overflow: auto;
+    max-height: 480px;
+}
+.total-price {
+    margin-top: 10px;
+    font-weight: normal;
+        font-size: 20px;
+        line-height: 24px;
+        font-family: 'Montserrat';
+        display: block;
+        text-align: right;
+        color: #525459;
+        margin-bottom: 16px;
+        padding: 0 24px;
+        border-bottom: 1px solid #F6F7F8;
+}
+.btn-cart {
+    width: 100%;
+}
+.wrap-btn-cart {
+   max-width: 90%;
+    align-content: center;
+        margin: 0px auto;
+        margin-top: 10px;
+}
+

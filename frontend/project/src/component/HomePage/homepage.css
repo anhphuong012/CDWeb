@@ -1,0 +1,112 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+body {
+    color: #6C6D70;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+}
+.nav-infor {
+    flex-wrap: wrap;
+
+}
+.nav-item-infor {
+    flex: 1;
+            padding: 8px 0;
+}
+
+.nav-left {
+
+    background-color: #D73831;
+}
+.nav-center {
+    max-width: 32%;
+    background-color: #DC633A;
+}
+.nav-right{
+    max-width: 32%;
+    background-color: #AC2F33;
+}
+.nav-item-infor a{
+    width: 100%;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+        text-transform: uppercase;
+        color: #FFF;
+        padding: 8px 0;
+        text-decoration: none;
+}
+.carousel-wrap {
+    margin-top: 20px;
+    border-radius: 2%;
+    overflow: auto;
+}
+.home-new-prod {
+    margin-top: 10px;
+}
+.title-section {
+        text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 30px;
+            line-height: 32px;
+            font-family: 'Montserrat';
+            color: #221F20;
+            margin-bottom: 20px;
+}
+
+.exclusive-wrap{
+        display: block;
+            list-style-type: disc;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            padding-inline-start: 40px;
+            unicode-bidi: isolate;
+                text-align: center;
+                    margin-bottom: 28px;
+}
+.exclusive-item {
+    text-align: -webkit-match-parent;
+        unicode-bidi: isolate;
+}
+.exclusive-tab.active {
+    color: #221F20;
+    border-bottom: 2px solid #221F20;
+}
+.exclusive-tab {
+    color: #6C6D70;
+    font-size: 20px;
+    line-height: 30px;
+    margin-right: 56px;
+    display: inline-block;
+    cursor: pointer;
+}
+ul li {
+    list-style: none;
+}
+
+@media (max-width: 768px) {
+    .exclusive-tab{
+        font-size: 16px !important;
+        line-height:20px !important;
+    }
+    .exclusive-tab{
+        margin-right: 45px !important;
+    }
+        .home-new-prod .title-section,
+        .home-promote .title-section {
+            margin-bottom: 10px;
+        }
+                .title-section {
+                    font-size: 20px;
+                    line-height: 32px;
+                }
+}
