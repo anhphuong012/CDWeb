@@ -4,12 +4,17 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Fade from "@mui/material/Fade";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "bootstrap/dist/css/bootstrap.css";
 import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
+
+import IconButton from "@mui/material/IconButton";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 export default function Card(props) {
   let CardName = `color_bg ${props.alt}`;
   let bg_img = `url(${props.images})`;
-  let { title, old_price, newPrice, dollar, exp_date } = props;
+  let { title, old_price, newPrice, dollar, type, bg } = props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -24,6 +29,12 @@ export default function Card(props) {
     <div className="card">
       <div className="wrapper">
         <div className={CardName}></div>
+        <div style={{ position: "absolute", top: "0", zIndex: "9" }}>
+          {" "}
+          <h4>
+            <span class={`badge ${bg}`}>{type}</span>
+          </h4>
+        </div>
         <div className="card_img" style={{ backgroundImage: bg_img }}></div>
         <div className="heart">
           <svg xmlns="<http://www.w3.org/2000/svg>" viewBox="0 0 64 64">
@@ -31,7 +42,9 @@ export default function Card(props) {
           </svg>
         </div>
         <div className="cardInfo">
-          <span className=".card-title">{title}</span>
+          <a href="" className="link">
+            <span className="card-title">{title}</span>
+          </a>
           <div className="action">
             <div className="priceGroup">
               <p className="price old_price">
@@ -44,16 +57,29 @@ export default function Card(props) {
               </p>
             </div>
             <div>
-              <Button
+              {/* <Button
                 id="fade-button"
                 aria-controls={open ? "fade-menu" : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}
                 onClick={handleClick}
-                classes={"btn-black"}
+                classes={"btn-outline-light text-dark"}
+                variant="outlined"
+                size="small"
               >
-                <MedicalServicesIcon color="secondary"></MedicalServicesIcon>
-              </Button>
+                <i class="bi bi-bag-plus text-dark"></i>
+              </Button> */}
+              <IconButton
+                color="secondary"
+                aria-label="add to shopping cart"
+                id="fade-button"
+                aria-controls={open ? "fade-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClick}
+              >
+                <AddShoppingCartIcon />
+              </IconButton>
               <Menu
                 id="fade-menu"
                 MenuListProps={{
