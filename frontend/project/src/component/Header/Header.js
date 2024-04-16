@@ -10,7 +10,7 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import Cart from "./Cart";
 const Header = () => {
   return (
-    <div>
+    <div className={"header-fixed"}>
       <nav class="navbar navbar-expand-sm bg-white navbar-light d-flex justify-content-between">
         <div class="container mb-2 mt-2  boder-bot ">
           <button

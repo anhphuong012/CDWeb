@@ -10,7 +10,8 @@
 background-color: #fff;
 }
 .boder-bot {
-    border-bottom: 1px solid #f7f8f9;
+    border-bottom: 1px solid #6C6D70;;
+    padding-bottom: 15px;
 }
 
 
@@ -219,5 +220,12 @@ background-color: #fff;
     align-content: center;
         margin: 0px auto;
         margin-top: 10px;
+}
+.header-fixed {
+    position: fixed;
+    z-index: 9;
+    width: 100%;
+    top: 0;
+
 }
 

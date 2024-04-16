@@ -8,11 +8,67 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./homepage.css";
 import Card from "./CardProduct";
+import Footer from "../Footer/Footer";
+import Carousel1 from "../image/c1.jpg";
+import Carousel0 from "../image/c0.jpg";
+import Carousel2 from "../image/c2.jpg";
+
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Bot from "../image/bg-bot.jpg";
+
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+CustomTabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
 export default function HomePage() {
+  const [value, setValue] = React.useState(0);
+
+  const [indexNew, setIndexNew] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const selectIndex = (event, newValue) => {
+    setIndexNew(newValue);
+  };
   return (
     <div>
       <Header></Header>
-      <div className={"container mb-5"}>
+      <div className={"container mb-5 "} style={{ marginTop: "7rem" }}>
         <div className={"nav-infor d-flex"}>
           <div className={"nav-item-infor nav-left"}>
             <a href="#">SALE OFF 50%</a>
@@ -28,13 +84,13 @@ export default function HomePage() {
         <div className={"carousel-wrap"}>
           <Carousel>
             <div>
-              <img src="https://pubcdn.ivymoda.com/files/news/2024/03/21/8474a5e33bed841dcc44edc14bbdc541.jpg" />
+              <img src={Carousel0} />
             </div>
             <div>
-              <img src="https://pubcdn.ivymoda.com/files/news/2024/03/21/8474a5e33bed841dcc44edc14bbdc541.jpg" />
+              <img src={Carousel1} />
             </div>
             <div>
-              <img src="https://pubcdn.ivymoda.com/files/news/2024/03/21/8474a5e33bed841dcc44edc14bbdc541.jpg" />
+              <img src={Carousel2} />
             </div>
           </Carousel>
         </div>
@@ -43,7 +99,91 @@ export default function HomePage() {
           <div className={"title-section"}>NEW ARRIVAL</div>
           <div className={"exclusive-tabs"}>
             <div className={"exclusive-head"}>
-              <ul className="exclusive-wrap">
+              {/** */}
+              <Box sx={{ width: "100%", margin: "0px auto" }}>
+                <Box>
+                  <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="basic tabs example"
+                    textColor="inherit"
+                    centered
+                  >
+                    <Tab
+                      label="IVY moda"
+                      {...a11yProps(0)}
+                      sx={{ mx: 2, fontSize: 20 }}
+                    />
+                    <Tab
+                      label="IVY men"
+                      {...a11yProps(1)}
+                      sx={{ mx: 2, fontSize: 20 }}
+                    />
+                    <Tab
+                      label="IVY kids"
+                      {...a11yProps(2)}
+                      sx={{ mx: 2, fontSize: 20 }}
+                    />
+                  </Tabs>
+                </Box>
+                <CustomTabPanel value={value} index={0}>
+                  <div className="row list-card">
+                    <Card
+                      title="What is Lorem Ipsum?"
+                      images="https://pubcdn.ivymoda.com/files/product/thumab/400/2024/03/22/467a20e0d092334cb796d81c30881d75.JPG"
+                      old_price="9,999"
+                      newPrice="9999"
+                      dollar="$"
+                      alt="batman"
+                      exp_date="10-08-2022"
+                      type="New"
+                      bg="bg-warning"
+                    />
+                    <Card
+                      title="What is Lorem Ipsum?"
+                      images="../images/blackpanter.png"
+                      old_price="599"
+                      newPrice="500"
+                      dollar="$"
+                      alt="blackpanter"
+                      exp_date="10-08-2022"
+                      type="New"
+                      bg="bg-warning"
+                    />
+                    <Card
+                      title="What is Lorem Ipsum?"
+                      images="../images/arthur.png"
+                      old_price="7999"
+                      newPrice="7000"
+                      dollar="$"
+                      alt="arthur"
+                      exp_date="10-08-2022"
+                      type="New"
+                      bg="bg-warning"
+                    />
+                    <Card
+                      title="What is Lorem Ipsum?"
+                      images="../images/kashima.png"
+                      old_price="999"
+                      newPrice="500"
+                      dollar="$"
+                      alt="kashima"
+                      exp_date="10-08-2022"
+                      type="New"
+                      bg="bg-warning"
+                    />
+                  </div>
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={1}>
+                  Item Two
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={2}>
+                  Item Three
+                </CustomTabPanel>
+              </Box>
+
+              {/** */}
+              {/* <ul className="exclusive-wrap">
                 <li
                   class="exclusive-tab arrival-tab exclusive-item active"
                   data-cate-slug="hang-nu-moi-ve"
@@ -66,10 +206,10 @@ export default function HomePage() {
                 >
                   IVY kids
                 </li>
-              </ul>
+              </ul> */}
             </div>
           </div>
-          <div className="row list-card">
+          {/* <div className="row list-card">
             <Card
               title="What is Lorem Ipsum?"
               images="https://pubcdn.ivymoda.com/files/product/thumab/400/2024/03/22/467a20e0d092334cb796d81c30881d75.JPG"
@@ -106,15 +246,176 @@ export default function HomePage() {
               alt="kashima"
               exp_date="10-08-2022"
             />
-          </div>
+          </div> */}
 
           <div className="justify-content-center mt-5 ">
-            <button type="button" class="btn btn-outline-dark">
+            <button type="button" class="btn btn-outline-dark btn-black">
               Xem tất cả
             </button>
           </div>
         </section>
+
+        <section style={{ marginTop: "10%" }}>
+          <div className={"title-section"}>
+            DEAL HỜI THÁNG 4 - SĂN ƯU ĐÃI LỚN - CHỈ CÓ TẠI ONLINE
+          </div>
+          <div className={"exclusive-tabs"}>
+            <div className={"exclusive-head"}>
+              {/** */}
+              <Box sx={{ width: "100%", margin: "0px auto" }}>
+                <Box>
+                  <Tabs
+                    value={indexNew}
+                    onChange={selectIndex}
+                    aria-label="basic tabs example"
+                    textColor="inherit"
+                    centered
+                  >
+                    <Tab
+                      label="IVY moda"
+                      {...a11yProps(0)}
+                      sx={{ mx: 2, fontSize: 20 }}
+                    />
+                    <Tab
+                      label="IVY Kids"
+                      {...a11yProps(1)}
+                      sx={{ mx: 2, fontSize: 20 }}
+                    />
+                  </Tabs>
+                </Box>
+                <CustomTabPanel value={indexNew} index={0}>
+                  <div className="row list-card">
+                    <Card
+                      title="What is Lorem Ipsum?"
+                      images="https://pubcdn.ivymoda.com/files/product/thumab/400/2024/03/22/467a20e0d092334cb796d81c30881d75.JPG"
+                      old_price="9,999"
+                      newPrice="9999"
+                      dollar="$"
+                      alt="batman"
+                      exp_date="10-08-2022"
+                      type="Hot"
+                      bg="bg-danger"
+                    />
+                    <Card
+                      title="What is Lorem Ipsum?"
+                      images="../images/blackpanter.png"
+                      old_price="599"
+                      newPrice="500"
+                      dollar="$"
+                      alt="blackpanter"
+                      exp_date="10-08-2022"
+                      type="Hot"
+                      bg="bg-danger"
+                    />
+                    <Card
+                      title="What is Lorem Ipsum?"
+                      images="../images/arthur.png"
+                      old_price="7999"
+                      newPrice="7000"
+                      dollar="$"
+                      alt="arthur"
+                      exp_date="10-08-2022"
+                      type="Hot"
+                      bg="bg-danger"
+                    />
+                    <Card
+                      title="What is Lorem Ipsum?"
+                      images="../images/kashima.png"
+                      old_price="999"
+                      newPrice="500"
+                      dollar="$"
+                      alt="kashima"
+                      exp_date="10-08-2022"
+                      type="Hot"
+                      bg="bg-danger"
+                    />
+                  </div>
+                </CustomTabPanel>
+                <CustomTabPanel value={indexNew} index={1}>
+                  Item Two Đây nè
+                </CustomTabPanel>
+              </Box>
+
+              {/** */}
+              {/* <ul className="exclusive-wrap">
+                <li
+                  class="exclusive-tab arrival-tab exclusive-item active"
+                  data-cate-slug="hang-nu-moi-ve"
+                  data-tab="tab-women"
+                >
+                  IVY moda
+                </li>
+                <li
+                  class="exclusive-tab arrival-tab exclusive-item"
+                  data-cate-slug="hang-nam-moi-ve"
+                  data-tab="tab-men"
+                >
+                  IVY men
+                </li>
+
+                <li
+                  class="exclusive-tab arrival-tab exclusive-item"
+                  data-cate-slug="hang-nam-moi-ve"
+                  data-tab="tab-men"
+                >
+                  IVY kids
+                </li>
+              </ul> */}
+            </div>
+          </div>
+          {/* <div className="row list-card">
+            <Card
+              title="What is Lorem Ipsum?"
+              images="https://pubcdn.ivymoda.com/files/product/thumab/400/2024/03/22/467a20e0d092334cb796d81c30881d75.JPG"
+              old_price="9,999"
+              newPrice="9999"
+              dollar="$"
+              alt="batman"
+              exp_date="10-08-2022"
+            />
+            <Card
+              title="What is Lorem Ipsum?"
+              images="../images/blackpanter.png"
+              old_price="599"
+              newPrice="500"
+              dollar="$"
+              alt="blackpanter"
+              exp_date="10-08-2022"
+            />
+            <Card
+              title="What is Lorem Ipsum?"
+              images="../images/arthur.png"
+              old_price="7999"
+              newPrice="7000"
+              dollar="$"
+              alt="arthur"
+              exp_date="10-08-2022"
+            />
+            <Card
+              title="What is Lorem Ipsum?"
+              images="../images/kashima.png"
+              old_price="999"
+              newPrice="500"
+              dollar="$"
+              alt="kashima"
+              exp_date="10-08-2022"
+            />
+          </div> */}
+
+          <div className="justify-content-center mt-5 ">
+            <button type="button" class="btn btn-outline-dark btn-black">
+              Xem tất cả
+            </button>
+          </div>
+        </section>
+
+        <section>
+          <div className="wrap-bot">
+            <img src={Bot} className="img-bot"></img>
+          </div>
+        </section>
       </div>
+      <Footer></Footer>
     </div>
   );
 }
