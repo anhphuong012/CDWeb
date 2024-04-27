@@ -1,0 +1,136 @@
+
+.auth-container {
+    max-width: 1170px;
+    width: 100%;
+    padding: 0 16px;
+    -webkit-margin-start: auto;
+    margin-inline-start: auto;
+    -webkit-margin-end: auto;
+    margin-inline-end: auto;
+}
+
+.auth {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 0 -16px;
+    position: relative;
+}
+
+.auth {
+    justify-content: center;
+}
+
+
+
+/* .auth__login, .auth__register {
+    flex: 0 0 100%;
+} */
+
+.auth__login .auth__title, .auth__login .auth__description, .auth__register .auth__title, .auth__register .auth__description {
+    text-align: center;
+}
+
+.auth__login, .auth__register {
+    flex: 0 0 480px;
+    max-width: 100%;
+    padding: 0 15px;
+}
+
+ .auth__form__options {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-control:not(.rounded) {
+    border-radius: 4px;
+}
+
+input[type=text], input[type=email], input[type=tel], input[type=password], input[type=number], input[type=search], textarea {
+    border: 1px solid #E7E8E9;
+    border-radius: 4px;
+    padding: 15px;
+    font-size: 14px;
+    color: #57585A;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+
+.auth__description {
+    font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 0;
+    color: #6c6d70;
+}
+
+
+.form-checkbox {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.auth__login__content .form-checkbox label {
+    display: flex;
+    min-height: 20px;
+}
+
+input[type=checkbox], input[type=radio] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.checkboxs {
+    border: 1px solid #faf9f9;
+    display: block;
+    width: 18px;
+    height: 18px;
+    appearance: auto;
+    -moz-appearance: button;
+    -ms-appearance: button;
+    -webkit-appearance: button;
+}
+
+.auth__form__link {
+    color: #221f20;
+    font-size: 14px;
+    line-height: 16px;
+    text-decoration: underline;
+}
+
+.auth__title {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    margin-bottom: 0;
+    color: #221f20;
+
+    cursor: pointer;
+}
+
+
+
+
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+
+.auth__form__buttons .btn {
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.btn--large {
+    padding: 12px 24px;
+    border-radius: 16px 0px;
+    font-size: 16px;
+    line-height: 24px;
+    background-color: #221f20;
+    color: #fdfdfd;
+    border: 1px solid transparent;
+}
+
