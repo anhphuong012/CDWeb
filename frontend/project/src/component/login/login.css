@@ -17,9 +17,18 @@
     position: relative;
 }
 
-.auth {
-    justify-content: center;
+.auth:before {
+    position: absolute;
+    content: "";
+    height: 300px;
+    width: 1px;
+    left: 50%;
+    top: 0;
+    background-color: #e7e8e9;
 }
+/* .auth {
+    justify-content: center;
+} */
 
 
 

@@ -10,17 +10,17 @@ import { Link } from "react-router-dom";
 
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./login.css";
+import "../login/login.css";
 import { Button } from "react-bootstrap";
 
-export default function FilProduct() {
+export default function Login() {
   return (
     <div>
       <Header></Header>
       <section style={{ marginTop: "7rem", marginBottom: "7rem" }}>
         <div class="container">
           <div class="auth">
-            <div class="auth_login">
+            <div class="auth__login">
               <h3 class="auth__title">Bạn đã có tài khoản IVY</h3>
               <div class="auth__login__content">
                 <p class="auth__description">
@@ -105,7 +105,7 @@ export default function FilProduct() {
               </div>
             </div>
 
-            <div class="auth_regiter">
+            <div class="auth__register">
               <h3 class="auth__title">Khách hàng mới của IVY moda</h3>
               <div class="auth__login__content">
                 <p class="auth__description">
@@ -119,7 +119,7 @@ export default function FilProduct() {
                 </p>
 
                 <div class="auth__form__buttons">
-                  <a href="https://ivymoda.com/customer/register">
+                  <a href="">
                     {" "}
                     <button class="btn btn--large">Đăng ký</button>
                   </a>
