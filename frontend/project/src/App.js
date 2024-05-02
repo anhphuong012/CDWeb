@@ -6,7 +6,8 @@ import "./App.css";
 import HomePage from "./component/HomePage/HomePage";
 import ProductDetail from "./component/ProductDetail/ProductDetail";
 import FilProduct from "./component/FilProduct/FilProduct";
-import  Login  from "./component/login/Login.js";
+import Login from "./component/login/Login.js";
+import Register from "./component/Register/Register.js";
 function App() {
   return (
     <div className="App">
@@ -15,6 +16,7 @@ function App() {
         <Route path="/detail" element={<ProductDetail></ProductDetail>}></Route>
         <Route path="/category" element={<FilProduct></FilProduct>}></Route>
         <Route path="/login" element={<Login></Login>}></Route>
+        <Route path="/register" element={<Register></Register>}></Route>
       </Routes>
     </div>
   );
