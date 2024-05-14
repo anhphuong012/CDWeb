@@ -6,6 +6,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../image/logo.png";
 import Search from "./Search";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import { Link } from "react-router-dom";
 
 import Cart from "./Cart";
 const Header = () => {
@@ -146,12 +147,12 @@ const Header = () => {
             </ul>
           </div>
           <div>
-            <div className="site-brand logo">
+            <Link className="site-brand logo" to={"/"}>
               <img
                 src="https://pubcdn.ivymoda.com/ivy2/images/logo.png"
                 alt="Áo - Quần IVy moda"
               />
-            </div>
+            </Link>
           </div>
 
           <div class="right-component">

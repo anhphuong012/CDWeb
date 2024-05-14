@@ -47,10 +47,6 @@ export default function Card(props) {
           </a>
           <div className="action">
             <div className="priceGroup">
-              <p className="price old_price">
-                {dollar}
-                {old_price}
-              </p>
               <p className="price newPrice">
                 {dollar}
                 {newPrice}
