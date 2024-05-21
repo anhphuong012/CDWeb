@@ -174,7 +174,7 @@
 }
 
 .priceGroup .price {
-    font-size: 18px;
+    font-size: 16px;
     color: #000;
     text-align: left;
 }
@@ -188,7 +188,7 @@
 
 .priceGroup .price.newPrice {
     color: #000;
-    font-size: 25px;
+    font-size: 17px;
     font-weight: 800;
 }
 

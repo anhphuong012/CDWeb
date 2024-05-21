@@ -13,6 +13,7 @@
 }
 .wrap-infor {
     text-align: justify;
+    padding-left: 20px;
 }
 .img-left {
     max-width: 100%;
@@ -145,6 +146,13 @@ text-decoration: underline;
         font-weight: 600;
         font-size: 16px;
         line-height: 24px;
+}
+.infor-product {
+    margin-top: 20%;
+}
+.infor-product p {
+    font-size: 14px;
+    text-align: justify;
 }
 .btn-shop:hover {
     background-color: #000;

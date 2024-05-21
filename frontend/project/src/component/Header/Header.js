@@ -1,15 +1,47 @@
-import React, { useState, Component } from "react";
+import React, { useState, useEffect } from "react";
 
-import "./header.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../image/logo.png";
 import Search from "./Search";
+import "./search.css";
+import "./header.css";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { useNavigate } from "react-router-dom";
 
 import Cart from "./Cart";
 const Header = () => {
+  const [value, setValue] = React.useState("");
+  const [show, setShow] = React.useState(false);
+  const [list, setList] = useState([]);
+
+  const navigate = useNavigate();
+  const onChangeHandle = async (value) => {
+    console.log(value);
+
+    if (value == "") {
+      setList([]);
+    } else {
+      const response = await axios.get(`/api/products?name=${value}`);
+
+      if (response.status == 200) {
+        if (response.data.data != null) {
+          setList(response.data.data);
+          console.log(list);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    onChangeHandle(value);
+  }, [value]);
+
+  console.log(list);
   return (
     <div className={"header-fixed"}>
       <nav class="navbar navbar-expand-sm bg-white navbar-light d-flex justify-content-between">
@@ -38,24 +70,18 @@ const Header = () => {
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/category/1">
                       Toàn bộ
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/category/1">
                       Áo
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/category/2">
                       Quần
-                    </a>
-                  </li>
-
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Giày dép
                     </a>
                   </li>
                 </ul>
@@ -71,35 +97,29 @@ const Header = () => {
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/category/6">
                       Toàn bộ
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/category/3">
                       Áo
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/category/4">
                       Quần
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/category/6">
                       Váy - Đầm
                     </a>
                   </li>
 
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/category/5">
                       Set bộ
-                    </a>
-                  </li>
-
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Áo dài
                     </a>
                   </li>
                 </ul>
@@ -115,23 +135,18 @@ const Header = () => {
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/category/7">
                       Toàn bộ
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/category/7">
                       Áo
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/category/8">
                       Quần
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Giày dép
                     </a>
                   </li>
                 </ul>
@@ -156,9 +171,53 @@ const Header = () => {
           </div>
 
           <div class="right-component">
-            <Search></Search>
+            <div class="input-group search">
+              {/* <FontAwesomeIcon icon={faMagnifyingGlass} /> */}
 
-            <button class="btn btn-icon ml-2">
+              <input
+                type="text"
+                class="form-control  none-bd-r"
+                placeholder="Bạn cần tìm gì..."
+                onChange={(e) => {
+                  setValue(e.target.value);
+                }}
+                value={value}
+              ></input>
+
+              <button
+                class="btn-search"
+                onClick={() => {
+                  var urlValue = value == "" ? "all" : value;
+                  document.location.href = `/search/${urlValue}`;
+                }}
+              >
+                <SearchOutlinedIcon></SearchOutlinedIcon>
+              </button>
+              {list.length > 0 && (
+                <div className="auto-complete">
+                  {list.map((item) => {
+                    return (
+                      <a href={`/detail/${item.id}`} className="wrap-item">
+                        <div className="item">
+                          <div>
+                            <img
+                              className="image"
+                              src={item.image}
+                              alt="Hình"
+                            />
+                          </div>
+                          <div className="name">
+                            <span>{item.name}</span>
+                          </div>
+                        </div>
+                      </a>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            <button className={"btn btn-icon ml-2"}>
               <PersonOutlineOutlinedIcon></PersonOutlineOutlinedIcon>
             </button>
 

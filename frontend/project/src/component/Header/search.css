@@ -14,6 +14,9 @@
 .none-bd-r{
     border-right: none;
 }
+.search {
+    position: relative;
+}
 
 @media (max-width: 576px ) {
     .navbar-expand-sm .navbar-collapse {

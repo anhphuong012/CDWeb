@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Typography from "@mui/material/Typography";
@@ -6,7 +6,9 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Button, Collapse } from "react-bootstrap";
 import Card from "../HomePage/CardProduct";
 import RangeSlider from "react-range-slider-input";
+import { useParams } from "react-router-dom";
 
+import axios from "axios";
 import "react-range-slider-input/dist/style.css";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -20,6 +22,19 @@ export default function FilProduct() {
   const [open, setOpen] = useState(false);
   const [selectedFruit, setSelectedFruit] = useState("orange");
   const [price, setPrice] = useState({ min: 0, max: 1000000 });
+  const [data, setData] = useState(null);
+  const [temp, setTemp] = useState(null);
+
+  const listCategory = [
+    "Áo Nam",
+    "Quần Nam",
+    "Áo Nữ",
+    "Quần Nữ",
+    "Set bộ nữ",
+    "Váy-đầm Nữ",
+    "Áo trẻ em",
+    "Quần trẻ em",
+  ];
   const [checkboxes, setCheckboxes] = useState({
     M: false,
     L: false,
@@ -28,7 +43,8 @@ export default function FilProduct() {
   });
 
   const [value, setValue] = useState(10);
-
+  const params = useParams();
+  const keyword = params.id;
   const handleCheckboxChange = (checkboxName) => {
     setCheckboxes({
       ...checkboxes,
@@ -36,11 +52,25 @@ export default function FilProduct() {
     });
   };
 
+  const fetchData = async (keyword) => {
+    const response = await axios.get(`/api/products/category/${keyword}`);
+
+    if (response.status == 200) {
+      if (response.data.data != null) {
+        setData(response.data.data);
+        setTemp(response.data.data);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchData(keyword);
+  }, []);
   return (
     <div>
       <Header></Header>
       <section style={{ marginTop: "7rem", marginBottom: "7rem" }}>
-        <div role="presentation" className="mb-3 breadcrum">
+        {/* <div role="presentation" className="mb-3 breadcrum">
           <Breadcrumbs aria-label="breadcrumb">
             <Link underline="hover" color="inherit" href="/">
               MUI
@@ -54,9 +84,9 @@ export default function FilProduct() {
             </Link>
             <Typography color="text.primary">Breadcrumbs</Typography>
           </Breadcrumbs>
-        </div>
+        </div> */}
         <div className="container d-flex mt-5">
-          <div className="col-3">
+          <div className="col-3 mt3">
             <h5>Lọc</h5>
             <div className="filter">
               <span>Theo Size:</span>
@@ -104,72 +134,66 @@ export default function FilProduct() {
               </div>
             </div>
 
-            <div>
+            <div style={{ marginTop: "40px" }}>
               <button className="btn-shop">Lọc</button>
               <button className="btn-shop ml">Bỏ Lọc</button>
             </div>
           </div>
           <div className="col-9 right-element">
             <div className="head">
-              <h3>Áo Nam</h3>
+              <h3>{listCategory[parseInt(keyword, 10) - 1]}</h3>
               <div>
                 <label>
                   <select
                     name="selectedFruit"
                     className="select-fil"
                     value={selectedFruit}
-                    onChange={(e) => setSelectedFruit(e.target.value)}
+                    onChange={(e) => {
+                      var value = e.target.value;
+                      console.log(value);
+                      if (value == "" || value == "default") {
+                        setData(temp);
+                      } else if (value == "priceLow") {
+                        console.log("da: priceLow");
+                        const sorted = [...data].sort(
+                          (a, b) => a.price - b.price
+                        );
+                        setData(sorted);
+                      } else if (value == "priceHigh") {
+                        console.log("da: priceHigh");
+                        const sorted = [...data].sort(
+                          (a, b) => b.price - a.price
+                        );
+                        setData(sorted);
+                      } else if (value == "new") {
+                        console.log("da: new");
+                        const sorted = [...data].sort((a, b) => b.id - a.id);
+                        setData(sorted);
+                      }
+                      setSelectedFruit(e.target.value);
+                    }}
                   >
-                    <option value="apple">Sắp xếp theo</option>
+                    <option value="">Sắp xếp theo</option>
                     <option value="default">Mặc định</option>
-                    <option value="banana">Mới nhất</option>
-                    <option value="red">Giá :Cao tới thấp</option>
-                    <option value="orange">Giá :Thấp tới cao</option>
+                    <option value="new">Mới nhất</option>
+                    <option value="priceHigh">Giá :Cao tới thấp</option>
+                    <option value="priceLow">Giá :Thấp tới cao</option>
                   </select>
                 </label>
               </div>
             </div>
             <div className="row list-card mt-3">
-              <Card
-                title="What is Lorem Ipsum?"
-                images="https://pubcdn.ivymoda.com/files/product/thumab/400/2024/03/22/467a20e0d092334cb796d81c30881d75.JPG"
-                old_price="9,999"
-                newPrice="9999"
-                dollar="$"
-                alt="batman"
-                exp_date="10-08-2022"
-                bg="bg-warning"
-              />
-              <Card
-                title="What is Lorem Ipsum?"
-                images="../images/blackpanter.png"
-                old_price="599"
-                newPrice="500"
-                dollar="$"
-                alt="blackpanter"
-                exp_date="10-08-2022"
-                bg="bg-warning"
-              />
-              <Card
-                title="What is Lorem Ipsum?"
-                images="../images/arthur.png"
-                old_price="7999"
-                newPrice="7000"
-                dollar="$"
-                alt="arthur"
-                exp_date="10-08-2022"
-                bg="bg-warning"
-              />
-              <Card
-                title="What is Lorem Ipsum?"
-                images="../images/kashima.png"
-                old_price="999"
-                newPrice="500"
-                dollar="$"
-                alt="kashima"
-                exp_date="10-08-2022"
-                bg="bg-warning"
-              />
+              {data != null &&
+                data.map((item) => {
+                  return (
+                    <Card
+                      id={item.id}
+                      title={item.name}
+                      images={item.image}
+                      newPrice={item.price}
+                    />
+                  );
+                })}
             </div>
           </div>
         </div>

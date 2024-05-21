@@ -228,4 +228,37 @@ background-color: #fff;
     top: 0;
 
 }
+.auto-complete {
+    width: 100%;
+    height: 250px;
+    position: absolute;
+    background-color: white;
+    top: 55px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+}
+.item {
+    width: 100%;
+    display: flex;
+    padding: 5px;
+    border: 1px solid #000;
+}
 
+.item .image {
+    width: 30px;
+    height: 40px;
+}
+.item .name {
+    margin-left: 5px;
+    font-size: 12px;
+    text-align: justify;
+}
+.wrap-item {
+    text-decoration: none;
+    color: #000;
+}
+.wrap-item:hover {
+    color: #AC2F33;
+}

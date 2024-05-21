@@ -91,7 +91,7 @@ public class ProductModel {
 	public static ProductModel convert(ProductEntity productEntiry) {
 		ProductModel result = new ProductModel();
 		result.setId(productEntiry.getId());
-		result.setName(productEntiry.getImage());
+		result.setName(productEntiry.getName());
 		result.setPrice(productEntiry.getPrice());
 		result.setDescreption(productEntiry.getDescreption());
 		result.setCategory(productEntiry.getCategory().getId());
