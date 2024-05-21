@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "../Header/Header";
 import ReactDOM from "react-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
@@ -19,6 +19,8 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Bot from "../image/bg-bot.jpg";
+
+import axios from "axios";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -58,13 +60,43 @@ export default function HomePage() {
 
   const [indexNew, setIndexNew] = React.useState(0);
 
+  const [data, setData] = useState(null);
+
+  const listCategory = [
+    "Áo Nam",
+    "Quần Nam",
+    "Áo Nữ",
+    "Quần Nữ",
+    "Set bộ nữ",
+    "Váy-đầm Nữ",
+    "Áo trẻ em",
+    "Quần trẻ em",
+  ];
+
   const handleChange = (event, newValue) => {
+    inputRef.current = 1;
     setValue(newValue);
   };
 
   const selectIndex = (event, newValue) => {
     setIndexNew(newValue);
   };
+  const inputRef = useRef(1);
+
+  const fetchData = async () => {
+    const response = await axios.get(`/api/products`);
+
+    if (response.status == 200) {
+      if (response.data.data != null) {
+        setData(response.data.data);
+        console.log(data);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div>
       <Header></Header>
@@ -128,57 +160,86 @@ export default function HomePage() {
                 </Box>
                 <CustomTabPanel value={value} index={0}>
                   <div className="row list-card">
-                    <Card
-                      title="What is Lorem Ipsum?"
-                      images="https://pubcdn.ivymoda.com/files/product/thumab/400/2024/03/22/467a20e0d092334cb796d81c30881d75.JPG"
-                      old_price="9,999"
-                      newPrice="9999"
-                      dollar="$"
-                      alt="batman"
-                      exp_date="10-08-2022"
-                      type="New"
-                      bg="bg-warning"
-                    />
-                    <Card
-                      title="What is Lorem Ipsum?"
-                      images="../images/blackpanter.png"
-                      old_price="599"
-                      newPrice="500"
-                      dollar="$"
-                      alt="blackpanter"
-                      exp_date="10-08-2022"
-                      type="New"
-                      bg="bg-warning"
-                    />
-                    <Card
-                      title="What is Lorem Ipsum?"
-                      images="../images/arthur.png"
-                      old_price="7999"
-                      newPrice="7000"
-                      dollar="$"
-                      alt="arthur"
-                      exp_date="10-08-2022"
-                      type="New"
-                      bg="bg-warning"
-                    />
-                    <Card
-                      title="What is Lorem Ipsum?"
-                      images="../images/kashima.png"
-                      old_price="999"
-                      newPrice="500"
-                      dollar="$"
-                      alt="kashima"
-                      exp_date="10-08-2022"
-                      type="New"
-                      bg="bg-warning"
-                    />
+                    {data != null &&
+                      data.map((item, index) => {
+                        if (inputRef.current > 4) {
+                        } else {
+                          if (
+                            item.category == 6 ||
+                            item.category == 5 ||
+                            item.category == 4 ||
+                            item.category == 3
+                          ) {
+                            inputRef.current = inputRef.current + 1;
+                            return (
+                              <Card
+                                id={item.id}
+                                title={item.name}
+                                images={item.image}
+                                newPrice={item.price}
+                                dollar="$"
+                                alt="batman"
+                                exp_date="10-08-2022"
+                                type="New"
+                                bg="bg-warning"
+                              />
+                            );
+                          }
+                        }
+                      })}
                   </div>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
-                  Item Two
+                  <div className="row list-card">
+                    {data != null &&
+                      data.map((item, index) => {
+                        if (inputRef.current > 4) {
+                          inputRef.current = 1;
+                        } else {
+                          if (item.category == 1 || item.category == 2) {
+                            return (
+                              <Card
+                                id={item.id}
+                                title={item.name}
+                                images={item.image}
+                                newPrice={item.price}
+                                dollar="$"
+                                alt="batman"
+                                exp_date="10-08-2022"
+                                type="New"
+                                bg="bg-warning"
+                              />
+                            );
+                          }
+                        }
+                      })}
+                  </div>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={2}>
-                  Item Three
+                  <div className="row list-card">
+                    {data != null &&
+                      data.map((item, index) => {
+                        if (inputRef.current > 4) {
+                          inputRef.current = 1;
+                        } else {
+                          if (item.category == 7 || item.category == 8) {
+                            return (
+                              <Card
+                                id={item.id}
+                                title={item.name}
+                                images={item.image}
+                                newPrice={item.price}
+                                dollar="$"
+                                alt="batman"
+                                exp_date="10-08-2022"
+                                type="New"
+                                bg="bg-warning"
+                              />
+                            );
+                          }
+                        }
+                      })}
+                  </div>
                 </CustomTabPanel>
               </Box>
 

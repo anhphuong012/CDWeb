@@ -14,7 +14,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 export default function Card(props) {
   let CardName = `color_bg ${props.alt}`;
   let bg_img = `url(${props.images})`;
-  let { title, old_price, newPrice, dollar, type, bg } = props;
+  let { id, title, newPrice, dollar, type, bg } = props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -42,14 +42,13 @@ export default function Card(props) {
           </svg>
         </div>
         <div className="cardInfo">
-          <a href="" className="link">
+          <a href={`/detail/${id}`} className="link">
             <span className="card-title">{title}</span>
           </a>
           <div className="action">
             <div className="priceGroup">
               <p className="price newPrice">
-                {dollar}
-                {newPrice}
+                {newPrice.toLocaleString("vi-VN")} VNĐ
               </p>
             </div>
             <div>
