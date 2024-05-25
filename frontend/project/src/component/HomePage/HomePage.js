@@ -97,6 +97,8 @@ export default function HomePage() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  console.log("Current:" + inputRef.current);
   return (
     <div>
       <Header></Header>
@@ -161,84 +163,74 @@ export default function HomePage() {
                 <CustomTabPanel value={value} index={0}>
                   <div className="row list-card">
                     {data != null &&
-                      data.map((item, index) => {
-                        if (inputRef.current > 4) {
-                        } else {
-                          if (
+                      data
+                        .filter(
+                          (item) =>
                             item.category == 6 ||
                             item.category == 5 ||
                             item.category == 4 ||
                             item.category == 3
-                          ) {
-                            inputRef.current = inputRef.current + 1;
-                            return (
-                              <Card
-                                id={item.id}
-                                title={item.name}
-                                images={item.image}
-                                newPrice={item.price}
-                                dollar="$"
-                                alt="batman"
-                                exp_date="10-08-2022"
-                                type="New"
-                                bg="bg-warning"
-                              />
-                            );
-                          }
-                        }
-                      })}
+                        )
+                        .slice(0, 4)
+                        .map((item, index) => {
+                          return (
+                            <Card
+                              id={item.id}
+                              title={item.name}
+                              images={item.image}
+                              newPrice={item.price}
+                              type="New"
+                              bg="bg-warning"
+                            />
+                          );
+                        })}
                   </div>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
                   <div className="row list-card">
                     {data != null &&
-                      data.map((item, index) => {
-                        if (inputRef.current > 4) {
-                          inputRef.current = 1;
-                        } else {
-                          if (item.category == 1 || item.category == 2) {
-                            return (
-                              <Card
-                                id={item.id}
-                                title={item.name}
-                                images={item.image}
-                                newPrice={item.price}
-                                dollar="$"
-                                alt="batman"
-                                exp_date="10-08-2022"
-                                type="New"
-                                bg="bg-warning"
-                              />
-                            );
-                          }
-                        }
-                      })}
+                      data
+                        .filter(
+                          (item) => item.category == 1 || item.category == 2
+                        )
+                        .slice(0, 4)
+                        .map((item, index) => {
+                          return (
+                            <Card
+                              id={item.id}
+                              title={item.name}
+                              images={item.image}
+                              newPrice={item.price}
+                              dollar="$"
+                              alt="batman"
+                              exp_date="10-08-2022"
+                              type="New"
+                              bg="bg-warning"
+                            />
+                          );
+                        })}
                   </div>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={2}>
                   <div className="row list-card">
                     {data != null &&
-                      data.map((item, index) => {
-                        if (inputRef.current > 4) {
-                          inputRef.current = 1;
-                        } else {
-                          if (item.category == 7 || item.category == 8) {
-                            return (
-                              <Card
-                                id={item.id}
-                                title={item.name}
-                                images={item.image}
-                                newPrice={item.price}
-                                dollar="$"
-                                alt="batman"
-                                exp_date="10-08-2022"
-                                type="New"
-                                bg="bg-warning"
-                              />
-                            );
-                          }
-                        }
-                      })}
+                      data
+                        .filter(
+                          (item) => item.category == 7 || item.category == 8
+                        )
+                        .slice(0, 4)
+                        .map((item, index) => {
+                          return (
+                            <Card
+                              id={item.id}
+                              title={item.name}
+                              images={item.image}
+                              newPrice={item.price}
+                              type="New"
+                              bg="bg-warning"
+                            />
+                          );
+                        })}
                   </div>
                 </CustomTabPanel>
               </Box>
