@@ -13,7 +13,7 @@ import "react-range-slider-input/dist/style.css";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import $ from "jquery";
+import $, { map } from "jquery";
 import "./product.css";
 
 import Link from "@mui/material/Link";
@@ -24,6 +24,9 @@ export default function FilProduct() {
   const [price, setPrice] = useState({ min: 0, max: 1000000 });
   const [data, setData] = useState(null);
   const [temp, setTemp] = useState(null);
+
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
 
   const listCategory = [
     "Áo Nam",
@@ -63,6 +66,46 @@ export default function FilProduct() {
     }
   };
 
+  console.log(data);
+
+  const handleFilter = () => {
+    const trueValues = Object.entries(checkboxes)
+      .filter(([key, value]) => value === true)
+      .map(([key, value]) => key);
+
+    var result = [];
+    data.map((item) => {
+      item.sizes.map((size) => {
+        if (trueValues.includes(size.size)) {
+          if (!result.includes(item)) {
+            result.push(item);
+          }
+        }
+      });
+
+      const min = parseInt(minPrice, 10);
+      const max = parseInt(maxPrice, 10);
+
+      console.log(min);
+
+      console.log(max);
+      if (min == NaN || max == NaN) {
+      } else {
+        var check =
+          minPrice > maxPrice
+            ? max < item.price && item.price < min
+            : min < item.price && item.price < max;
+
+        if (check && !result.includes(item)) {
+          result.push(item);
+        }
+      }
+    });
+    console.log("Result:" + result);
+    setData(result);
+  };
+
+  console.log(minPrice);
   useEffect(() => {
     fetchData(keyword);
   }, []);
@@ -123,20 +166,48 @@ export default function FilProduct() {
               <span>Theo Giá:</span>
 
               <div className="row" style={{ paddingRight: "10%" }}>
-                <RangeSlider
+                {/* <RangeSlider
                   min={10}
                   max={10000000000}
                   defaultValue={[20, 10000000]}
                   onThumbDragStart={(value) => {
                     console.log(value);
                   }}
-                />
+                /> */}
+                <input
+                  type="number"
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(e.target.value)}
+                ></input>{" "}
+                đến
+                <input
+                  type="number"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                ></input>
               </div>
             </div>
 
             <div style={{ marginTop: "40px" }}>
-              <button className="btn-shop">Lọc</button>
-              <button className="btn-shop ml">Bỏ Lọc</button>
+              <button className="btn-shop" onClick={handleFilter}>
+                Lọc
+              </button>
+              <button
+                className="btn-shop ml"
+                onClick={() => {
+                  setCheckboxes({
+                    M: false,
+                    L: false,
+                    XL: false,
+                    XXL: false,
+                  });
+                  setMinPrice("");
+                  setMaxPrice("");
+                  setData(temp);
+                }}
+              >
+                Bỏ Lọc
+              </button>
             </div>
           </div>
           <div className="col-9 right-element">

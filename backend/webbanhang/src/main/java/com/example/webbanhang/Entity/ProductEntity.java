@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,7 +31,9 @@ public class ProductEntity {
 	@OneToMany(mappedBy = "product")
 	private List<SizeEntiry> sizes;
 	
-
+	@OneToOne(mappedBy = "product")
+	private CartItemEntity cartItemEntity;
+	
 	public String getName() {
 		return name;
 	}
@@ -81,6 +84,14 @@ public class ProductEntity {
 
 	public void setSizes(List<SizeEntiry> sizes) {
 		this.sizes = sizes;
+	}
+
+	public CartItemEntity getCartItemEntity() {
+		return cartItemEntity;
+	}
+
+	public void setCartItemEntity(CartItemEntity cartItemEntity) {
+		this.cartItemEntity = cartItemEntity;
 	}
 	
 	

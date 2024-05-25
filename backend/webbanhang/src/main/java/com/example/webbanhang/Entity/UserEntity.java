@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,6 +24,15 @@ public class UserEntity {
 	private String city;
 	private String address;
 	private int role;
+	
+	@OneToOne(mappedBy = "user")
+	private CartEntity cart;
+	public CartEntity getCart() {
+		return cart;
+	}
+	public void setCart(CartEntity cart) {
+		this.cart = cart;
+	}
 	public String getUsername() {
 		return username;
 	}
