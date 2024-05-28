@@ -256,14 +256,7 @@ export default function FilProduct() {
             <div className="row list-card mt-3">
               {data != null &&
                 data.map((item) => {
-                  return (
-                    <Card
-                      id={item.id}
-                      title={item.name}
-                      images={item.image}
-                      newPrice={item.price}
-                    />
-                  );
+                  return <Card product={item} />;
                 })}
             </div>
           </div>

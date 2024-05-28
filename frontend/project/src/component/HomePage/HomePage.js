@@ -20,6 +20,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Bot from "../image/bg-bot.jpg";
 
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 
 function CustomTabPanel(props) {
@@ -62,6 +63,8 @@ export default function HomePage() {
 
   const [data, setData] = useState(null);
 
+  const [product, setProduct] = useState(null);
+
   const listCategory = [
     "Áo Nam",
     "Quần Nam",
@@ -77,7 +80,9 @@ export default function HomePage() {
     inputRef.current = 1;
     setValue(newValue);
   };
-
+  useEffect(() => {
+    fetchData();
+  }, []);
   const selectIndex = (event, newValue) => {
     setIndexNew(newValue);
   };
@@ -94,11 +99,8 @@ export default function HomePage() {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   console.log("Current:" + inputRef.current);
+  console.log("Data:" + data);
   return (
     <div>
       <Header></Header>
@@ -174,14 +176,7 @@ export default function HomePage() {
                         .slice(0, 4)
                         .map((item, index) => {
                           return (
-                            <Card
-                              id={item.id}
-                              title={item.name}
-                              images={item.image}
-                              newPrice={item.price}
-                              type="New"
-                              bg="bg-warning"
-                            />
+                            <Card product={item} type="New" bg="bg-warning" />
                           );
                         })}
                   </div>
@@ -196,17 +191,7 @@ export default function HomePage() {
                         .slice(0, 4)
                         .map((item, index) => {
                           return (
-                            <Card
-                              id={item.id}
-                              title={item.name}
-                              images={item.image}
-                              newPrice={item.price}
-                              dollar="$"
-                              alt="batman"
-                              exp_date="10-08-2022"
-                              type="New"
-                              bg="bg-warning"
-                            />
+                            <Card product={item} type="New" bg="bg-warning" />
                           );
                         })}
                   </div>
@@ -221,14 +206,7 @@ export default function HomePage() {
                         .slice(0, 4)
                         .map((item, index) => {
                           return (
-                            <Card
-                              id={item.id}
-                              title={item.name}
-                              images={item.image}
-                              newPrice={item.price}
-                              type="New"
-                              bg="bg-warning"
-                            />
+                            <Card product={item} type="New" bg="bg-warning" />
                           );
                         })}
                   </div>
@@ -338,7 +316,7 @@ export default function HomePage() {
                 </Box>
                 <CustomTabPanel value={indexNew} index={0}>
                   <div className="row list-card">
-                    <Card
+                    {/* <Card
                       title="What is Lorem Ipsum?"
                       images="https://pubcdn.ivymoda.com/files/product/thumab/400/2024/03/22/467a20e0d092334cb796d81c30881d75.JPG"
                       old_price="9,999"
@@ -381,7 +359,7 @@ export default function HomePage() {
                       exp_date="10-08-2022"
                       type="Hot"
                       bg="bg-danger"
-                    />
+                    /> */}
                   </div>
                 </CustomTabPanel>
                 <CustomTabPanel value={indexNew} index={1}>
@@ -454,7 +432,7 @@ export default function HomePage() {
               exp_date="10-08-2022"
             />
           </div> */}
-
+          <ToastContainer />
           <div className="justify-content-center mt-5 ">
             <button type="button" class="btn btn-outline-dark btn-black">
               Xem tất cả
