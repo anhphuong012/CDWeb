@@ -14,10 +14,12 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useNavigate } from "react-router-dom";
 
 import Cart from "./Cart";
-const Header = () => {
+const Header = ({ product }) => {
   const [value, setValue] = React.useState("");
   const [show, setShow] = React.useState(false);
   const [list, setList] = useState([]);
+
+  const [cart, setCart] = useState([]);
 
   const navigate = useNavigate();
   const onChangeHandle = async (value) => {
@@ -70,9 +72,9 @@ const Header = () => {
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" href="/category/1">
+                    <Link class="dropdown-item" to="/category/1">
                       Toàn bộ
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <a class="dropdown-item" href="/category/1">

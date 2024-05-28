@@ -15,15 +15,20 @@ import { Button } from "react-bootstrap";
 
 import { useParams } from "react-router-dom";
 
-import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+import axios from "axios";
+import { buyProduct } from "../../actions/action";
+import { connect } from "react-redux";
 function handleClick(event) {
   event.preventDefault();
   console.info("You clicked a breadcrumb.");
 }
-export default function ProductDetail() {
+export function ProductDetail(props) {
   const [selectSize, setSelectSize] = useState(null);
   const [item, setItem] = useState(null);
+  const [product, setProduct] = useState([]);
 
   console.log("Select size:" + selectSize);
 
@@ -49,9 +54,21 @@ export default function ProductDetail() {
   }, []);
 
   console.log("Item:" + item);
+
+  const handleCart = (product) => {
+    if (selectSize != null) {
+      let cartProduct = product;
+      cartProduct.quanlity = 1;
+      cartProduct.size = selectSize;
+      props.buyProduct(cartProduct);
+      toast.success("Đã thêm vào giỏ hàng!");
+    } else {
+      toast.error("Vui lòng chọn size!");
+    }
+  };
   return (
     <div>
-      <Header></Header>
+      <Header product={product}></Header>
       <section style={{ marginTop: "7rem", marginBottom: "7rem" }}>
         <div
           role="presentation"
@@ -143,6 +160,7 @@ export default function ProductDetail() {
                 <button
                   type="button"
                   className={"btn btn-outline-light text-dark btn-shop"}
+                  onClick={() => handleCart(item)}
                 >
                   Thêm vào giỏ hàng
                 </button>
@@ -154,6 +172,7 @@ export default function ProductDetail() {
                   Mua ngay
                 </button>
               </div>
+              <ToastContainer />
               <div className="infor-product">
                 <h5>Giới thiệu</h5>
                 <p>{item.descreption}</p>
@@ -166,3 +185,16 @@ export default function ProductDetail() {
     </div>
   );
 }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    buyProduct: (product_current) => dispatch(buyProduct(product_current)),
+  };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    cart: state.cart.cartAr,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);
