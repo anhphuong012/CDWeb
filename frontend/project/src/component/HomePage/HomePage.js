@@ -432,7 +432,7 @@ export default function HomePage() {
               exp_date="10-08-2022"
             />
           </div> */}
-          <ToastContainer />
+          <ToastContainer position="bottom-right" />
           <div className="justify-content-center mt-5 ">
             <button type="button" class="btn btn-outline-dark btn-black">
               Xem tất cả

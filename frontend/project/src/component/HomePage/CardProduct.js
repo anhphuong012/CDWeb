@@ -37,7 +37,9 @@ export function Card(props) {
 
     console.log("Size:" + size);
     props.buyProduct(cartProduct);
-    toast.success("Thêm vào thành công!");
+    toast.success("Thêm vào giỏ thành công!", {
+      className: "Thông báo",
+    });
   };
   const handleCloseIcon = () => {
     setAnchorEl(null);

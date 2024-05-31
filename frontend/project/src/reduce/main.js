@@ -76,7 +76,35 @@ const cartReducer = (state = initState, action) => {
       newCart.splice(objIndex, 1);
       const newState = { cartAr: newCart };
       sessionStorage.setItem("cart", JSON.stringify(newState.cartAr));
+      console.log("delete");
       return newState;
+
+    case actionType.INCREAMENT_PRODUCT:
+      console.log("Ping");
+      const cartTemp = state.cartAr.map((item) => {
+        if (item.id === action.payload.id && item.size == action.payload.size) {
+          console.log("Ping");
+          return { ...item, quanlity: item.quanlity + 1 };
+        }
+        return item;
+      });
+      const newStateIncree = { cartAr: cartTemp };
+      sessionStorage.setItem("cart", JSON.stringify(newStateIncree.cartAr));
+      return newStateIncree;
+    case actionType.DEREAMENT_PRODUCT:
+      const cartTemp2 = state.cartAr.map((item) => {
+        if (item.id === action.payload.id && item.size == action.payload.size) {
+          if (action.payload.quanlity > 1) {
+            return { ...item, quanlity: item.quanlity - 1 };
+          } else {
+            return item;
+          }
+        }
+        return item;
+      });
+      const newStateDecree = { cartAr: cartTemp2 };
+      sessionStorage.setItem("cart", JSON.stringify(newStateDecree.cartAr));
+      return newStateDecree;
 
     default:
       return state;

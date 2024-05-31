@@ -13,3 +13,16 @@ export const deleteProduct = (product) => {
     payload: product,
   };
 };
+export const increaProduct = (product) => {
+  return {
+    type: actionType.INCREAMENT_PRODUCT,
+    payload: product,
+  };
+};
+
+export const decreaProduct = (product) => {
+  return {
+    type: actionType.DEREAMENT_PRODUCT,
+    payload: product,
+  };
+};

@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 
 import axios from "axios";
 import "react-range-slider-input/dist/style.css";
-
+import { ToastContainer, toast } from "react-toastify";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./searchItem.css";
@@ -177,18 +177,12 @@ export default function SearchKey() {
             <div className="row list-card mt-3">
               {data != null &&
                 data.map((item) => {
-                  return (
-                    <Card
-                      id={item.id}
-                      title={item.name}
-                      images={item.image}
-                      newPrice={item.price}
-                    />
-                  );
+                  return <Card product={item} />;
                 })}
             </div>
           </div>
         </div>
+        <ToastContainer position="bottom-right" />
       </section>
       <Footer></Footer>
     </div>
