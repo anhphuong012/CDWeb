@@ -7,7 +7,7 @@ import { Button, Collapse } from "react-bootstrap";
 import Card from "../HomePage/CardProduct";
 import RangeSlider from "react-range-slider-input";
 import { useParams } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import "react-range-slider-input/dist/style.css";
 
@@ -261,6 +261,7 @@ export default function FilProduct() {
             </div>
           </div>
         </div>
+        <ToastContainer position="bottom-right" />
       </section>
       <Footer></Footer>
     </div>

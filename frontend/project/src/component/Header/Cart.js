@@ -10,7 +10,11 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import CloseIcon from "@mui/icons-material/Close";
 import { connect } from "react-redux";
-import { deleteProduct } from "../../actions/action";
+import {
+  deleteProduct,
+  increaProduct,
+  decreaProduct,
+} from "../../actions/action";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useNavigate } from "react-router-dom";
 
@@ -40,6 +44,14 @@ export function Cart(props) {
 
   const deleteSate = (product) => {
     props.deleteProduct(product);
+    setIsDelete(!isDelete);
+  };
+  const increState = (product) => {
+    props.increaProduct(product);
+    setIsDelete(!isDelete);
+  };
+  const decreState = (product) => {
+    props.decreaProduct(product);
     setIsDelete(!isDelete);
   };
 
@@ -80,9 +92,23 @@ export function Cart(props) {
                 </div>
                 <div className={"sub-product d-flex justify-content-between"}>
                   <div class="infor-price-quanlity">
-                    <button class="price-quantity">+</button>
+                    <button
+                      class="price-quantity"
+                      onClick={() => {
+                        increState(item);
+                      }}
+                    >
+                      +
+                    </button>
                     <input value={item.quanlity} readOnly />
-                    <button class="price-quantity icon-sub">-</button>
+                    <button
+                      class="price-quantity icon-sub"
+                      onClick={() => {
+                        decreState(item);
+                      }}
+                    >
+                      -
+                    </button>
                   </div>
 
                   <div class="product-price">
@@ -290,6 +316,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     deleteProduct: (product_current) =>
       dispatch(deleteProduct(product_current)),
+    increaProduct: (product_current) => {
+      dispatch(increaProduct(product_current));
+    },
+    decreaProduct: (product_current) => {
+      dispatch(decreaProduct(product_current));
+    },
   };
 };
 

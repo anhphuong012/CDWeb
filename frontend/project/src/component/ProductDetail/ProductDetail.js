@@ -29,6 +29,7 @@ export function ProductDetail(props) {
   const [selectSize, setSelectSize] = useState(null);
   const [item, setItem] = useState(null);
   const [product, setProduct] = useState([]);
+  const [value, setValue] = useState(1);
 
   console.log("Select size:" + selectSize);
 
@@ -147,7 +148,11 @@ export function ProductDetail(props) {
               <div className="quanlity mt-5 mb-3">
                 <span>Số lượng:</span>
                 <div className="ml" style={{ position: "relative" }}>
-                  <input className="input-quanlity" type="number" />
+                  <input
+                    className="input-quanlity"
+                    type="number"
+                    value={value}
+                  />
 
                   <button className="btn-quanlity">-</button>
                   <button className="btn-quanlity" style={{ right: 0 }}>
@@ -172,7 +177,7 @@ export function ProductDetail(props) {
                   Mua ngay
                 </button>
               </div>
-              <ToastContainer />
+              <ToastContainer position="bottom-right" />
               <div className="infor-product">
                 <h5>Giới thiệu</h5>
                 <p>{item.descreption}</p>
