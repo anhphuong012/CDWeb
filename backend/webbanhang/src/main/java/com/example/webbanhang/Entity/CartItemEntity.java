@@ -16,43 +16,57 @@ public class CartItemEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@ManyToOne
-    @JoinColumn(name="cart_id", nullable=false)
+	@JoinColumn(name = "cart_id", nullable = false)
 	private CartEntity cart;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "product_id", referencedColumnName = "id")
 	private ProductEntity product;
+
+	private String size;
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
 	private int quanlity;
-	
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public CartEntity getCart() {
 		return cart;
 	}
+
 	public void setCart(CartEntity cart) {
 		this.cart = cart;
 	}
+
 	public ProductEntity getProduct() {
 		return product;
 	}
+
 	public void setProduct(ProductEntity product) {
 		this.product = product;
 	}
+
 	public int getQuanlity() {
 		return quanlity;
 	}
+
 	public void setQuanlity(int quanlity) {
 		this.quanlity = quanlity;
 	}
-	
-	
-	
-	
+
 }
