@@ -27,6 +27,24 @@ public class UserEntity {
 	
 	@OneToOne(mappedBy = "user")
 	private CartEntity cart;
+
+	public UserEntity(String username, String password, String fullname, String phone, String email, String ward, String district, String city, String address, int role) {
+		this.username = username;
+		this.password = password;
+		this.fullname = fullname;
+		this.phone = phone;
+		this.email = email;
+		this.ward = ward;
+		this.district = district;
+		this.city = city;
+		this.address = address;
+		this.role = role;
+	}
+
+	public UserEntity() {
+
+	}
+
 	public CartEntity getCart() {
 		return cart;
 	}
