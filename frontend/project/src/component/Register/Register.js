@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+
 
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -14,8 +17,155 @@ import "./register.css";
 import { Button } from "react-bootstrap";
 
 export default function Register() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [fullname, setFullname] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [ward, setWard] = useState('');
+  const [district, setDistrict] = useState('');
+  const [city, setCity] = useState('');
+  const [address, setAddress] = useState('');
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const role = 0;
+  const [cities, setCities] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
+  const [rePassword, setRePassword] = useState('');
+
+  const [isCustomerAgree, setIsCustomerAgree] = useState(false);
+
+  const handleCustomerAgreeChange = () => {
+    setIsCustomerAgree(!isCustomerAgree);
+  };
+
+
+
+  ////
+  useEffect(() => {
+    axios.get('https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json')
+      .then(response => {
+        setCities(response.data);
+      })
+      .catch(error => {
+        console.error("There was an error fetching the data!", error);
+      });
+  }, []);
+
+  const handleCityChange = (event) => {
+    const selectedCityId = event.target.options[event.target.selectedIndex].dataset.id;
+    setCity(event.target.value);
+    setDistrict('');
+    setWard('');
+    if (selectedCityId) {
+      const cityData = cities.find(city => city.Id === selectedCityId);
+      setDistricts(cityData.Districts);
+      setWards([]);
+    } else {
+      setDistricts([]);
+      setWards([]);
+    }
+  };
+
+  const handleDistrictChange = (event) => {
+    const selectedDistrictId = event.target.options[event.target.selectedIndex].dataset.id;
+    setDistrict(event.target.value);
+    setWard('');
+    if (selectedDistrictId) {
+      const districtData = districts.find(district => district.Id === selectedDistrictId);
+      setWards(districtData.Wards);
+    } else {
+      setWards([]);
+    }
+  };
+
+  const handleWardChange = (event) => {
+    setWard(event.target.value);
+  };
+
+  const [errors, setErrors] = useState({})
+
+  const validateAll = () => {
+    const validationErrors = {}
+    if (!username.trim()) {
+      validationErrors.username = "username is required"
+    }
+
+    if (!email.trim()) {
+      validationErrors.email = "email is required"
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      validationErrors.email = "email is not valid"
+    }
+
+    if (!password.trim()) {
+      validationErrors.password = "password is required"
+    } else if (password.length < 6) {
+      validationErrors.password = "password should be at least 6 char"
+    }
+    if (!ward.trim()) {
+      validationErrors.ward = "Ward is required";
+    }
+
+    // District
+    if (!district.trim()) {
+      validationErrors.district = "District is required";
+    }
+
+    // City
+    if (!city.trim()) {
+      validationErrors.city = "City is required";
+    }
+
+    // Address
+    if (!address.trim()) {
+      validationErrors.address = "Address is required";
+    }
+
+    if (rePassword !== password) {
+      validationErrors.rePassword = "password not matched"
+    }
+    setErrors(validationErrors)
+    if (Object.keys(validationErrors).length > 0) return false
+    return true
+
+  }
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("aaaaa")
+
+    const isValid = validateAll()
+    if (!isValid) return
+
+    try {
+      console.log("aaaaa")
+      await axios.post('/api/user/register', {
+        email,
+        password, phone, ward, district, city, address, rePassword, role: 1
+      });
+      // Đăng ký thành công, chuyển hướng hoặc thực hiện các hành động khác
+      navigate('/');
+      console.log('Registration successful', email);
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        // Xử lý lỗi xung đột (email đã tồn tại)
+        setError('Email đã được đăng ký');
+      } else {
+        // Xử lý các lỗi khác
+        setError('Đã xảy ra lỗi. Vui lòng thử lại.');
+      }
+    }
+  };
+
+
+
+
   return (
+
     <div>
+
       <Header></Header>
       <section style={{ marginTop: "7rem", marginBottom: "7rem" }}>
         <div class="containerRegis">
@@ -32,31 +182,18 @@ export default function Register() {
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                       <label>
-                        Họ:<span style={{ color: "red" }}>*</span>
-                      </label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        value=""
-                        name="customer_firstname"
-                        placeholder="Họ..."
-                        style={{ width: "100%" }}
-                      ></input>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                      <label>
-                        Tên:<span style={{ color: "red" }}>*</span>
+                        Họ và Tên<span style={{ color: "red" }}>*</span>
                       </label>
                       <input
                         class="form-control"
                         type="text"
-                        value=""
                         name="customer_display_name"
-                        placeholder="Tên..."
+                        placeholder="Họ và Tên"
                         style={{ width: "100%" }}
-                      ></input>
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                      />
+                      {errors.username && <span>{errors.username}</span>}
                     </div>
                   </div>
                 </div>
@@ -71,10 +208,12 @@ export default function Register() {
                         class="form-control"
                         type="email"
                         name="customer_email"
-                        value=""
                         placeholder="Email..."
                         style={{ width: "100%" }}
-                      ></input>
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                      {errors.email && <span>{errors.email}</span>}
                     </div>
                   </div>
                   <div class="col-md-6 col-sm-6 col-xs-12">
@@ -85,45 +224,13 @@ export default function Register() {
                       <input
                         class="form-control"
                         type="text"
-                        value=""
                         name="customer_phone"
                         placeholder="Điện thoại..."
                         style={{ width: "100%" }}
-                      ></input>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                      <label>
-                        Ngày sinh:<span style={{ color: "red" }}>*</span>
-                      </label>
-                      <input
-                        type="text"
-                        class="form-control datepicker hasDatepicker"
-                        name="customer_birthday"
-                        value=""
-                        placeholder="Ngày sinh..."
-                        style={{ width: "100%" }}
-                        id="dp1714665842295"
-                      ></input>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                      <label>
-                        Giới tính:<span style={{ color: "red" }}>*</span>
-                      </label>
-                      <select
-                        name="customer_sex"
-                        style={{ width: "100%" }}
-                        class="form-control"
-                      >
-                        <option value="0">Nữ</option>
-                        <option value="1">Nam</option>
-                        <option value="2">Khác</option>
-                      </select>
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                      />
+                      {errors.phone && <span>{errors.phone}</span>}
                     </div>
                   </div>
                 </div>
@@ -138,72 +245,15 @@ export default function Register() {
                         name="register_region_id"
                         id="register_region_id"
                         style={{ width: "100%" }}
+                        value={city}
+                        onChange={handleCityChange}
                       >
-                        <option value="-1">Chọn Tỉnh/Tp</option>
-                        <option value="511">Hà Nội</option>
-                        <option value="507">Hồ Chí Minh</option>
-                        <option value="512">Hải Phòng</option>
-                        <option value="499">Đà Nẵng</option>
-                        <option value="485">An Giang</option>
-                        <option value="486">Bình Dương</option>
-                        <option value="487">Bắc Giang</option>
-                        <option value="488">Bình Định</option>
-                        <option value="490">Bạc Liêu</option>
-                        <option value="491">Bắc Ninh</option>
-                        <option value="492">Bình Phước</option>
-                        <option value="494">Bình Thuận</option>
-                        <option value="495">Bến Tre</option>
-                        <option value="496">Cao Bằng</option>
-                        <option value="497">Cà Mau</option>
-                        <option value="498">Cần Thơ</option>
-                        <option value="500">Điện Biên</option>
-                        <option value="502">Đồng Nai</option>
-                        <option value="504">Đồng Tháp</option>
-                        <option value="505">Gia Lai</option>
-                        <option value="506">Hòa Bình</option>
-                        <option value="508">Hải Dương</option>
-                        <option value="509">Hà Giang</option>
-                        <option value="510">Hà Nam</option>
-                        <option value="513">Hà Tĩnh</option>
-                        <option value="514">Hậu Giang</option>
-                        <option value="515">Hưng Yên</option>
-                        <option value="516">Kiên Giang</option>
-                        <option value="517">Khánh Hòa</option>
-                        <option value="518">Kon Tum</option>
-                        <option value="519">Long An</option>
-                        <option value="520">Lâm Đồng</option>
-                        <option value="521">Lai Châu</option>
-                        <option value="522">Lào Cai</option>
-                        <option value="523">Lạng Sơn</option>
-                        <option value="524">Nghệ An</option>
-                        <option value="525">Ninh Bình</option>
-                        <option value="526">Nam Định</option>
-                        <option value="527">Ninh Thuận</option>
-                        <option value="528">Phú Thọ</option>
-                        <option value="529">Phú Yên</option>
-                        <option value="530">Quảng Bình</option>
-                        <option value="531">Quảng Ngãi</option>
-                        <option value="532">Quảng Nam</option>
-                        <option value="533">Quảng Ninh</option>
-                        <option value="534">Quảng Trị</option>
-                        <option value="535">Sơn La</option>
-                        <option value="536">Sóc Trăng</option>
-                        <option value="537">Thái Bình</option>
-                        <option value="538">Tiền Giang</option>
-                        <option value="539">Thanh Hóa</option>
-                        <option value="540">Tây Ninh</option>
-                        <option value="541">Tuyên Quang</option>
-                        <option value="543">Trà Vinh</option>
-                        <option value="544">Thái Nguyên</option>
-                        <option value="545">Vĩnh Long</option>
-                        <option value="546">Vĩnh Phúc</option>
-                        <option value="547">Yên Bái</option>
-                        <option value="548">Đắk Nông</option>
-                        <option value="549">Bắc Kạn</option>
-                        <option value="550">Thừa Thiên - Huế</option>
-                        <option value="551">Đắk Lắk</option>
-                        <option value="552">Bà Rịa - Vũng Tàu</option>
+                        <option value="">Select City</option>
+                        {cities.map(city => (
+                          <option key={city.Id} value={city.Name} data-id={city.Id}>{city.Name}</option>
+                        ))}
                       </select>
+                      {errors.city && <span>{errors.city}</span>}
                     </div>
                   </div>
                   <div class="col-md-6 col-sm-6 col-xs-12">
@@ -216,9 +266,15 @@ export default function Register() {
                         id="register_city_id"
                         style={{ width: "100%" }}
                         class="form-control"
+                        value={district}
+                        onChange={handleDistrictChange}
                       >
-                        <option value="-1">Chọn Quận/Huyện</option>
+                        <option value="">Chọn Quận/Huyện</option>
+                        {districts.map(district => (
+                          <option key={district.Id} value={district.Name} data-id={district.Id}>{district.Name}</option>
+                        ))}
                       </select>
+                      {errors.district && <span>{errors.district}</span>}
                     </div>
                   </div>
                 </div>
@@ -233,9 +289,15 @@ export default function Register() {
                         id="vnward_id"
                         style={{ width: "100%" }}
                         class="form-control"
+                        value={ward}
+                        onChange={handleWardChange}
                       >
-                        <option value="-1">Chọn Phường/Xã</option>
+                        <option value="">Chọn Phường/Xã</option>
+                        {wards.map(ward => (
+                          <option key={ward.Id} value={ward.Name} data-id={ward.Id}>{ward.Name}</option>
+                        ))}
                       </select>
+                      {errors.ward && <span>{errors.ward}</span>}
                     </div>
                   </div>
                 </div>
@@ -245,7 +307,8 @@ export default function Register() {
                       <label>
                         Địa chỉ:<span style={{ color: "red" }}>*</span>
                       </label>
-                      <textarea class="form-control" name="address"></textarea>
+                      <textarea class="form-control" name="address" value={address} onChange={(e) => setAddress(e.target.value)}></textarea>
+                      {errors.address && <span>{errors.address}</span>}
                     </div>
                   </div>
                 </div>
@@ -263,10 +326,12 @@ export default function Register() {
                       <input
                         class="form-control"
                         type="password"
-                        value=""
                         name="customer_pass1"
                         placeholder="Mật khẩu..."
-                      ></input>
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                      {errors.password && <span>{errors.password}</span>}
                     </div>
                   </div>
                 </div>
@@ -280,10 +345,12 @@ export default function Register() {
                       <input
                         class="form-control"
                         type="password"
-                        value=""
+                        value={rePassword}
                         name="customer_pass2"
                         placeholder="Nhập lại mật khẩu..."
+                        onChange={(e) => setRePassword(e.target.value)}
                       ></input>
+                      {errors.rePassword && <span>{errors.rePassword}</span>}
                     </div>
                   </div>
                 </div>
@@ -318,6 +385,8 @@ export default function Register() {
                         name="customer_agree"
                         value="1"
                         id="defaultCheck1"
+                        checked={isCustomerAgree}
+                        onChange={(e) => setIsCustomerAgree(e.target.checked)}
                       ></input>
                       <label
                         style={{ marginTop: "4px", marginLeft: "3px" }}
@@ -346,6 +415,7 @@ export default function Register() {
                         value="1"
                         name="customer_subscribe"
                         id="defaultCheck2"
+
                       ></input>
                       <label
                         style={{ marginTop: "4px", marginLeft: "3px" }}
@@ -364,9 +434,12 @@ export default function Register() {
                       class="btn btn--large"
                       type="submit"
                       style={{ width: "100%", marginTop: "15px" }}
+                      disabled={!isCustomerAgree}
+                      onClick={handleSubmit}
                     >
                       Đăng ký
                     </button>
+
                   </div>
                 </div>
               </div>
