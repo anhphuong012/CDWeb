@@ -14,6 +14,32 @@ import "../login/login.css";
 import { Button } from "react-bootstrap";
 
 export default function Login() {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   // try {
+  //   //   const response = await axios.post('/api/login', {
+  //   //     username,
+  //   //     password,
+  //   //   });
+
+  //   //   // Xử lý phản hồi từ backend
+  //   //   if (response.data.token) {
+  //   //     // Lưu token vào localStorage hoặc cookie để sử dụng cho các yêu cầu tiếp theo
+  //   //     localStorage.setItem('authToken', response.data.token);
+  //   //     // Chuyển hướng đến trang chính
+  //   //     window.location.href = '/dashboard';
+  //   //   } else {
+  //   //     setError('Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin.');
+  //   //   }
+  //   // } catch (error) {
+  //   //   setError('Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.');
+  //   //   console.error(error);
+  // }
+  // };
   return (
     <div>
       <Header></Header>
@@ -43,8 +69,9 @@ export default function Login() {
                       name="customer_account"
                       type="text"
                       placeholder="Email/SĐT"
-                      value=""
-                    ></input>
+                      value={username}
+                      onChange={(e) => setUsername(e.text)}
+                    />
                   </div>
                   <div class="form-group">
                     <input
@@ -52,7 +79,9 @@ export default function Login() {
                       name="customer_password"
                       type="password"
                       placeholder="Mật khẩu"
-                    ></input>
+                      value={password}
+                      onChange={(e) => setPassword(e.text)}
+                    />
                   </div>
                   <div class="auth__form__options">
                     <div class="form-checkbox">
@@ -97,6 +126,8 @@ export default function Login() {
                       id="but_login_email"
                       name="but_login_email"
                       class="btn btn--large g-recaptcha"
+                      type="submit"
+
                     >
                       Đăng nhập
                     </button>
