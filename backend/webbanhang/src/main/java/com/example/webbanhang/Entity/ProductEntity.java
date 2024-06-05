@@ -9,31 +9,32 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name ="products")
+@Table(name = "products")
 public class ProductEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private String name;
 	private int price;
 	private String descreption;
 	private String image;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private CategoryEntity category;
-	
+
 	@OneToMany(mappedBy = "product")
 	private List<SizeEntiry> sizes;
-	
-	@OneToOne(mappedBy = "product")
-	private CartItemEntity cartItemEntity;
-	
+
+//	@OneToOne(mappedBy = "product")
+//	private CartItemEntity cartItemEntity;
+	@OneToMany(mappedBy = "product")
+	private List<CartItemEntity> cartItems;
+
 	public String getName() {
 		return name;
 	}
@@ -86,14 +87,12 @@ public class ProductEntity {
 		this.sizes = sizes;
 	}
 
-	public CartItemEntity getCartItemEntity() {
-		return cartItemEntity;
+	public List<CartItemEntity> getCartItems() {
+		return cartItems;
 	}
 
-	public void setCartItemEntity(CartItemEntity cartItemEntity) {
-		this.cartItemEntity = cartItemEntity;
+	public void setCartItems(List<CartItemEntity> cartItems) {
+		this.cartItems = cartItems;
 	}
-	
-	
 
 }
