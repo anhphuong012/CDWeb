@@ -11,6 +11,9 @@ import Register from "./component/Register/Register.js";
 import SearchKey from "./component/Search/Search.js";
 import { Provider } from "react-redux";
 import store from "./store.js";
+
+import HeaderAdmin from "./admin/HeaderAdmin/HeaderAdmin.js";
+
 function App() {
   return (
     <Provider store={store}>
@@ -30,6 +33,11 @@ function App() {
           <Route
             path="/search/:keyword"
             element={<SearchKey></SearchKey>}
+          ></Route>
+
+          <Route
+            path="/admin/dashboard"
+            element={<HeaderAdmin></HeaderAdmin>}
           ></Route>
         </Routes>
       </div>

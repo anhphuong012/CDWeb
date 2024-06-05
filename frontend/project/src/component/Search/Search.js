@@ -20,6 +20,9 @@ export default function SearchKey() {
   const [data, setData] = useState(null);
   const [temp, setTemp] = useState(null);
 
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+
   const [checkboxes, setCheckboxes] = useState({
     M: false,
     L: false,
@@ -48,6 +51,43 @@ export default function SearchKey() {
     }
   };
 
+  const handleFilter = () => {
+    const trueValues = Object.entries(checkboxes)
+      .filter(([key, value]) => value === true)
+      .map(([key, value]) => key);
+
+    var result = [];
+    data.map((item) => {
+      item.sizes.map((size) => {
+        if (trueValues.includes(size.size)) {
+          if (!result.includes(item)) {
+            result.push(item);
+          }
+        }
+      });
+
+      const min = parseInt(minPrice, 10);
+      const max = parseInt(maxPrice, 10);
+
+      console.log(min);
+
+      console.log(max);
+      if (min == NaN || max == NaN) {
+      } else {
+        var check =
+          minPrice > maxPrice
+            ? max < item.price && item.price < min
+            : min < item.price && item.price < max;
+
+        if (check && !result.includes(item)) {
+          result.push(item);
+        }
+      }
+    });
+    console.log("Result:" + result);
+    setData(result);
+  };
+
   useEffect(() => {
     fetchData(keyword);
   }, []);
@@ -71,7 +111,7 @@ export default function SearchKey() {
           </Breadcrumbs>
         </div> */}
         <div className="container d-flex mt-5">
-          <div className="col-3 mt3">
+          {/* <div className="col-3 mt3">
             <h5>Lọc</h5>
             <div className="filter">
               <span>Theo Size:</span>
@@ -122,6 +162,87 @@ export default function SearchKey() {
             <div style={{ marginTop: "40px" }}>
               <button className="btn-shop">Lọc</button>
               <button className="btn-shop ml">Bỏ Lọc</button>
+            </div>
+          </div> */}
+          <div className="col-3 mt3">
+            <h5>Lọc</h5>
+            <div className="filter">
+              <span>Theo Size:</span>
+
+              <div className="row">
+                <button
+                  className={`btn-size mt-3  ${checkboxes.M ? "click" : ""}`}
+                  onClick={() => handleCheckboxChange("M")}
+                >
+                  M
+                </button>
+                <button
+                  className={`btn-size mt-3 ${checkboxes.L ? "click" : ""}`}
+                  onClick={() => handleCheckboxChange("L")}
+                >
+                  L
+                </button>
+                <button
+                  className={`btn-size mt-3 ${checkboxes.XL ? "click" : ""}`}
+                  onClick={() => handleCheckboxChange("XL")}
+                >
+                  XL
+                </button>
+                <button
+                  className={`btn-size mt-3 ${checkboxes.XXL ? "click" : ""}`}
+                  onClick={() => handleCheckboxChange("XXL")}
+                >
+                  XXL
+                </button>
+              </div>
+            </div>
+
+            <div className="filter mt-5">
+              <span>Theo Giá:</span>
+
+              <div className="row" style={{ paddingRight: "10%" }}>
+                {/* <RangeSlider
+                  min={10}
+                  max={10000000000}
+                  defaultValue={[20, 10000000]}
+                  onThumbDragStart={(value) => {
+                    console.log(value);
+                  }}
+                /> */}
+                <input
+                  type="number"
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(e.target.value)}
+                ></input>{" "}
+                đến
+                <input
+                  type="number"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                ></input>
+              </div>
+            </div>
+
+            <div style={{ marginTop: "40px" }}>
+              <button className="btn-shop" onClick={handleFilter}>
+                Lọc
+              </button>
+              <button
+                className="btn-shop ml"
+                onClick={() => {
+                  setCheckboxes({
+                    M: false,
+                    L: false,
+                    XL: false,
+                    XXL: false,
+                  });
+                  setMinPrice("");
+                  setMaxPrice("");
+                  setData(temp);
+                }}
+              >
+                Bỏ Lọc
+              </button>
             </div>
           </div>
           <div className="col-9 right-element">
