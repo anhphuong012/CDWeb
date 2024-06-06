@@ -1,21 +1,17 @@
-package com.example.webbanhang.dto;
-
+package com.example.webbanhang.dto.request;
 
 import jakarta.validation.constraints.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 
 @Getter
-public class UserDTO {
-
-    private Long id;
+public class UserCreationRequest {
 
     @NotNull(message = "Username is required")
     private String username;
 
     @NotBlank(message = "Password is required")
-    @Size(min = 6, message = "Password must be at least 6 characters long")
+    @Size(min = 6, message = "PASSWORD_INVALID")
     private String password;
 
     @NotBlank(message = "Full name is required")
@@ -41,22 +37,4 @@ public class UserDTO {
     @NotBlank(message = "Address is required")
     private String address;
     private int role;
-
-    public UserDTO() {
-
-    }
-
-    public UserDTO(String username, String password, String fullname, String email, String phone, String ward, String city, String district, String address) {
-        this.username = username;
-        this.password = password;
-        this.fullname = fullname;
-        this.email = email;
-        this.phone = phone;
-        this.ward = ward;
-        this.city = city;
-        this.district = district;
-        this.address = address;
-    }
-
-
 }

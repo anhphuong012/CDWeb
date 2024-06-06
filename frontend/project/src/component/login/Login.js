@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import axios from 'axios';
 
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
@@ -14,32 +16,36 @@ import "../login/login.css";
 import { Button } from "react-bootstrap";
 
 export default function Login() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  const handleRegisterClick = () => {
+    navigate('/register');
+  };
 
-  //   // try {
-  //   //   const response = await axios.post('/api/login', {
-  //   //     username,
-  //   //     password,
-  //   //   });
-
-  //   //   // Xử lý phản hồi từ backend
-  //   //   if (response.data.token) {
-  //   //     // Lưu token vào localStorage hoặc cookie để sử dụng cho các yêu cầu tiếp theo
-  //   //     localStorage.setItem('authToken', response.data.token);
-  //   //     // Chuyển hướng đến trang chính
-  //   //     window.location.href = '/dashboard';
-  //   //   } else {
-  //   //     setError('Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin.');
-  //   //   }
-  //   // } catch (error) {
-  //   //   setError('Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.');
-  //   //   console.error(error);
-  // }
-  // };
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      console.log("aaaaa")
+      await axios.post('/auth/token', {
+        username,
+        password
+      });
+      setMessage('Login successful 1');
+      if (true) {
+        // if (response.data.code === 1508 && response.data.result.authenticated) {
+        //   const token = response.data.result.token;
+        //   localStorage.setItem('sessionToken', token);
+        setMessage('Login successful');
+      } else {
+        setMessage('Login failed 1');
+      }
+    } catch (error) {
+      setMessage('Login failed 2');
+    }
+  };
   return (
     <div>
       <Header></Header>
@@ -55,32 +61,33 @@ export default function Login() {
                 </p>
                 <form
                   id="login-form"
-                  class="auth__form login-form"
+                  className="auth__form login-form"
                   role="login"
                   name="frm_customer_account_email"
-                  enctype="application/x-www-form-urlencoded"
+                  encType="application/x-www-form-urlencoded"
                   method="post"
                   action=""
-                  autocomplete="off"
+                  autoComplete="off"
+                  onSubmit={handleLogin}
                 >
-                  <div class="form-group">
+                  <div className="form-group">
                     <input
-                      class="form-control"
+                      className="form-control"
                       name="customer_account"
                       type="text"
                       placeholder="Email/SĐT"
                       value={username}
-                      onChange={(e) => setUsername(e.text)}
+                      onChange={(e) => setUsername(e.target.value)}
                     />
                   </div>
-                  <div class="form-group">
+                  <div className="form-group">
                     <input
-                      class="form-control"
+                      className="form-control"
                       name="customer_password"
                       type="password"
                       placeholder="Mật khẩu"
                       value={password}
-                      onChange={(e) => setPassword(e.text)}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
                   <div class="auth__form__options">
@@ -133,6 +140,7 @@ export default function Login() {
                     </button>
                   </div>
                 </form>
+                {message && <p>{message}</p>}
               </div>
             </div>
 
@@ -149,11 +157,8 @@ export default function Login() {
                   vị và nhanh chóng hơn!
                 </p>
 
-                <div class="auth__form__buttons">
-                  <a href="">
-                    {" "}
-                    <button class="btn btn--large">Đăng ký</button>
-                  </a>
+                <div className="auth__form__buttons">
+                  <button class="btn btn--large" onClick={handleRegisterClick}>Đăng ký</button>
                 </div>
               </div>
             </div>
