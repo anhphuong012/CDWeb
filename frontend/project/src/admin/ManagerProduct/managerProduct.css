@@ -1,0 +1,25 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.container-main {
+    display: flex;
+}
+
+.main-content {
+        margin-top: 6%;
+            width: 100%;
+
+            padding: 10px;
+            height: 100%;
+}
+.image-product {
+    max-width: 40px;
+    min-height: 40px;
+}
+.wrap-btn-add {
+    text-align: end;
+    margin-right: 20px;
+}

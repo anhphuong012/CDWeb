@@ -13,6 +13,7 @@ import { Provider } from "react-redux";
 import store from "./store.js";
 
 import HeaderAdmin from "./admin/HeaderAdmin/HeaderAdmin.js";
+import ManagerProduct from "./admin/ManagerProduct/ManagerProduct.js";
 
 function App() {
   return (
@@ -38,6 +39,11 @@ function App() {
           <Route
             path="/admin/dashboard"
             element={<HeaderAdmin></HeaderAdmin>}
+          ></Route>
+
+          <Route
+            path="/admin/products"
+            element={<ManagerProduct></ManagerProduct>}
           ></Route>
         </Routes>
       </div>

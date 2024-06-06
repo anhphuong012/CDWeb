@@ -1,15 +1,22 @@
 import "../css/sb-admin-2.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "./headerAdmin.css";
 // // import "jquery";
 import "jquery.easing";
 import { useEffect } from "react";
 
 import { Helmet } from "react-helmet";
 
+import logo1 from "../img/undraw_profile.svg";
+import logo2 from "../img/undraw_profile_1.svg";
+import logo3 from "../img/undraw_profile_2.svg";
+import logo4 from "../img/undraw_profile_3.svg";
+
 import logo from "../img/undraw_rocket.svg";
 export default function HeaderAdmin() {
   return (
+    //  id="wrapper"
     <div>
       <ul
         className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
@@ -29,11 +36,40 @@ export default function HeaderAdmin() {
         </a>
         {/* Divider */}
         <hr className="sidebar-divider my-0" />
-        {/* Nav Item - Dashboard */}
+        {/* Nav Item - Infor */}
         <li className="nav-item active">
           <a className="nav-link" href="index.html">
             <i className="fas fa-fw fa-tachometer-alt" />
-            <span>Dashboard</span>
+            <span>Thông tin</span>
+          </a>
+        </li>
+        {/* Divider */}
+        <hr className="sidebar-divider" />
+
+        {/* Nav Item - Quan li san pham */}
+        <li className="nav-item ">
+          <a className="nav-link" href="#">
+            <i className="fas fa-fw fa-tachometer-alt" />
+            <span>Quản lí sản phẩm</span>
+          </a>
+        </li>
+        {/* Divider */}
+        <hr className="sidebar-divider" />
+        {/* Nav Item - Quan li don hang */}
+        <li className="nav-item ">
+          <a className="nav-link" href="#">
+            <i className="fas fa-fw fa-tachometer-alt" />
+            <span>Quản lí đơn hàng</span>
+          </a>
+        </li>
+        {/* Divider */}
+        <hr className="sidebar-divider" />
+
+        {/* Nav Item - Quan li user */}
+        <li className="nav-item ">
+          <a className="nav-link" href="#">
+            <i className="fas fa-fw fa-tachometer-alt" />
+            <span>Quản lí user</span>
           </a>
         </li>
         {/* Divider */}
@@ -172,6 +208,73 @@ export default function HeaderAdmin() {
           <button className="rounded-circle border-0" id="sidebarToggle" />
         </div>
       </ul>
+
+      {/* <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content"> */}
+      <>
+        {/* Topbar */}
+        <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow navbar-1">
+          {/* Sidebar Toggle (Topbar) */}
+          <button
+            id="sidebarToggleTop"
+            className="btn btn-link d-md-none rounded-circle mr-3"
+          >
+            <i className="fa fa-bars" />
+          </button>
+
+          {/* Topbar Navbar */}
+          <ul className="navbar-nav ml-auto">
+            <div className="topbar-divider d-none d-sm-block" />
+            {/* Nav Item - User Information */}
+            <li className="nav-item dropdown no-arrow">
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                id="userDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <span className="mr-2 d-none d-lg-inline text-gray-600 small">
+                  Douglas McGee
+                </span>
+                <img className="img-profile rounded-circle" src={logo1} />
+              </a>
+              {/* Dropdown - User Information */}
+              <div
+                className="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                aria-labelledby="userDropdown"
+              >
+                <a className="dropdown-item" href="#">
+                  <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400" />
+                  Profile
+                </a>
+                <a className="dropdown-item" href="#">
+                  <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400" />
+                  Settings
+                </a>
+                <a className="dropdown-item" href="#">
+                  <i className="fas fa-list fa-sm fa-fw mr-2 text-gray-400" />
+                  Activity Log
+                </a>
+                <div className="dropdown-divider" />
+                <a
+                  className="dropdown-item"
+                  href="#"
+                  data-toggle="modal"
+                  data-target="#logoutModal"
+                >
+                  <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" />
+                  Logout
+                </a>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </>
+      {/* </div>
+      </div> */}
 
       <Helmet>
         <link
