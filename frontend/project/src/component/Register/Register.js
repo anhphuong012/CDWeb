@@ -142,11 +142,13 @@ export default function Register() {
     try {
       console.log("aaaaa")
       await axios.post('/api/user/register', {
+        username,
+        fullname: username,
         email,
-        password, phone, ward, district, city, address, rePassword, role: 1
+        password, phone, ward, district, city, address, role: 1
       });
       // Đăng ký thành công, chuyển hướng hoặc thực hiện các hành động khác
-      navigate('/');
+      navigate('/login');
       console.log('Registration successful', email);
     } catch (error) {
       if (error.response && error.response.status === 409) {
