@@ -62,6 +62,8 @@ export function ProductDetail(props) {
       cartProduct.quanlity = 1;
       cartProduct.size = selectSize;
       props.buyProduct(cartProduct);
+
+      setSelectSize(null);
       toast.success("Đã thêm vào giỏ hàng!");
     } else {
       toast.error("Vui lòng chọn size!");
