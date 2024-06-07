@@ -12,13 +12,17 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { right } from "@popperjs/core";
+import { end, right } from "@popperjs/core";
 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 import { ToastContainer, toast } from "react-toastify";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 import axios from "axios";
+
+import { useNavigate } from "react-router-dom";
 
 const columns = [
   { id: "id", label: "ID", minWidth: 100 },
@@ -66,6 +70,8 @@ export default function ManagerProduct() {
     setPage(0);
   };
 
+  const navigate = useNavigate();
+
   const fetchData = async () => {
     const response = await axios.get(`/api/products`);
 
@@ -85,9 +91,36 @@ export default function ManagerProduct() {
       <HeaderAdmin></HeaderAdmin>
 
       <div className="main-content">
-        <h3>Quản lí sản phẩm</h3>
+        <h3 className="title-manager">Quản lí sản phẩm</h3>
         <div className="mb-4 wrap-btn-add">
-          <button className={"btn btn-primary"}>Thêm sản phẩm</button>
+          <button
+            className={"btn btn-primary"}
+            onClick={() => {
+              navigate("/admin/products/add");
+            }}
+          >
+            Thêm sản phẩm
+          </button>
+        </div>
+        <div style={{ textAlign: end }}>
+          <Box
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "25ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <TextField
+              id="outlined-size-small"
+              label="Lọc"
+              variant="outlined"
+              size="small"
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+            />
+          </Box>
         </div>
         <Paper sx={{ width: "100%" }}>
           <TableContainer sx={{ maxHeight: 440 }}>

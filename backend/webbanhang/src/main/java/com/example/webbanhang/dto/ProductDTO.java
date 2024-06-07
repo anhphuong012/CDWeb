@@ -3,14 +3,12 @@ package com.example.webbanhang.dto;
 import com.example.webbanhang.model.SizeModel;
 
 public class ProductDTO {
-	private Long id;
 
 	private String name;
 	private int price;
 	private String descreption;
 	private String image;
 	private Long category_id;
-	private SizeModel size;
 
 	public String getName() {
 		return name;
@@ -52,16 +50,6 @@ public class ProductDTO {
 		this.category_id = category_id;
 	}
 
-	public SizeModel getSize() {
-		return size;
-	}
 
-	public void setSize(SizeModel size) {
-		this.size = size;
-	}
-
-	public Long getId() {
-		return id;
-	}
 
 }

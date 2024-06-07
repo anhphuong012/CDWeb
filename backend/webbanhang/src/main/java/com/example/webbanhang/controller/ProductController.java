@@ -2,20 +2,20 @@ package com.example.webbanhang.controller;
 
 import java.io.IOException;
 
+import com.example.webbanhang.dto.ProductDTO;
+import com.example.webbanhang.model.ProductModel;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.webbanhang.model.ReposeOject;
 import com.example.webbanhang.service.ProductService;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("api/products")
@@ -59,6 +59,27 @@ public class ProductController {
 
 		return ResponseEntity.status(HttpStatus.OK).headers(headers)
 				.body(new ReposeOject("OK", " Success", productService.findById(id)));
+	}
+
+	@PostMapping(value = "/product")
+	public @ResponseBody ResponseEntity<ReposeOject> create(@RequestPart MultipartFile file,@RequestPart String productDTO) throws IOException {
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.set("Content-Type", "application/json");
+		ProductModel result = productService.addProduct(convertToProductDTO(productDTO),file);
+		System.out.println("Result:" + result);
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(new ReposeOject("OK", " Success", result));
+	}
+
+	private ProductDTO convertToProductDTO(String productDTO){
+		ProductDTO result = null;
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			result = objectMapper.readValue(productDTO,ProductDTO.class);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+		return result;
 	}
 
 }
