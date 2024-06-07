@@ -1,11 +1,16 @@
 package com.example.webbanhang.service.imp;
 
 import com.example.webbanhang.Entity.UserEntity;
-import com.example.webbanhang.dto.UserDTO;
+import com.example.webbanhang.dto.request.UserCreationRequest;
+import com.example.webbanhang.exception.AppException;
+import com.example.webbanhang.exception.ErrorCode;
 import com.example.webbanhang.repository.UserEntityRepository;
 import com.example.webbanhang.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Service
 public class UserImp implements UserService {
@@ -14,23 +19,31 @@ public class UserImp implements UserService {
     private UserEntityRepository userRepository;
 
     @Override
-    public String addUser(UserDTO userDTO) {
+    public UserEntity addUser(UserCreationRequest request) {
+        if (userRepository.existsByEmail(request.getEmail()))
+            throw new AppException(ErrorCode.EMAIL_EXISTED);
         UserEntity userEntity = new UserEntity(
-                userDTO.getUsername(),
-                userDTO.getPassword(),
-                userDTO.getFullname(),
-                userDTO.getEmail(),
-                userDTO.getPhone(),
-                userDTO.getDistrict(),
-                userDTO.getWard(),
-                userDTO.getCity(),
-                userDTO.getAddress(),
-                userDTO.getRole()
+                request.getUsername(),
+               request.getPassword(),
+               request.getFullname(),
+               request.getPhone(),
+               request.getEmail(),
+                request.getWard(),
+               request.getDistrict(),
+               request.getCity(),
+               request.getAddress(),
+               request.getRole()
         );
-        userRepository.save(userEntity);
-        return userEntity.getFullname();
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        userEntity.setPassword(passwordEncoder.encode(request.getPassword()));
+        return userRepository.save(userEntity);
+
     }
-//    UserDTO userDTO;
+
+    public UserEntity getUser(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("1"));
+    }
+//    UserCreationRequest UserCreationRequest;
 
 
 //    public LoginMesage  loginEmployee(LoginDTO loginDTO) {

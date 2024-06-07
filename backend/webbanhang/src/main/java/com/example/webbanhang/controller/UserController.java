@@ -1,7 +1,9 @@
 package com.example.webbanhang.controller;
 
 import com.example.webbanhang.Entity.UserEntity;
+import com.example.webbanhang.dto.Respone.ApiResponsee;
 import com.example.webbanhang.dto.UserDTO;
+import com.example.webbanhang.dto.request.UserCreationRequest;
 import com.example.webbanhang.repository.UserEntityRepository;
 import com.example.webbanhang.service.UserService;
 import com.example.webbanhang.service.imp.UserImp;
@@ -18,10 +20,15 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public String  createUser(@RequestBody @Valid UserDTO user) {
-        String id = userService.addUser(user);
-        return id;
+    public ApiResponsee<UserEntity> createUser(@RequestBody @Valid UserCreationRequest user) {
+        ApiResponsee<UserEntity> apiResponse = new ApiResponsee<>();
+        apiResponse.setResult((userService.addUser(user)));
+
+        return apiResponse;
     }
+
+
+
 
 //    @PostMapping("/login")
 //    public String loginUser(@ModelAttribute("user") UserLoginRequest loginRequest, Model model) {
