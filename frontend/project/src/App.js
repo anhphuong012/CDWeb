@@ -15,6 +15,7 @@ import store from "./store.js";
 import HeaderAdmin from "./admin/HeaderAdmin/HeaderAdmin.js";
 import ManagerProduct from "./admin/ManagerProduct/ManagerProduct.js";
 import AddProduct from "./admin/ManagerProduct/AddProduct.js";
+import EditProduct from "./admin/ManagerProduct/EditProduct.js";
 
 function App() {
   return (
@@ -50,6 +51,11 @@ function App() {
           <Route
             path="/admin/products/add"
             element={<AddProduct></AddProduct>}
+          ></Route>
+
+          <Route
+            path="/admin/products/edit/:id"
+            element={<EditProduct></EditProduct>}
           ></Route>
         </Routes>
       </div>

@@ -3,7 +3,7 @@ import "./managerProduct.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -21,6 +21,9 @@ import { ToastContainer, toast } from "react-toastify";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
+
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 import { useNavigate } from "react-router-dom";
 
@@ -60,6 +63,20 @@ export default function ManagerProduct() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const [data, setData] = useState(null);
+  const [temp, setTemp] = useState(null);
+
+  const [show, setShow] = useState(false);
+
+  const [selectDelete, setSelectDelete] = useState(null);
+
+  //Lọc sản phẩm
+  const [value, setValue] = useState("");
+
+  const handleClose = () => setShow(false);
+  const handleShow = (id) => {
+    setShow(true);
+    setSelectDelete(id);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -78,49 +95,91 @@ export default function ManagerProduct() {
     if (response.status == 200) {
       if (response.data.data != null) {
         setData(response.data.data);
+        setTemp(response.data.data);
         console.log(data);
       }
     }
   };
 
+  const handleDelete = async () => {
+    console.log("ID:" + selectDelete);
+    await axios({
+      method: "delete",
+      maxBodyLength: Infinity,
+      url: "/api/products/product/" + selectDelete,
+
+      data: "",
+    }).then(function (response) {
+      console.log(response);
+      if (response.status == 200) {
+        if (response.data.data == true) {
+          const updatedProducts = data.filter(
+            (product) => product.id !== selectDelete
+          );
+          setData(updatedProducts);
+          setTemp(updatedProducts);
+
+          toast.success("Xóa Sản Phẩm Thành Công!", {
+            className: "Thông báo",
+          });
+        }
+        setShow(false);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (value == "") {
+      setData(temp);
+    } else {
+      const updateData = data.filter((product) =>
+        product.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setData(updateData);
+    }
+  }, [value]);
+
   useEffect(() => {
     fetchData();
   }, []);
   return (
-    <div className="container-main">
+    <div className="container-main mb-5">
       <HeaderAdmin></HeaderAdmin>
 
       <div className="main-content">
         <h3 className="title-manager">Quản lí sản phẩm</h3>
-        <div className="mb-4 wrap-btn-add">
-          <button
-            className={"btn btn-primary"}
-            onClick={() => {
-              navigate("/admin/products/add");
-            }}
-          >
-            Thêm sản phẩm
-          </button>
-        </div>
-        <div style={{ textAlign: end }}>
-          <Box
-            component="form"
-            sx={{
-              "& > :not(style)": { m: 1, width: "25ch" },
-            }}
-            noValidate
-            autoComplete="off"
-          >
-            <TextField
-              id="outlined-size-small"
-              label="Lọc"
-              variant="outlined"
-              size="small"
-              onChange={(e) => {
-                console.log(e.target.value);
+        <div className="container-form-search ">
+          <div className="mb-4 wrap-btn-add">
+            <button
+              className={"btn btn-primary"}
+              onClick={() => {
+                navigate("/admin/products/add");
               }}
-            />
-          </Box>
+            >
+              Thêm sản phẩm
+            </button>
+          </div>
+          <div>
+            <Box
+              component="form"
+              sx={{
+                "& > :not(style)": { m: 1, width: "25ch" },
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <TextField
+                id="outlined-size-small"
+                label="Lọc"
+                variant="outlined"
+                size="small"
+                value={value}
+                onChange={(e) => {
+                  setValue(e.target.value);
+                }}
+              />
+            </Box>
+          </div>
         </div>
         <Paper sx={{ width: "100%" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
@@ -217,12 +276,33 @@ export default function ManagerProduct() {
                             {row.price.toLocaleString("vi-VN")} VNĐ
                           </TableCell>
                           <TableCell align="left">
-                            <button className={"btn btn-info mr-2"} title="Sửa">
+                            <button
+                              className={"btn btn-info mr-2"}
+                              title="Sửa"
+                              onClick={() => {
+                                window.location.href = `/admin/products/edit/${row.id}`;
+                              }}
+                            >
                               <EditIcon></EditIcon>
                             </button>
-                            <button className={"btn btn-danger"} title="Xóa">
+
+                            <button
+                              className={"btn btn-danger"}
+                              title="Xóa"
+                              onClick={() => {
+                                handleShow(row.id);
+                              }}
+                            >
                               <DeleteForeverIcon></DeleteForeverIcon>
                             </button>
+
+                            <div
+                              className="modal show"
+                              style={{
+                                display: "block",
+                                position: "initial",
+                              }}
+                            ></div>
                           </TableCell>
                         </TableRow>
                       );
@@ -240,7 +320,22 @@ export default function ManagerProduct() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Thông báo</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Bạn Có Chắn Chắc Muốn Xóa Sản Phẩm Này Không?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Trở Lại
+            </Button>
+            <Button variant="danger" onClick={handleDelete}>
+              Xóa
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
+      <ToastContainer position="bottom-right" />
     </div>
   );
 }

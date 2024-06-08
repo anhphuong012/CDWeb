@@ -11,33 +11,9 @@ import { ToastContainer, toast } from "react-toastify";
 import { useRef, useState, useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-export default function AddProduct() {
-  const inputRef = useRef(null);
-
-  const handleClick = () => {
-    // 👇️ Open the file input box on click of another element
-    inputRef.current.click();
-  };
-  //   const handleFileChange = (event) => {
-  //     const fileObj = event.target.files && event.target.files[0];
-  //     if (!fileObj) {
-  //       return;
-  //     }
-
-  //     console.log("fileObj is", fileObj);
-
-  //     // 👇️ Reset file input
-  //     event.target.value = null;
-
-  //     // 👇️ Is now empty
-  //     console.log(event.target.files);
-
-  //     // 👇️ Can still access the file object here
-  //     console.log(fileObj);
-  //     console.log(fileObj.name);
-  //   };
-
+export default function EditProduct() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [category, setCategory] = useState(null);
@@ -45,8 +21,10 @@ export default function AddProduct() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [descreption, setDescreption] = useState("");
-  const [selectCategory, setSelectCategory] = useState(1);
+  const [selectCategory, setSelectCategory] = useState(null);
 
+  const params = useParams();
+  const id = params.id;
   const navigate = useNavigate();
 
   const handleFileChange = (event) => {
@@ -70,7 +48,7 @@ export default function AddProduct() {
   };
 
   const handleSubmit = async () => {
-    if (!selectedFile || name == "" || price == "") {
+    if (name == "" || price == "") {
       toast.error("Tên sản phẩm, giá và hình ảnh không được để trống!");
     } else {
       // const formData = new FormData();
@@ -109,9 +87,9 @@ export default function AddProduct() {
       console.log(selectedFile);
 
       await axios({
-        method: "post",
+        method: "put",
         maxBodyLength: Infinity,
-        url: "/api/products/product",
+        url: "/api/products/product/" + id,
 
         headers: {
           "Content-Type": `multipart/form-data boundary=${formData._boundary}`,
@@ -119,7 +97,7 @@ export default function AddProduct() {
         mode: "cors",
         data: formData,
       }).then(function (response) {
-        if (response.status == 201) {
+        if (response.status == 200) {
           window.location.href = "/admin/products";
         }
       });
@@ -139,8 +117,25 @@ export default function AddProduct() {
     }
   };
 
+  const fetchItem = async () => {
+    const response = await axios.get(`/api/products/product/${id}`);
+    console.log(response.data);
+
+    if (response.status == 200) {
+      console.log(response.data);
+      if (response.data.status == "OK") {
+        setSelectCategory(response.data.data.category);
+        setName(response.data.data.name);
+        setPrice(response.data.data.price);
+        setDescreption(response.data.data.descreption);
+        setPreview(response.data.data.image);
+      }
+    }
+  };
+
   useEffect(() => {
     fetchData();
+    fetchItem();
   }, []);
   console.log(selectCategory);
   return (
@@ -193,24 +188,6 @@ export default function AddProduct() {
               <span>Hình sản phẩm</span>
             </div>
             <div className={"d-flex"} style={{ margin: "0px 10%" }}>
-              {/* <input
-                  style={{ display: "none" }}
-                  ref={inputRef}
-                  type="file"
-                  onChange={handleFileChange}
-                  accept="image/*"
-                />
-
-                <button onClick={handleClick}>Open file upload box</button> */}
-              {/* <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  style={{ display: "none" }}
-                  ref={inputRef}
-                />
-                <button onClick={handleClick}>Chọn hình ảnh</button> */}
-
               <div
                 style={{
                   flex: 1,
@@ -229,6 +206,7 @@ export default function AddProduct() {
                   type="file"
                   accept="image/*"
                   onChange={handleFileChange}
+                  id="fileImage"
                 />
               </div>
               {/* {preview && (
@@ -269,7 +247,7 @@ export default function AddProduct() {
                   id="category"
                   select
                   label="Loại"
-                  defaultValue={category[0].id}
+                  defaultValue={selectCategory == null ? 1 : selectCategory}
                   fullWidth
                   onChange={(e) => {
                     setSelectCategory(e.target.value);
@@ -288,7 +266,7 @@ export default function AddProduct() {
 
           <div className="mt-4 mb-5">
             <button className="btn btn-success mr-4" onClick={handleSubmit}>
-              Thêm
+              Sửa
             </button>
             <button
               className="btn btn-primary"
