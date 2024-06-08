@@ -29,6 +29,8 @@ public class ImageService implements IFileService {
 
 		try {
 			Files.copy(multipartFile.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+			multipartFile.getInputStream().close();
+
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
