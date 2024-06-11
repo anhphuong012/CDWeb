@@ -16,7 +16,7 @@ import "../login/login.css";
 import { Button } from "react-bootstrap";
 
 export default function Login() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
@@ -29,21 +29,19 @@ export default function Login() {
     e.preventDefault();
     try {
       console.log("aaaaa")
-      await axios.post('/auth/token', {
-        username,
+      const response = await axios.post('http://192.168.1.146:8081/auth/token', {
+        email,
         password
       });
-      setMessage('Login successful 1');
-      if (true) {
-        // if (response.data.code === 1508 && response.data.result.authenticated) {
-        //   const token = response.data.result.token;
-        //   localStorage.setItem('sessionToken', token);
-        setMessage('Login successful');
+      if (response.data.result.authenticated) {
+        // Lưu token vào Session Storage
+        sessionStorage.setItem('token', response.data.result.token);
+        navigate('/');
       } else {
-        setMessage('Login failed 1');
+        setMessage('Login failed', response.data);
       }
     } catch (error) {
-      setMessage('Login failed 2');
+      setMessage('Login failed', error.response);
     }
   };
   return (
@@ -76,8 +74,8 @@ export default function Login() {
                       name="customer_account"
                       type="text"
                       placeholder="Email/SĐT"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <div className="form-group">

@@ -41,7 +41,7 @@ public class AuthenticationImp implements AuthenticationService {
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        var user = userEntityRepository.findByUsername(request.getUsername())
+        var user = userEntityRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
@@ -50,7 +50,7 @@ public class AuthenticationImp implements AuthenticationService {
         if (!authenticated)
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
-        var token = generateToken(request.getUsername());
+        var token = generateToken(request.getEmail());
 
         return  AuthenticationResponse.builder()
                 .token(token)

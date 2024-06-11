@@ -36,6 +36,8 @@ export default function Register() {
 
   const [isCustomerAgree, setIsCustomerAgree] = useState(false);
 
+  const [message, setMessage] = useState('');
+
   const handleCustomerAgreeChange = () => {
     setIsCustomerAgree(!isCustomerAgree);
   };
@@ -153,10 +155,10 @@ export default function Register() {
     } catch (error) {
       if (error.response && error.response.status === 409) {
         // Xử lý lỗi xung đột (email đã tồn tại)
-        setError('Email đã được đăng ký');
+        setMessage('Register failed ', error.response);
       } else {
         // Xử lý các lỗi khác
-        setError('Đã xảy ra lỗi. Vui lòng thử lại.');
+        setMessage('Register failed', error.response);
       }
     }
   };
@@ -441,7 +443,7 @@ export default function Register() {
                     >
                       Đăng ký
                     </button>
-
+                    {message && <p>{message}</p>}
                   </div>
                 </div>
               </div>
