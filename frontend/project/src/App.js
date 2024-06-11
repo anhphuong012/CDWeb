@@ -9,6 +9,7 @@ import FilProduct from "./component/FilProduct/FilProduct";
 import Login from "./component/login/Login.js";
 import Register from "./component/Register/Register.js";
 import SearchKey from "./component/Search/Search.js";
+import Payment from "./component/ResultPayment/ResultPayment.js";
 import { Provider } from "react-redux";
 import store from "./store.js";
 
@@ -27,6 +28,8 @@ function App() {
             path="/detail/:id"
             element={<ProductDetail></ProductDetail>}
           ></Route>
+
+          <Route path="/order/payment" element={<Payment></Payment>}></Route>
           <Route
             path="/category/:id"
             element={<FilProduct></FilProduct>}
