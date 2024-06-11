@@ -34,6 +34,7 @@ public class ImageController {
 			InputStream resourceFile = fileService.getResourceFile(path, fileName);
 			response.setContentType(MediaType.IMAGE_JPEG_VALUE);
 			StreamUtils.copy(resourceFile, response.getOutputStream());
+			resourceFile.close();
 	}
 
 }

@@ -98,11 +98,25 @@ public class ProductModel {
 
 		List<SizeModel> sizeResult = new ArrayList<>();
 
-		for (SizeEntiry sizeModel : productEntiry.getSizes()) {
-			sizeResult.add(SizeModel.convert(sizeModel));
+		if(productEntiry.getSizes() !=null){
+			for (SizeEntiry sizeModel : productEntiry.getSizes()) {
+				sizeResult.add(SizeModel.convert(sizeModel));
+			}
+			result.setSizes(sizeResult);
 		}
-		result.setSizes(sizeResult);
 		return result;
 	}
 
+	@Override
+	public String toString() {
+		return "ProductModel{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", price=" + price +
+				", descreption='" + descreption + '\'' +
+				", image='" + image + '\'' +
+				", category=" + category +
+				", sizes=" + sizes +
+				'}';
+	}
 }

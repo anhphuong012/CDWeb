@@ -11,6 +11,7 @@ public class ReposeOject {
         this.data = data;
     }
 
+    public ReposeOject(){}
     public String getStatus() {
         return status;
     }

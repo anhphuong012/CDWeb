@@ -95,4 +95,21 @@ public class ProductEntity {
 		this.cartItems = cartItems;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "ProductEntity{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", price=" + price +
+				", descreption='" + descreption + '\'' +
+				", image='" + image + '\'' +
+				", category=" + category +
+				", sizes=" + sizes +
+				", cartItems=" + cartItems +
+				'}';
+	}
 }

@@ -9,11 +9,14 @@ import FilProduct from "./component/FilProduct/FilProduct";
 import Login from "./component/login/Login.js";
 import Register from "./component/Register/Register.js";
 import SearchKey from "./component/Search/Search.js";
+import Payment from "./component/ResultPayment/ResultPayment.js";
 import { Provider } from "react-redux";
 import store from "./store.js";
 
 import HeaderAdmin from "./admin/HeaderAdmin/HeaderAdmin.js";
 import ManagerProduct from "./admin/ManagerProduct/ManagerProduct.js";
+import AddProduct from "./admin/ManagerProduct/AddProduct.js";
+import EditProduct from "./admin/ManagerProduct/EditProduct.js";
 
 function App() {
   return (
@@ -25,6 +28,8 @@ function App() {
             path="/detail/:id"
             element={<ProductDetail></ProductDetail>}
           ></Route>
+
+          <Route path="/order/payment" element={<Payment></Payment>}></Route>
           <Route
             path="/category/:id"
             element={<FilProduct></FilProduct>}
@@ -44,6 +49,16 @@ function App() {
           <Route
             path="/admin/products"
             element={<ManagerProduct></ManagerProduct>}
+          ></Route>
+
+          <Route
+            path="/admin/products/add"
+            element={<AddProduct></AddProduct>}
+          ></Route>
+
+          <Route
+            path="/admin/products/edit/:id"
+            element={<EditProduct></EditProduct>}
           ></Route>
         </Routes>
       </div>
