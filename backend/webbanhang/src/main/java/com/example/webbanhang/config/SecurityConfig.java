@@ -19,7 +19,8 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final String [] PUBLIC_ENDPOINT = {"/auth/token", "/auth/introspect", "/api/**"};
+    private final String [] PUBLIC_POST_ENDPOINT = {"/auth/token", "/auth/introspect", "/api/**"};
+    private final String [] PUBLIC_GET_ENDPOINT = { "/api/**"};
 
     private String signerKey = "fEu/rrsgAbh+C9njm/UkISfYRFfGGC8jUvhYXe265ukwV/b7T1Fguw8yP+PJ1cb3";
 
@@ -27,10 +28,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain( HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(request ->
-                request.requestMatchers(HttpMethod.GET,PUBLIC_ENDPOINT).permitAll()
-                        .requestMatchers(HttpMethod.POST,PUBLIC_ENDPOINT).permitAll()
-                        .requestMatchers(HttpMethod.PUT,PUBLIC_ENDPOINT).permitAll()
-                        .requestMatchers(HttpMethod.DELETE,PUBLIC_ENDPOINT).permitAll()
+
+                request.requestMatchers(HttpMethod.GET,PUBLIC_GET_ENDPOINT).permitAll()
+                        .requestMatchers(HttpMethod.POST,PUBLIC_POST_ENDPOINT).permitAll()
                         .anyRequest().authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
