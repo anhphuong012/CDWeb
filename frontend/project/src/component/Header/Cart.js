@@ -17,6 +17,7 @@ import {
 } from "../../actions/action";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export function Cart(props) {
   const [open, setOpen] = React.useState(false);
@@ -42,23 +43,61 @@ export function Cart(props) {
     };
   }, []);
 
-  const deleteSate = (product) => {
-    props.deleteProduct(product);
-    setIsDelete(!isDelete);
+  const deleteSate = async (product) => {
+    try {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const response = await axios.delete(
+        `/api/cart/${user.id}?productId=${product.product.id}&quanlity=1&size=${product.size}`
+      );
+      if (response.status == 200) {
+        props.deleteProduct(product);
+        setIsDelete(!isDelete);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const increState = (product) => {
-    props.increaProduct(product);
-    setIsDelete(!isDelete);
+  const increState = async (product) => {
+    const cartProduct = props.cart.find(
+      (item) =>
+        item.product.id == product.product.id && product.size == item.size
+    );
+    console.log(cartProduct);
+    try {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const response = await axios.put(
+        `/api/cart/${user.id}?productId=${cartProduct.product.id}&quanlity=1&size=${cartProduct.size}&type=1`
+      );
+      if (response.status == 200) {
+        props.increaProduct(product);
+        setIsDelete(!isDelete);
+      }
+    } catch (error) {}
   };
-  const decreState = (product) => {
-    props.decreaProduct(product);
-    setIsDelete(!isDelete);
+  const decreState = async (product) => {
+    const cartProduct = props.cart.find(
+      (item) =>
+        item.product.id == product.product.id && product.size == item.size
+    );
+    console.log(cartProduct);
+    try {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const response = await axios.put(
+        `/api/cart/${user.id}?productId=${cartProduct.product.id}&quanlity=1&size=${cartProduct.size}&type=-1`
+      );
+      if (response.status == 200) {
+        props.decreaProduct(product);
+        setIsDelete(!isDelete);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const calculateTotalPrice = (cart) => {
     var total = 0;
     cart.map((item) => {
-      total += item.price * item.quanlity;
+      total += item.product.price * item.quanlity;
     });
     return total;
   };
@@ -84,9 +123,9 @@ export function Cart(props) {
         {props.cart.map((item) => {
           return (
             <div className="product-card">
-              <img src={item.image} alt={"Sản phẩm"} />
+              <img src={item.product.image} alt={"Sản phẩm"} />
               <div className="product-details">
-                <h3 className={"product-name"}>{item.name}</h3>
+                <h3 className={"product-name"}>{item.product.name}</h3>
                 <div className={"product-infor"}>
                   <p>Size: {item.size}</p>
                 </div>
@@ -112,7 +151,9 @@ export function Cart(props) {
                   </div>
 
                   <div class="product-price">
-                    <span>{item.price.toLocaleString("vi-VN")} VND</span>
+                    <span>
+                      {item.product.price.toLocaleString("vi-VN")} VND
+                    </span>
                   </div>
 
                   <div>

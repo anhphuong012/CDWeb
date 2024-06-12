@@ -13,6 +13,13 @@ import axios from "axios";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useNavigate } from "react-router-dom";
 
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
+import { deepOrange, deepPurple } from "@mui/material/colors";
+
 import Cart from "./Cart";
 const Header = ({ product }) => {
   const [value, setValue] = React.useState("");
@@ -22,6 +29,16 @@ const Header = ({ product }) => {
   const [cart, setCart] = useState([]);
 
   const navigate = useNavigate();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const onChangeHandle = async (value) => {
     console.log(value);
 
@@ -154,11 +171,11 @@ const Header = ({ product }) => {
                 </ul>
               </li>
 
-              <li class="nav-item">
+              {/* <li class="nav-item">
                 <a class="nav-link" href="#">
                   Phụ kiện
                 </a>
-              </li>
+              </li> */}
 
               {/** Navbar */}
             </ul>
@@ -184,6 +201,7 @@ const Header = ({ product }) => {
                   setValue(e.target.value);
                 }}
                 value={value}
+                style={{ padding: "10%" }}
               ></input>
 
               <button
@@ -219,9 +237,49 @@ const Header = ({ product }) => {
               )}
             </div>
 
-            <button className={"btn btn-icon ml-2"}>
-              <PersonOutlineOutlinedIcon></PersonOutlineOutlinedIcon>
-            </button>
+            {sessionStorage.getItem("user") == null && (
+              <button
+                className={"btn btn-icon ml-2"}
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                <PersonOutlineOutlinedIcon></PersonOutlineOutlinedIcon>
+              </button>
+            )}
+            {sessionStorage.getItem("user") != null && (
+              <div className={""}>
+                <Button
+                  id="basic-button"
+                  aria-controls={open ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleClick}
+                  className={"btn btn-icon ml-2"}
+                >
+                  <Stack direction="row" spacing={2}>
+                    <Avatar
+                      sx={{ bgcolor: deepPurple[500], width: 30, height: 30 }}
+                    >
+                      OP
+                    </Avatar>
+                  </Stack>
+                </Button>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                >
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleClose}>My account</MenuItem>
+                  <MenuItem onClick={handleClose}>Logout</MenuItem>
+                </Menu>
+              </div>
+            )}
 
             <Cart></Cart>
           </div>

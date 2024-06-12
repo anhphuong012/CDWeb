@@ -56,15 +56,41 @@ export function ProductDetail(props) {
 
   console.log("Item:" + item);
 
-  const handleCart = (product) => {
+  const handleCart = async (product) => {
     if (selectSize != null) {
-      let cartProduct = product;
-      cartProduct.quanlity = 1;
-      cartProduct.size = selectSize;
-      props.buyProduct(cartProduct);
+      // let cartProduct = product;
+      // cartProduct.quanlity = 1;
+      // cartProduct.size = selectSize;
+      // props.buyProduct(cartProduct);
 
-      setSelectSize(null);
-      toast.success("Đã thêm vào giỏ hàng!");
+      let cartProduct = {
+        product: product,
+        quanlity: 1,
+        size: selectSize,
+      };
+      // cartProduct.quanlity = 1;
+      // cartProduct.size = size;
+
+      try {
+        const user = JSON.parse(sessionStorage.getItem("user"));
+        const response = await axios.post(
+          `/api/cart/${user.id}?productId=${product.id}&quanlity=1&size=${selectSize}`
+        );
+        console.log(response);
+        if (response.status == 200) {
+          console.log("Size:" + selectSize);
+          console.log(cartProduct);
+          props.buyProduct(cartProduct);
+          setSelectSize(null);
+          toast.success("Đã thêm vào giỏ hàng!");
+        } else {
+          toast.error("xảy ra lỗi!", {
+            className: "Thông báo",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       toast.error("Vui lòng chọn size!");
     }
