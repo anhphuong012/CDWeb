@@ -54,6 +54,10 @@ background-color: #fff;
           .wrap-btn-cart .btn {
               font-size: 14px !important;
           }
+          .btn {
+            font-size: 12px !important;
+            
+          }
 }
 
 

@@ -3,13 +3,7 @@ package com.example.webbanhang.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.webbanhang.model.ReposeOject;
 import com.example.webbanhang.service.ICartService;
@@ -30,9 +24,25 @@ public class CartController {
 
 	@GetMapping("/{userId}")
 	@ResponseBody
-	ResponseEntity<ReposeOject> addCartItem(@PathVariable Long userId) {
+	ResponseEntity<ReposeOject> getCartItem(@PathVariable Long userId) {
 
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(new ReposeOject("OK", " Success", cartService.findCartByUser(userId)));
+	}
+
+	@PutMapping("/{userId}")
+	@ResponseBody
+	ResponseEntity<ReposeOject> update(@PathVariable Long userId,@RequestParam Long productId,@RequestParam String size, @RequestParam int type) {
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(new ReposeOject("OK", " Success", cartService.changeQuanlity(userId,productId,size,type)));
+	}
+
+	@DeleteMapping("/{userId}")
+	@ResponseBody
+	ResponseEntity<ReposeOject> delete(@PathVariable Long userId,@RequestParam Long productId,@RequestParam String size) {
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(new ReposeOject("OK", " Success", cartService.delete(userId,productId,size)));
 	}
 }

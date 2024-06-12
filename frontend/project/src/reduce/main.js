@@ -31,6 +31,7 @@ import * as actionType from "../actions/actionType";
 
 const loadCartFromSessionStorage = () => {
   const savedCart = sessionStorage.getItem("cart");
+  console.log(savedCart);
   try {
     return savedCart ? JSON.parse(savedCart) : [];
   } catch (e) {
@@ -46,7 +47,9 @@ const cartReducer = (state = initState, action) => {
   switch (action.type) {
     case actionType.BUY_PRODUCT:
       const productInCart = state.cartAr.find(
-        (p) => p.id === action.payload.id && p.size == action.payload.size
+        (p) =>
+          p.product.id === action.payload.product.id &&
+          p.size == action.payload.size
       );
       if (!productInCart) {
         const newState = {
@@ -57,7 +60,7 @@ const cartReducer = (state = initState, action) => {
       } else {
         let newCart = state.cartAr.map((item) => {
           if (
-            item.id === action.payload.id &&
+            item.product.id === action.payload.product.id &&
             item.size == action.payload.size
           ) {
             return { ...item, quanlity: item.quanlity + 1 };
@@ -71,7 +74,9 @@ const cartReducer = (state = initState, action) => {
     case actionType.DELETE_PRODUCT:
       const newCart = state.cartAr;
       const objIndex = newCart.findIndex(
-        (obj) => obj.id == action.payload.id && obj.size == action.payload.size
+        (obj) =>
+          obj.product.id == action.payload.product.id &&
+          obj.size == action.payload.size
       );
       newCart.splice(objIndex, 1);
       const newState = { cartAr: newCart };
@@ -82,7 +87,10 @@ const cartReducer = (state = initState, action) => {
     case actionType.INCREAMENT_PRODUCT:
       console.log("Ping");
       const cartTemp = state.cartAr.map((item) => {
-        if (item.id === action.payload.id && item.size == action.payload.size) {
+        if (
+          item.product.id === action.payload.product.id &&
+          item.size == action.payload.size
+        ) {
           console.log("Ping");
           return { ...item, quanlity: item.quanlity + 1 };
         }
@@ -93,7 +101,10 @@ const cartReducer = (state = initState, action) => {
       return newStateIncree;
     case actionType.DEREAMENT_PRODUCT:
       const cartTemp2 = state.cartAr.map((item) => {
-        if (item.id === action.payload.id && item.size == action.payload.size) {
+        if (
+          item.product.id === action.payload.product.id &&
+          item.size == action.payload.size
+        ) {
           if (action.payload.quanlity > 1) {
             return { ...item, quanlity: item.quanlity - 1 };
           } else {

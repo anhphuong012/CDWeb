@@ -80,6 +80,7 @@ export default function HomePage() {
     inputRef.current = 1;
     setValue(newValue);
   };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -99,7 +100,9 @@ export default function HomePage() {
     }
   };
 
-  console.log("Current:" + inputRef.current);
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  console.log(user);
+  console.log(user != null ? user.id : "");
   console.log("Data:" + data);
   return (
     <div>
@@ -173,7 +176,7 @@ export default function HomePage() {
                             item.category == 4 ||
                             item.category == 3
                         )
-                        .slice(0, 4)
+                        .slice(0, 3)
                         .map((item, index) => {
                           return (
                             <Card product={item} type="New" bg="bg-warning" />
@@ -188,7 +191,7 @@ export default function HomePage() {
                         .filter(
                           (item) => item.category == 1 || item.category == 2
                         )
-                        .slice(0, 4)
+                        .slice(0, 3)
                         .map((item, index) => {
                           return (
                             <Card product={item} type="New" bg="bg-warning" />
@@ -203,7 +206,7 @@ export default function HomePage() {
                         .filter(
                           (item) => item.category == 7 || item.category == 8
                         )
-                        .slice(0, 4)
+                        .slice(0, 3)
                         .map((item, index) => {
                           return (
                             <Card product={item} type="New" bg="bg-warning" />

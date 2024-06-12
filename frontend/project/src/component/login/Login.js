@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import axios from 'axios';
+import axios from "axios";
 
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
@@ -16,34 +16,49 @@ import "../login/login.css";
 import { Button } from "react-bootstrap";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const handleRegisterClick = () => {
-    navigate('/register');
+    navigate("/register");
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      console.log("aaaaa")
-      const response = await axios.post('http://192.168.1.146:8081/auth/token', {
+      console.log("aaaaa");
+      const response = await axios.post("http://192.168.1.10:8081/auth/token", {
         email,
-        password
+        password,
       });
       if (response.data.result.authenticated) {
+        const cart = response.data.result.user.cart.listCartItem;
+        const user = response.data.result.user;
         // Lưu token vào Session Storage
-        sessionStorage.setItem('token', response.data.result.token);
-        navigate('/');
+        sessionStorage.setItem("token", response.data.result.token);
+
+        try {
+          sessionStorage.setItem("user", JSON.stringify(user));
+          sessionStorage.setItem("cart", JSON.stringify(cart));
+          console.log("Ok");
+        } catch (error) {
+          console.log(error);
+        }
+        console.log(Array.isArray(response.data.result.user.cart.listCartItem));
+        const cartSession = sessionStorage.getItem("cart");
+        console.log(cartSession);
+
+        document.location.href = "/";
       } else {
-        setMessage('Login failed', response.data);
+        setMessage("Login failed", response.data);
       }
     } catch (error) {
-      setMessage('Login failed', error.response);
+      setMessage("Login failed", error.response);
     }
   };
+  console.log(message);
   return (
     <div>
       <Header></Header>
@@ -123,16 +138,13 @@ export default function Login() {
                   </div>
                   <div class="auth__form__buttons">
                     <div>
-                      <div
-                        class="grecaptcha-badge">
-                      </div>
+                      <div class="grecaptcha-badge"></div>
                     </div>
                     <button
                       id="but_login_email"
                       name="but_login_email"
                       class="btn btn--large g-recaptcha"
                       type="submit"
-
                     >
                       Đăng nhập
                     </button>
@@ -156,7 +168,9 @@ export default function Login() {
                 </p>
 
                 <div className="auth__form__buttons">
-                  <button class="btn btn--large" onClick={handleRegisterClick}>Đăng ký</button>
+                  <button class="btn btn--large" onClick={handleRegisterClick}>
+                    Đăng ký
+                  </button>
                 </div>
               </div>
             </div>

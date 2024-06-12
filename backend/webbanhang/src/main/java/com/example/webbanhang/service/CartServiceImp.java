@@ -78,4 +78,28 @@ public class CartServiceImp implements ICartService {
 		return cart;
 	}
 
+	@Override
+	public boolean changeQuanlity(Long userId, Long productId, String size,int type) {
+		CartEntity cart = findCartByUser(userId);
+		ProductEntity productEntity = productEntiryRepository.findById(productId).get();
+		CartItemEntity cartItem = cartItemEntityRepository.findByCartAndProductAndSize(cart,productEntity,size);
+		if(type == ICartService.INCREAMENT){
+			cartItem.setQuanlity(cartItem.getQuanlity() + 1);
+		}else if(type == ICartService.DECREAMENT){
+			cartItem.setQuanlity(cartItem.getQuanlity() - 1);
+		}
+		cartItemEntityRepository.save(cartItem);
+		return true;
+	}
+
+	@Override
+	public boolean delete(Long userId, Long productId, String size) {
+		CartEntity cart = findCartByUser(userId);
+		ProductEntity productEntity = productEntiryRepository.findById(productId).get();
+		CartItemEntity cartItem = cartItemEntityRepository.findByCartAndProductAndSize(cart,productEntity,size);
+		cartItemEntityRepository.delete(cartItem);
+		return false;
+	}
+
+
 }

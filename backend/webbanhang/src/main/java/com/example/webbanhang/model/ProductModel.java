@@ -95,6 +95,7 @@ public class ProductModel {
 		result.setPrice(productEntiry.getPrice());
 		result.setDescreption(productEntiry.getDescreption());
 		result.setCategory(productEntiry.getCategory().getId());
+		result.setImage(productEntiry.getImage());
 
 		List<SizeModel> sizeResult = new ArrayList<>();
 

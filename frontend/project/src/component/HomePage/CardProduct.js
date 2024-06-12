@@ -17,6 +17,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+import axios from "axios";
 
 export function Card(props) {
   const product = props.product;
@@ -26,20 +29,47 @@ export function Card(props) {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
+  const navigate = useNavigate();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = (size) => {
+  const handleClose = async (size) => {
     setAnchorEl(null);
-    let cartProduct = product;
-    cartProduct.quanlity = 1;
-    cartProduct.size = size;
+    if (sessionStorage.getItem("user") == null) {
+      navigate("/login");
+    } else {
+      let cartProduct = {
+        product: product,
+        quanlity: 1,
+        size: size,
+      };
+      // cartProduct.quanlity = 1;
+      // cartProduct.size = size;
 
-    console.log("Size:" + size);
-    props.buyProduct(cartProduct);
-    toast.success("Thêm vào giỏ thành công!", {
-      className: "Thông báo",
-    });
+      try {
+        const user = JSON.parse(sessionStorage.getItem("user"));
+        const response = await axios.post(
+          `/api/cart/${user.id}?productId=${product.id}&quanlity=1&size=${size}`
+        );
+        console.log(response);
+        if (response.status == 200) {
+          console.log("Size:" + size);
+          console.log(cartProduct);
+          props.buyProduct(cartProduct);
+          toast.success("Thêm vào giỏ thành công!", {
+            className: "Thông báo",
+          });
+        } else {
+          toast.error("xảy ra lỗi!", {
+            className: "Thông báo",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
   const handleCloseIcon = () => {
     setAnchorEl(null);

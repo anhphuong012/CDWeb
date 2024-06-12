@@ -1,11 +1,6 @@
 package com.example.webbanhang.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -25,7 +20,7 @@ public class UserEntity {
 	private String address;
 	private int role;
 	
-	@OneToOne(mappedBy = "user")
+	@OneToOne(fetch = FetchType.LAZY,mappedBy = "user")
 	private CartEntity cart;
 
 	public UserEntity(String username, String password, String fullname, String phone, String email, String ward, String district, String city, String address, int role) {
