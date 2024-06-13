@@ -10,4 +10,6 @@ import com.example.webbanhang.Entity.ProductEntity;
 public interface ProductEntiryRepository extends CrudRepository<ProductEntity, Long> {
 	List<ProductEntity> findByNameContains(String name);
 	List<ProductEntity> findByCategory(CategoryEntity category);
+
+	List<ProductEntity> findByCategoryIn(List<CategoryEntity> categories);
 }

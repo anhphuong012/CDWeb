@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Locale.Category;
 import java.util.Random;
 
+import com.example.webbanhang.Entity.CartItemEntity;
 import com.example.webbanhang.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -91,6 +92,32 @@ public class ProductService {
 
         List<ProductEntity> listPd = productEntityRepository.findByCategory(cate);
         List<ProductModel> result = new ArrayList<>();
+        ProductModel productModel;
+        for (ProductEntity productEntity : listPd) {
+            productModel = ProductModel.convert(productEntity);
+
+            String url = baseUrl + "/api/file/" + productEntity.getImage() + ".jpg";
+
+            productModel.setImage(url);
+
+            result.add(productModel);
+        }
+        return result;
+    }
+
+    public List<ProductModel> findProductByCategories(List<Long> ids) {
+        List<ProductEntity> listPd = new ArrayList<>();
+        CategoryEntity temp;
+        List<ProductModel> result = new ArrayList<>();
+
+        for (Long id :
+                ids) {
+            temp = categoryEntityRepository.findById(id).get();
+            listPd.addAll(productEntityRepository.findByCategory(temp));
+        }
+
+
+
         ProductModel productModel;
         for (ProductEntity productEntity : listPd) {
             productModel = ProductModel.convert(productEntity);

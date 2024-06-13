@@ -89,9 +89,12 @@ const Header = ({ product }) => {
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <Link class="dropdown-item" to="/category/1">
+                    {/* <Link class="dropdown-item" to="/category/all?type=male">
                       Toàn bộ
-                    </Link>
+                    </Link> */}
+                    <a class="dropdown-item" href="/category/all?type=male">
+                      Toàn bộ
+                    </a>
                   </li>
                   <li>
                     <a class="dropdown-item" href="/category/1">
@@ -116,7 +119,7 @@ const Header = ({ product }) => {
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" href="/category/6">
+                    <a class="dropdown-item" href="/category/all?type=female">
                       Toàn bộ
                     </a>
                   </li>
@@ -154,7 +157,7 @@ const Header = ({ product }) => {
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" href="/category/7">
+                    <a class="dropdown-item" href="/category/all?type=kid">
                       Toàn bộ
                     </a>
                   </li>

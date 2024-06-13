@@ -13,7 +13,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./detail.css";
 import { Button } from "react-bootstrap";
 
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -34,6 +34,8 @@ export function ProductDetail(props) {
   console.log("Select size:" + selectSize);
 
   const params = useParams();
+  const navigate = useNavigate();
+
   const keyword = params.id;
   console.log("key:" + keyword);
 
@@ -57,42 +59,46 @@ export function ProductDetail(props) {
   console.log("Item:" + item);
 
   const handleCart = async (product) => {
-    if (selectSize != null) {
-      // let cartProduct = product;
-      // cartProduct.quanlity = 1;
-      // cartProduct.size = selectSize;
-      // props.buyProduct(cartProduct);
-
-      let cartProduct = {
-        product: product,
-        quanlity: 1,
-        size: selectSize,
-      };
-      // cartProduct.quanlity = 1;
-      // cartProduct.size = size;
-
-      try {
-        const user = JSON.parse(sessionStorage.getItem("user"));
-        const response = await axios.post(
-          `/api/cart/${user.id}?productId=${product.id}&quanlity=1&size=${selectSize}`
-        );
-        console.log(response);
-        if (response.status == 200) {
-          console.log("Size:" + selectSize);
-          console.log(cartProduct);
-          props.buyProduct(cartProduct);
-          setSelectSize(null);
-          toast.success("Đã thêm vào giỏ hàng!");
-        } else {
-          toast.error("xảy ra lỗi!", {
-            className: "Thông báo",
-          });
-        }
-      } catch (error) {
-        console.log(error);
-      }
+    if (sessionStorage.getItem("user") == null) {
+      navigate("/login");
     } else {
-      toast.error("Vui lòng chọn size!");
+      if (selectSize != null) {
+        // let cartProduct = product;
+        // cartProduct.quanlity = 1;
+        // cartProduct.size = selectSize;
+        // props.buyProduct(cartProduct);
+
+        let cartProduct = {
+          product: product,
+          quanlity: 1,
+          size: selectSize,
+        };
+        // cartProduct.quanlity = 1;
+        // cartProduct.size = size;
+
+        try {
+          const user = JSON.parse(sessionStorage.getItem("user"));
+          const response = await axios.post(
+            `/api/cart/${user.id}?productId=${product.id}&quanlity=1&size=${selectSize}`
+          );
+          console.log(response);
+          if (response.status == 200) {
+            console.log("Size:" + selectSize);
+            console.log(cartProduct);
+            props.buyProduct(cartProduct);
+            setSelectSize(null);
+            toast.success("Đã thêm vào giỏ hàng!");
+          } else {
+            toast.error("xảy ra lỗi!", {
+              className: "Thông báo",
+            });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        toast.error("Vui lòng chọn size!");
+      }
     }
   };
   return (

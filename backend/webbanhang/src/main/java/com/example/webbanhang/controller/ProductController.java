@@ -1,6 +1,7 @@
 package com.example.webbanhang.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.example.webbanhang.dto.ProductDTO;
 import com.example.webbanhang.model.ProductModel;
@@ -50,6 +51,15 @@ public class ProductController {
 
         return ResponseEntity.status(HttpStatus.OK).headers(headers)
                 .body(new ReposeOject("OK", " Success", productService.findProductByCategory(id)));
+    }
+
+    @GetMapping(value = "/category", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity<ReposeOject> findByCategorys(@RequestParam List<Long> ids) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+
+        return ResponseEntity.status(HttpStatus.OK).headers(headers)
+                .body(new ReposeOject("OK", " Success", productService.findProductByCategories(ids)));
     }
 
     @GetMapping(value = "/product/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -103,7 +103,28 @@ export default function HomePage() {
   const user = JSON.parse(sessionStorage.getItem("user"));
   console.log(user);
   console.log(user != null ? user.id : "");
-  console.log("Data:" + data);
+  console.log(data);
+  console.log("New value" + indexNew);
+
+  const handleClick = (type) => {
+    if (value == 0) {
+      document.location.href = "/category/all?type=female&find=" + type;
+    } else if (value == 1) {
+      document.location.href = "/category/all?type=male&find=" + type;
+    } else if (value == 2) {
+      document.location.href = "/category/all?type=kid&find=" + type;
+    }
+  };
+
+  const handleTwoType = (type) => {
+    //Index new là chỉ số ở sản phẩm hot
+    if (indexNew == 0) {
+      document.location.href = "/category/all?type=female&find=" + type;
+    } else if (indexNew == 1) {
+      document.location.href = "/category/all?type=kid&find=" + type;
+    }
+  };
+
   return (
     <div>
       <Header></Header>
@@ -176,7 +197,7 @@ export default function HomePage() {
                             item.category == 4 ||
                             item.category == 3
                         )
-                        .slice(0, 3)
+                        .slice(-3)
                         .map((item, index) => {
                           return (
                             <Card product={item} type="New" bg="bg-warning" />
@@ -191,7 +212,7 @@ export default function HomePage() {
                         .filter(
                           (item) => item.category == 1 || item.category == 2
                         )
-                        .slice(0, 3)
+                        .slice(-3)
                         .map((item, index) => {
                           return (
                             <Card product={item} type="New" bg="bg-warning" />
@@ -206,7 +227,7 @@ export default function HomePage() {
                         .filter(
                           (item) => item.category == 7 || item.category == 8
                         )
-                        .slice(0, 3)
+                        .slice(-3)
                         .map((item, index) => {
                           return (
                             <Card product={item} type="New" bg="bg-warning" />
@@ -283,7 +304,13 @@ export default function HomePage() {
           </div> */}
 
           <div className="justify-content-center mt-5 ">
-            <button type="button" class="btn btn-outline-dark btn-black">
+            <button
+              type="button"
+              class="btn btn-outline-dark btn-black"
+              onClick={() => {
+                handleClick("new");
+              }}
+            >
               Xem tất cả
             </button>
           </div>
@@ -319,54 +346,37 @@ export default function HomePage() {
                 </Box>
                 <CustomTabPanel value={indexNew} index={0}>
                   <div className="row list-card">
-                    {/* <Card
-                      title="What is Lorem Ipsum?"
-                      images="https://pubcdn.ivymoda.com/files/product/thumab/400/2024/03/22/467a20e0d092334cb796d81c30881d75.JPG"
-                      old_price="9,999"
-                      newPrice="9999"
-                      dollar="$"
-                      alt="batman"
-                      exp_date="10-08-2022"
-                      type="Hot"
-                      bg="bg-danger"
-                    />
-                    <Card
-                      title="What is Lorem Ipsum?"
-                      images="../images/blackpanter.png"
-                      old_price="599"
-                      newPrice="500"
-                      dollar="$"
-                      alt="blackpanter"
-                      exp_date="10-08-2022"
-                      type="Hot"
-                      bg="bg-danger"
-                    />
-                    <Card
-                      title="What is Lorem Ipsum?"
-                      images="../images/arthur.png"
-                      old_price="7999"
-                      newPrice="7000"
-                      dollar="$"
-                      alt="arthur"
-                      exp_date="10-08-2022"
-                      type="Hot"
-                      bg="bg-danger"
-                    />
-                    <Card
-                      title="What is Lorem Ipsum?"
-                      images="../images/kashima.png"
-                      old_price="999"
-                      newPrice="500"
-                      dollar="$"
-                      alt="kashima"
-                      exp_date="10-08-2022"
-                      type="Hot"
-                      bg="bg-danger"
-                    /> */}
+                    {data != null &&
+                      data
+                        .filter(
+                          (item) =>
+                            item.category == 6 ||
+                            item.category == 5 ||
+                            item.category == 4 ||
+                            item.category == 3
+                        )
+                        .slice(0, 3)
+                        .map((item, index) => {
+                          return (
+                            <Card product={item} type="Hot" bg="bg-danger" />
+                          );
+                        })}
                   </div>
                 </CustomTabPanel>
                 <CustomTabPanel value={indexNew} index={1}>
-                  Item Two Đây nè
+                  <div className="row list-card">
+                    {data != null &&
+                      data
+                        .filter(
+                          (item) => item.category == 7 || item.category == 8
+                        )
+                        .slice(0, 3)
+                        .map((item, index) => {
+                          return (
+                            <Card product={item} type="Hot" bg="bg-danger" />
+                          );
+                        })}
+                  </div>
                 </CustomTabPanel>
               </Box>
 
@@ -437,7 +447,13 @@ export default function HomePage() {
           </div> */}
           <ToastContainer position="bottom-right" />
           <div className="justify-content-center mt-5 ">
-            <button type="button" class="btn btn-outline-dark btn-black">
+            <button
+              type="button"
+              class="btn btn-outline-dark btn-black"
+              onClick={() => {
+                handleTwoType("hot");
+              }}
+            >
               Xem tất cả
             </button>
           </div>
