@@ -2,6 +2,8 @@ package com.example.webbanhang.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class UserEntity {
@@ -22,6 +24,9 @@ public class UserEntity {
 	
 	@OneToOne(fetch = FetchType.LAZY,mappedBy = "user")
 	private CartEntity cart;
+
+	@OneToMany(mappedBy = "user")
+	private List<OrderEntity> orders;
 
 	public UserEntity(String username, String password, String fullname, String phone, String email, String ward, String district, String city, String address, int role) {
 		this.username = username;
@@ -109,7 +114,12 @@ public class UserEntity {
 	public Long getId() {
 		return id;
 	}
-	
-	
 
+	public List<OrderEntity> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<OrderEntity> orders) {
+		this.orders = orders;
+	}
 }
