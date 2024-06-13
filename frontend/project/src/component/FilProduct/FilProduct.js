@@ -15,6 +15,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import $, { map } from "jquery";
 import "./product.css";
+import { useSearchParams } from "react-router-dom";
 
 import Link from "@mui/material/Link";
 
@@ -27,6 +28,11 @@ export default function FilProduct() {
 
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const [find, setFind] = useState(null);
+
+  const [searchParams] = useSearchParams();
+
+  const [load, setLoad] = useState(false);
 
   const listCategory = [
     "Áo Nam",
@@ -37,6 +43,9 @@ export default function FilProduct() {
     "Váy-đầm Nữ",
     "Áo trẻ em",
     "Quần trẻ em",
+    "Toàn bộ đồ Nam",
+    "Toàn bộ đồ Nữ",
+    "Toàn bộ Đồ Trẻ Em",
   ];
   const [checkboxes, setCheckboxes] = useState({
     M: false,
@@ -45,7 +54,7 @@ export default function FilProduct() {
     XXL: false,
   });
 
-  const [value, setValue] = useState(10);
+  const [value, setValue] = useState(0);
   const params = useParams();
   const keyword = params.id;
   const handleCheckboxChange = (checkboxName) => {
@@ -56,12 +65,40 @@ export default function FilProduct() {
   };
 
   const fetchData = async (keyword) => {
-    const response = await axios.get(`/api/products/category/${keyword}`);
+    var ids;
+    if (keyword == "all") {
+      const type = searchParams.get("type");
+      const find = searchParams.get("find");
+      if (find != null) {
+        setFind(find);
+      }
+      if (type == "male") {
+        ids = "1,2";
+        setValue(8);
+      } else if (type == "female") {
+        ids = "3,4,5,6";
+        setValue(9);
+      } else if (type == "kid") {
+        ids = "7,8";
+        setValue(10);
+      }
+    } else {
+      ids = keyword;
+      setValue(parseInt(keyword, 10) - 1);
+    }
+    console.log(ids);
+    const response = await axios.get(`/api/products/category?ids=${ids}`);
 
     if (response.status == 200) {
       if (response.data.data != null) {
-        setData(response.data.data);
-        setTemp(response.data.data);
+        if (find != null) {
+          const returnData = response.data.data.sort((a, b) => b.id - a.id);
+          setData(returnData);
+          setTemp(returnData);
+        } else {
+          setData(response.data.data);
+          setTemp(response.data.data);
+        }
       }
     }
   };
@@ -212,7 +249,9 @@ export default function FilProduct() {
           </div>
           <div className="col-9 right-element">
             <div className="head">
-              <h3>{listCategory[parseInt(keyword, 10) - 1]}</h3>
+              <h3>
+                {listCategory[value]} {find != null ? find : ""}
+              </h3>
               <div>
                 <label>
                   <select
@@ -256,7 +295,19 @@ export default function FilProduct() {
             <div className="row list-card mt-3">
               {data != null &&
                 data.map((item) => {
-                  return <Card product={item} />;
+                  return (
+                    <Card
+                      product={item}
+                      type={find != null ? find : ""}
+                      bg={
+                        find == null
+                          ? ""
+                          : find == "new"
+                          ? "bg-warning"
+                          : "bg-danger"
+                      }
+                    />
+                  );
                 })}
             </div>
           </div>
