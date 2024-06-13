@@ -23,14 +23,13 @@ import java.util.*;
 public class PaymentController {
 
     @PostMapping("/create")
-    public @ResponseBody ResponseEntity<ReposeOject> create(@RequestParam(value = "amount")long amount,
-                                                            @RequestParam(value = "orderId")String vnp_TxnRef) throws UnsupportedEncodingException {
+    public @ResponseBody ResponseEntity<ReposeOject> create(@RequestParam(value = "amount")long amount) throws UnsupportedEncodingException {
 //        long amount = Integer.parseInt(req.getParameter("amount"))*100;
 //        String bankCode = req.getParameter("bankCode");
 
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-//        String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
+        String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
         String vnp_IpAddr = VNPayConfig.getIpAddress(request);
 
         String vnp_TmnCode = VNPayConfig.vnp_TmnCode;

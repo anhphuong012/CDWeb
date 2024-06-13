@@ -327,9 +327,17 @@ export function Cart(props) {
       </div>
 
       <div className={"wrap-btn-cart"}>
-        <button type="button" class="btn btn-outline-dark btn-cart">
-          Đăng Nhập
-        </button>
+        {sessionStorage.getItem("user") == null && (
+          <button type="button" class="btn btn-outline-dark btn-cart">
+            Đăng Nhập
+          </button>
+        )}
+
+        {sessionStorage.getItem("user") != null && (
+          <button type="button" class="btn btn-outline-dark btn-cart">
+            Đặt hàng
+          </button>
+        )}
       </div>
     </Box>
   );
