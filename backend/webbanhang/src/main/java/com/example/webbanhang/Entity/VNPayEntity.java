@@ -19,6 +19,8 @@ public class VNPayEntity {
 
     private int amount;
 
+    private int status;
+
     public VNPayEntity(){
 
     }
@@ -55,6 +57,14 @@ public class VNPayEntity {
 
     public int getAmount() {
         return amount;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public void setAmount(int amount) {

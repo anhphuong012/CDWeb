@@ -1,10 +1,9 @@
 package com.example.webbanhang.controller;
 
 import com.example.webbanhang.config.VNPayConfig;
-import com.example.webbanhang.model.PaymentModel;
+import com.example.webbanhang.model.VNPayModel;
 import com.example.webbanhang.model.ReposeOject;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -123,7 +122,7 @@ public class PaymentController {
             reposeOject.setStatus("00");
             reposeOject.setMessage("Hoan thanh");
             System.out.println(vnp_Amount);
-            reposeOject.setData(new PaymentModel(vnp_Amount,vnp_TransactionNo,vnp_TxnRef));
+            reposeOject.setData(new VNPayModel(vnp_Amount,vnp_TransactionNo,vnp_TxnRef));
         }else if(vnp_ResponseCode.equals("51")){
             reposeOject.setStatus("51");
             reposeOject.setMessage("Tai khoan khong du so du");

@@ -13,8 +13,16 @@ public class OrderController {
 
     @Autowired
     OrderService orderService;
+
+    @GetMapping(value = "/{id}")
+    public @ResponseBody ResponseEntity<ReposeOject> getOrder(@PathVariable Long id){
+        System.out.println("find");
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ReposeOject("OK", " Success",orderService.findOrderByUserId(id) ));
+    }
     @PostMapping("/{id}")
     public @ResponseBody ResponseEntity<ReposeOject> createOrder(@PathVariable Long id,@RequestParam(value = "orderId",required = false)Long orderId,@RequestParam(value = "idVnpay",required = false)String idVnpay){
+        System.out.print("Đã vào order");
         boolean check = orderService.order(id,orderId,idVnpay);
         if(check){
             return ResponseEntity.status(HttpStatus.OK)
@@ -24,5 +32,7 @@ public class OrderController {
                     .body(new ReposeOject("Failed", " Failed",false ));
         }
     }
+
+
 
 }
