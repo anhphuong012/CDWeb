@@ -2,7 +2,9 @@ package com.example.webbanhang.service;
 
 import com.example.webbanhang.Entity.*;
 import com.example.webbanhang.config.VNPayConfig;
+import com.example.webbanhang.model.OrderModel;
 import com.example.webbanhang.repository.*;
+import com.example.webbanhang.util.PaymentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +56,7 @@ public class OrderService implements IOrderService{
             temp = new OrderItemEntity();
             temp.setProduct(item.getProduct());
             temp.setQuanlity(item.getQuanlity());
+            temp.setSize(item.getSize());
             temp.setOrder(order);
 
 //            orderItemRepository.save(temp);
@@ -71,7 +74,8 @@ public class OrderService implements IOrderService{
             vnpay.setIdVNPay(Long.parseLong(vnpayId));
             vnpay.setOrder(order);
             vnpay.setAmount(totalPrice);
-//            vnPayRepository.save(vnpay);
+            vnpay.setStatus(PaymentStatus.PAY);
+            vnPayRepository.save(vnpay);
 
             order.setPay(vnpay);
             order.setTypePayment("Thanh toán qua VNPAY");
@@ -90,5 +94,22 @@ public class OrderService implements IOrderService{
         }
 
         return check;
+    }
+
+    public List<OrderModel> findOrderByUserId(Long userId){
+        System.out.println("service");
+        UserEntity user = userRepository.findById(userId).get();
+        System.out.println("User:" + user.getId());
+        List<OrderEntity> orders = orderRepository.findByUser(user);
+        System.out.println(orders.size());
+        List<OrderModel> ordersModel = new ArrayList<>();
+
+        for (OrderEntity entity:
+             orders) {
+            ordersModel.add(OrderModel.orderModel(entity));
+
+        }
+
+        return ordersModel;
     }
 }

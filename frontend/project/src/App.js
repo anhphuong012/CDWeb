@@ -17,6 +17,8 @@ import HeaderAdmin from "./admin/HeaderAdmin/HeaderAdmin.js";
 import ManagerProduct from "./admin/ManagerProduct/ManagerProduct.js";
 import AddProduct from "./admin/ManagerProduct/AddProduct.js";
 import EditProduct from "./admin/ManagerProduct/EditProduct.js";
+import Order from "./component/Order/Order.js";
+import History from "./component/Order/History.js";
 
 function App() {
   return (
@@ -40,6 +42,8 @@ function App() {
             path="/search/:keyword"
             element={<SearchKey></SearchKey>}
           ></Route>
+          <Route path="/order" element={<Order></Order>}></Route>
+          <Route path="/order/history" element={<History></History>}></Route>
 
           <Route
             path="/admin/dashboard"

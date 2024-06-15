@@ -117,7 +117,7 @@ public class UserModel implements Serializable {
         this.cart = cart;
     }
 
-    public UserModel(Long id, String username, String fullname, String phone, String email, String ward, String district, String city, String address, int role, CartModel cart) {
+    public UserModel(Long id, String username, String fullname, String phone, String email, String ward, String district, String city, String address, int role) {
         this.id = id;
         this.username = username;
         this.fullname = fullname;
@@ -131,6 +131,14 @@ public class UserModel implements Serializable {
         this.cart = cart;
     }
     public static UserModel convert(UserEntity userEntity){
-        return new UserModel(userEntity.getId(),userEntity.getUsername(), userEntity.getFullname(), userEntity.getPhone(), userEntity.getEmail(), userEntity.getWard(), userEntity.getDistrict(),  userEntity.getCity(), userEntity.getAddress(),userEntity.getRole(),CartModel.convert(userEntity.getCart()));
+        UserModel model = new UserModel(userEntity.getId(),userEntity.getUsername(), userEntity.getFullname(), userEntity.getPhone(), userEntity.getEmail(), userEntity.getWard(), userEntity.getDistrict(),  userEntity.getCity(), userEntity.getAddress(),userEntity.getRole());
+
+        System.out.println("Toi cart");
+        if( userEntity.getCart() == null){
+            model.setCart(new CartModel());
+        }else {
+            model.setCart(CartModel.convert(userEntity.getCart()));
+        }
+        return model;
     }
 }

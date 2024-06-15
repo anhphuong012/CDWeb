@@ -116,7 +116,10 @@ const cartReducer = (state = initState, action) => {
       const newStateDecree = { cartAr: cartTemp2 };
       sessionStorage.setItem("cart", JSON.stringify(newStateDecree.cartAr));
       return newStateDecree;
-
+    case actionType.CLEAR_CART:
+      const clearState = { cartAr: [] };
+      sessionStorage.setItem("cart", JSON.stringify(clearState.cartAr));
+      return clearState;
     default:
       return state;
   }

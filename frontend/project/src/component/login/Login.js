@@ -41,7 +41,11 @@ export default function Login() {
 
         try {
           sessionStorage.setItem("user", JSON.stringify(user));
-          sessionStorage.setItem("cart", JSON.stringify(cart));
+          if (cart == null) {
+            sessionStorage.setItem("cart", []);
+          } else {
+            sessionStorage.setItem("cart", JSON.stringify(cart));
+          }
           console.log("Ok");
         } catch (error) {
           console.log(error);

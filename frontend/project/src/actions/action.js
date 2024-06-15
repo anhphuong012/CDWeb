@@ -26,3 +26,9 @@ export const decreaProduct = (product) => {
     payload: product,
   };
 };
+
+export const clearCart = () => {
+  return {
+    type: actionType.CLEAR_CART,
+  };
+};

@@ -3,10 +3,13 @@ import React, { useEffect, useState } from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { useLocation, useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
+import { clearCart } from "../../actions/action";
 
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap/dist/css/bootstrap.min.css";
-export default function Payment() {
+import axios from "axios";
+function Payment(props) {
   const location = useLocation();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -15,6 +18,7 @@ export default function Payment() {
   const [amountState, setAmountState] = useState("");
   const [orderState, setOrderState] = useState("");
   const [vnpayIdSate, setVnpayIdSate] = useState("");
+  const [isDelete, setIsDelete] = useState(false);
 
   //   const queryParams = new URLSearchParams(location.search);
 
@@ -31,39 +35,41 @@ export default function Payment() {
     setOrderState(orderId);
     setVnpayIdSate(vnpayId);
 
-    if (responseCode != "00") {
+    if (responseCode == "00") {
+      const callApi = async () => {
+        try {
+          const user = JSON.parse(sessionStorage.getItem("user"));
+          const response = await axios.post(
+            `/api/order/${user.id}?orderId=${orderId}&idVnpay=${vnpayId}`
+          );
+          if (response.status == 200) {
+            sessionStorage.setItem("cart", []);
+            clearCart();
+            setIsDelete(!isDelete);
+            const timer = setInterval(() => {
+              setCountdown((prevCountdown) => {
+                if (prevCountdown === 1) {
+                  clearInterval(timer);
+                  document.location.href = "/order/history";
+                  return;
+                }
+                return prevCountdown - 1;
+              });
+            }, 1000);
+          }
+        } catch (error) {
+          // setError(error.message);
+          console.log(error);
+        }
+      };
+
+      callApi();
+    } else if (responseCode == 24) {
+      navigate("/order");
+    } else {
       setError("Missing parameters");
       return;
     }
-
-    const callApi = async () => {
-      //   try {
-      //     const response = await fetch(
-      //       `/api/some-endpoint?param1=${orderId}&param2=${vnpayId}`
-      //     );
-      //     if (!response.ok) {
-      //       throw new Error("API call failed");
-      //     }
-      // const data = await response.json();
-      // Xử lý dữ liệu từ API nếu cần thiết
-
-      const timer = setInterval(() => {
-        setCountdown((prevCountdown) => {
-          if (prevCountdown === 1) {
-            clearInterval(timer);
-            //   navigate("/new-route");
-            return;
-          }
-          return prevCountdown - 1;
-        });
-      }, 1000);
-      //   }
-      //   catch (error) {
-      //     setError(error.message);
-      //   }
-    };
-
-    callApi();
   }, [location, navigate]);
 
   if (error) {
@@ -77,10 +83,24 @@ export default function Payment() {
       <div style={{ marginTop: "7rem", marginBottom: "7rem" }}>
         {" "}
         Đã thanh toán đơn hàng {orderState} với mã giao dịch {vnpayIdSate} với
-        số tiền {amountState}{" "}
+        số tiền {(parseInt(amountState) / 100).toLocaleString("vi-VN")} VNĐ{" "}
       </div>
       <div>Sẽ trở về trang đơn hàng sau {countdown}</div>
       <Footer></Footer>
     </div>
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    cart: state.cart.cartAr,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    clearCart: () => {
+      dispatch(clearCart());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Payment);

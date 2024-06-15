@@ -22,6 +22,7 @@ import axios from "axios";
 export function Cart(props) {
   const [open, setOpen] = React.useState(false);
   const [isDelete, setIsDelete] = React.useState(false);
+  const navigate = useNavigate();
 
   console.log("Cart: " + props.cart.length);
 
@@ -320,21 +321,33 @@ export function Cart(props) {
         </span>
       </div>
       <Divider />
-      <div className={"wrap-btn-cart"}>
+      {/* <div className={"wrap-btn-cart"}>
         <button type="button" class="btn btn-outline-dark btn-cart">
           Xem Giỏ Hàng
         </button>
-      </div>
+      </div> */}
 
       <div className={"wrap-btn-cart"}>
         {sessionStorage.getItem("user") == null && (
-          <button type="button" class="btn btn-outline-dark btn-cart">
+          <button
+            type="button"
+            class="btn btn-outline-dark btn-cart"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
             Đăng Nhập
           </button>
         )}
 
         {sessionStorage.getItem("user") != null && (
-          <button type="button" class="btn btn-outline-dark btn-cart">
+          <button
+            type="button"
+            class="btn btn-outline-dark btn-cart"
+            onClick={() => {
+              navigate("/order");
+            }}
+          >
             Đặt hàng
           </button>
         )}

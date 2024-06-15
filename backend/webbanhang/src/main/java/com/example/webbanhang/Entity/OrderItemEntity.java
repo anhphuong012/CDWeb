@@ -17,6 +17,7 @@ public class OrderItemEntity {
     @JoinColumn(name = "product_id")
     private ProductEntity product;
 
+    private String size;
     private int quanlity;
 
     public OrderItemEntity(){
@@ -62,5 +63,13 @@ public class OrderItemEntity {
 
     public void setQuanlity(int quanlity) {
         this.quanlity = quanlity;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 }
