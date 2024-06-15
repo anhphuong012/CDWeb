@@ -1,7 +1,8 @@
 import HeaderAdmin from "../HeaderAdmin/HeaderAdmin";
-import "./managerProduct.css";
+import "../ManagerProduct/managerProduct.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "./order.css";
 
 import React, { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
@@ -25,23 +26,32 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+
 import CircularProgress from "@mui/material/CircularProgress";
+import CheckIcon from "@mui/icons-material/Check";
 
 import { useNavigate } from "react-router-dom";
 
 const columns = [
   { id: "id", label: "ID", minWidth: 100 },
-  { id: "name", label: "Tên Sản Phẩm", minWidth: 170 },
+  { id: "name", label: "Người đặt", minWidth: 170 },
   {
-    id: "image",
-    label: "Hình ảnh",
-    minWidth: 120,
+    id: "dateCreate",
+    label: "Ngày đặt",
+    minWidth: 180,
+    align: "left",
+  },
+  {
+    id: "price",
+    label: "Tổng tiền",
+    minWidth: 170,
     align: "left",
     format: (value) => value.toLocaleString("vi-VN"),
   },
   {
-    id: "price",
-    label: "Giá",
+    id: "status",
+    label: "Trạng thái",
     minWidth: 170,
     align: "left",
     format: (value) => value.toLocaleString("vi-VN"),
@@ -55,12 +65,7 @@ const columns = [
   },
 ];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-export default function ManagerProduct() {
+export default function ManagerOrderCancel() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -69,16 +74,13 @@ export default function ManagerProduct() {
 
   const [show, setShow] = useState(false);
 
-  const [selectDelete, setSelectDelete] = useState(null);
+  const [selectShow, setSelectShow] = useState(null);
   const [isLoad, setIsLoad] = useState(false);
 
-  //Lọc sản phẩm
-  const [value, setValue] = useState("");
-
   const handleClose = () => setShow(false);
-  const handleShow = (id) => {
+  const handleShow = (selectShow) => {
     setShow(true);
-    setSelectDelete(id);
+    setSelectShow(selectShow);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -93,7 +95,7 @@ export default function ManagerProduct() {
   const navigate = useNavigate();
 
   const fetchData = async () => {
-    const response = await axios.get(`/api/products`);
+    const response = await axios.get(`/api/order?status=-1`);
 
     if (response.status == 200) {
       if (response.data.data != null) {
@@ -104,48 +106,17 @@ export default function ManagerProduct() {
     }
   };
 
-  const handleDelete = async () => {
-    console.log("ID:" + selectDelete);
-    await axios({
-      method: "delete",
-      maxBodyLength: Infinity,
-      url: "/api/products/product/" + selectDelete,
-
-      data: "",
-    }).then(function (response) {
-      console.log(response);
-      if (response.status == 200) {
-        if (response.data.data == true) {
-          const updatedProducts = data.filter(
-            (product) => product.id !== selectDelete
-          );
-          setData(updatedProducts);
-          setTemp(updatedProducts);
-
-          toast.success("Xóa Sản Phẩm Thành Công!", {
-            className: "Thông báo",
-          });
-        }
-        setShow(false);
-      }
-    });
-  };
-
-  useEffect(() => {
-    if (value == "") {
-      setData(temp);
-    } else {
-      const updateData = data.filter((product) =>
-        product.name.toLowerCase().includes(value.toLowerCase())
-      );
-      setData(updateData);
-    }
-  }, [value]);
-
   useEffect(() => {
     fetchData();
     setIsLoad(true);
   }, []);
+
+  const convertDate = (dateStr) => {
+    const dateAndTime = dateStr.split("T");
+    const Time = dateAndTime[1];
+    const date = dateAndTime[0].split("-");
+    return Time + " " + date[2] + "-" + date[1] + "-" + date[0];
+  };
   return (
     <div className="container-main mb-5">
       <HeaderAdmin></HeaderAdmin>
@@ -156,47 +127,17 @@ export default function ManagerProduct() {
       )}
       {isLoad && (
         <div className="main-content">
-          <h3 className="title-manager">Quản lí sản phẩm</h3>
+          <h3 className="title-manager">Đơn hàng đã hủy</h3>
           <div className="container-form-search ">
-            <div className="mb-4 wrap-btn-add">
-              <button
-                className={"btn btn-primary"}
-                onClick={() => {
-                  navigate("/admin/products/add");
-                }}
-              >
-                Thêm sản phẩm
-              </button>
-            </div>
-            <div>
-              <Box
-                component="form"
-                sx={{
-                  "& > :not(style)": { m: 1, width: "25ch" },
-                }}
-                noValidate
-                autoComplete="off"
-              >
-                <TextField
-                  id="outlined-size-small"
-                  label="Lọc"
-                  variant="outlined"
-                  size="small"
-                  value={value}
-                  onChange={(e) => {
-                    setValue(e.target.value);
-                  }}
-                />
-              </Box>
-            </div>
+            <div className="mb-4 wrap-btn-add"></div>
           </div>
           <Paper sx={{ width: "100%" }}>
             <TableContainer sx={{ maxHeight: 440 }}>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center" colSpan={2}>
-                      Sản Phẩm
+                    <TableCell align="center" colSpan={3}>
+                      Thông tin
                     </TableCell>
                     <TableCell align="center" colSpan={3}>
                       Chức năng
@@ -240,36 +181,25 @@ export default function ManagerProduct() {
                             );
                           })} */}
                             <TableCell align="left">{row.id}</TableCell>
-                            <TableCell align="left">{row.name}</TableCell>
+                            <TableCell align="left">{row.user.email}</TableCell>
                             <TableCell align="left">
-                              <img
-                                src={row.image}
-                                className="image-product"
-                                alt={row.name}
-                              ></img>
+                              {convertDate(row.dateCreate)}
                             </TableCell>
                             <TableCell align="left">
-                              {row.price.toLocaleString("vi-VN")} VNĐ
+                              {row.totalPrice.toLocaleString("vi-VN")} VNĐ
+                            </TableCell>
+                            <TableCell align="left">
+                              <span class="badge bg-danger">Đã hủy</span>
                             </TableCell>
                             <TableCell align="left">
                               <button
                                 className={"btn btn-info mr-2"}
-                                title="Sửa"
+                                title="Xem"
                                 onClick={() => {
-                                  window.location.href = `/admin/products/edit/${row.id}`;
+                                  handleShow(row);
                                 }}
                               >
-                                <EditIcon></EditIcon>
-                              </button>
-
-                              <button
-                                className={"btn btn-danger"}
-                                title="Xóa"
-                                onClick={() => {
-                                  handleShow(row.id);
-                                }}
-                              >
-                                <DeleteForeverIcon></DeleteForeverIcon>
+                                <RemoveRedEyeIcon></RemoveRedEyeIcon>
                               </button>
 
                               <div
@@ -296,23 +226,46 @@ export default function ManagerProduct() {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </Paper>
-          <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Thông báo</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              Bạn Có Chắn Chắc Muốn Xóa Sản Phẩm Này Không?
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Trở Lại
-              </Button>
-              <Button variant="danger" onClick={handleDelete}>
-                Xóa
-              </Button>
-            </Modal.Footer>
-          </Modal>
         </div>
+      )}
+
+      {selectShow != null && (
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Thông tin đơn hàng</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div>Mã đơn hàng: {selectShow.id}</div>
+            <div className="roll-infor mt-3">
+              {selectShow.orderItems.map((item, index) => {
+                return (
+                  <div className="">
+                    <span>{index + 1}</span>
+                    <span style={{ marginLeft: "10px" }}>
+                      {item.product.name}
+                    </span>
+                    <span style={{ marginLeft: "10px" }}>
+                      {" "}
+                      SL:{item.quanlity}
+                    </span>
+                    <span style={{ marginLeft: "10px" }}>
+                      {" "}
+                      {item.product.price.toLocaleString("vi-VN")} VNĐ
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mt-3">
+              <strong> Hình thức thanh toán:</strong> {selectShow.typePayment}
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Trở Lại
+            </Button>
+          </Modal.Footer>
+        </Modal>
       )}
       <ToastContainer position="bottom-right" />
     </div>

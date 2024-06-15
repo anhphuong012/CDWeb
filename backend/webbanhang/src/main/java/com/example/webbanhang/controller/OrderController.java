@@ -20,6 +20,20 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ReposeOject("OK", " Success",orderService.findOrderByUserId(id) ));
     }
+
+    @GetMapping()
+    public @ResponseBody ResponseEntity<ReposeOject> getAllOrder(@RequestParam(value = "status",required = false) String status){
+        System.out.println("find");
+        if(status ==null){
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ReposeOject("OK", " Success",orderService.findAllOrder() ));
+        }else {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ReposeOject("OK", " Success",orderService.findByStatus(Integer.parseInt(status)) ));
+        }
+    }
+
+
     @PostMapping("/{id}")
     public @ResponseBody ResponseEntity<ReposeOject> createOrder(@PathVariable Long id,@RequestParam(value = "orderId",required = false)Long orderId,@RequestParam(value = "idVnpay",required = false)String idVnpay){
         System.out.print("Đã vào order");
@@ -32,7 +46,11 @@ public class OrderController {
                     .body(new ReposeOject("Failed", " Failed",false ));
         }
     }
-
+    @PutMapping
+    public @ResponseBody ResponseEntity<ReposeOject> update(@RequestParam(value = "orderId")Long orderId,@RequestParam(value = "status") int status){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ReposeOject("OK", " Success",orderService.changeStatus(orderId,status) ));
+    }
 
 
 }

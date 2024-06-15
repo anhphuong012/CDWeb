@@ -27,7 +27,7 @@ public class OrderModel {
     private boolean isPay;
     private int status;
 
-
+    private UserModel user;
 
     private List<OrderItemModel> orderItems = new ArrayList<>();
 
@@ -115,6 +115,14 @@ public class OrderModel {
         this.pay = pay;
     }
 
+    public UserModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
+    }
+
     public static OrderModel orderModel(OrderEntity entity){
         OrderModel model = new OrderModel();
 
@@ -129,11 +137,15 @@ public class OrderModel {
         model.setDateCreate(entity.getDateCreate());
         model.setTypePayment(entity.getTypePayment());
         model.setTotalPrice(entity.getTotalPrice());
+        OrderItemModel temp;
         for (OrderItemEntity item: orderItemEntityList
              ) {
-            result.add(OrderItemModel.convert(item));
+            temp = OrderItemModel.convert(item);
+            temp.getProduct().setImage("http://localhost:8081" + "/api/file/" + temp.getProduct().getImage() + ".jpg");
+            result.add(temp);
         }
         model.setOrderItems(result);
+        model.setUser(UserModel.convert(entity.getUser()));
         return model;
     }
 }
