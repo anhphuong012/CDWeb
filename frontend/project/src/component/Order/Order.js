@@ -51,10 +51,11 @@ function Order(props) {
       if (value == "direct") {
         const response = await axios.post(`/api/order/${user.id}`);
         if (response.status == 200) {
-          //   sessionStorage.setItem("cart", []);
+          sessionStorage.setItem("cart", []);
           clearCart();
           setIsDelete(!isDelete);
-          navigate("/order/history");
+          // navigate("/order/history");
+          document.location.href = "/order/history";
         }
       } else {
         const response = await axios.post(
