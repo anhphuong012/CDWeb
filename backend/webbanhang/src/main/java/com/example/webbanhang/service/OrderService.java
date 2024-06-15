@@ -6,6 +6,7 @@ import com.example.webbanhang.model.OrderModel;
 import com.example.webbanhang.repository.*;
 import com.example.webbanhang.util.PaymentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,9 +16,8 @@ import java.util.List;
 @Service
 public class OrderService implements IOrderService{
     public static final int ORDER_WAITTING_ACCEPT = 0;
-    public static final int ORDER_WAITTING_MOVE = 1;
-    public static final int ORDER_MOVE = 2;
-    public static final int ORDER_FISNISH = 3;
+    public static final int ORDER_MOVE = 1;
+    public static final int ORDER_FISNISH = 2;
     @Autowired
     private UserEntityRepository userRepository;
 
@@ -112,4 +112,42 @@ public class OrderService implements IOrderService{
 
         return ordersModel;
     }
+
+    public List<OrderModel> findAllOrder(){
+
+        Sort sort = Sort.by("dateCreate");
+        List<OrderEntity> orders = orderRepository.findAll(sort.descending());
+        System.out.println(orders.size());
+        List<OrderModel> ordersModel = new ArrayList<>();
+
+        for (OrderEntity entity:
+                orders) {
+            ordersModel.add(OrderModel.orderModel(entity));
+
+        }
+
+        return ordersModel;
+    }
+
+    public List<OrderModel> findByStatus(int status){
+        Sort sort = Sort.by("dateCreate");
+        List<OrderEntity> orders = orderRepository.findByStatus(status,sort.descending());
+        List<OrderModel> ordersModel = new ArrayList<>();
+
+        for (OrderEntity entity:
+                orders) {
+            ordersModel.add(OrderModel.orderModel(entity));
+
+        }
+
+        return ordersModel;
+    }
+
+    public OrderModel changeStatus(Long orderId,int status){
+        OrderEntity entity = orderRepository.findById(orderId).get();
+        entity.setStatus(status);
+        OrderEntity save = orderRepository.save(entity);
+        return OrderModel.orderModel(save);
+    }
+
 }

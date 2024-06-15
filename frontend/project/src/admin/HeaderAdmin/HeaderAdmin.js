@@ -4,7 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./headerAdmin.css";
 // // import "jquery";
 import "jquery.easing";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import { Helmet } from "react-helmet";
 
@@ -13,8 +13,23 @@ import logo2 from "../img/undraw_profile_1.svg";
 import logo3 from "../img/undraw_profile_2.svg";
 import logo4 from "../img/undraw_profile_3.svg";
 
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+
 import logo from "../img/undraw_rocket.svg";
+import { useNavigate } from "react-router-dom";
+import { colors } from "@mui/material";
 export default function HeaderAdmin() {
+  const [isSelect, setIsSelect] = useState("product");
+
+  const navigate = useNavigate();
+
+  useEffect(() => {}, []);
+
   return (
     //  id="wrapper"
     <div>
@@ -35,78 +50,163 @@ export default function HeaderAdmin() {
           </div>
         </a>
         {/* Divider */}
-        <hr className="sidebar-divider my-0" />
+        {/* <hr className="sidebar-divider my-0" /> */}
         {/* Nav Item - Infor */}
-        <li className="nav-item active">
+        {/* <li className="nav-item active">
           <a className="nav-link" href="index.html">
             <i className="fas fa-fw fa-tachometer-alt" />
             <span>Thông tin</span>
           </a>
-        </li>
+        </li> */}
         {/* Divider */}
-        <hr className="sidebar-divider" />
+        {/* <hr className="sidebar-divider" /> */}
 
         {/* Nav Item - Quan li san pham */}
-        <li className="nav-item ">
-          <a className="nav-link" href="#">
+        <li className={`nav-item ${isSelect == "product" ? "active" : ""}`}>
+          <button
+            className="nav-link"
+            onClick={() => {
+              navigate("/admin/products");
+              setIsSelect("product");
+            }}
+          >
             <i className="fas fa-fw fa-tachometer-alt" />
             <span>Quản lí sản phẩm</span>
-          </a>
+          </button>
         </li>
         {/* Divider */}
         <hr className="sidebar-divider" />
         {/* Nav Item - Quan li don hang */}
-        <li className="nav-item ">
-          <a className="nav-link" href="#">
+        {/* <li className={`nav-item ${isSelect == "order" ? "active" : ""}`}>
+          <button
+            className="nav-link"
+            onClick={() => {
+              navigate("/admin/products");
+              setIsSelect("order");
+            }}
+          >
             <i className="fas fa-fw fa-tachometer-alt" />
             <span>Quản lí đơn hàng</span>
-          </a>
+          </button>
+        </li> */}
+        <li className="nav-item">
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ArrowDownwardIcon className="text-left" />}
+              aria-controls="panel1-content"
+              id="panel1-header"
+              className="collabse-drow"
+            >
+              <Typography className="text-left">Quản lí đơn hàng</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                <button
+                  className={`nav-link `}
+                  onClick={() => {
+                    navigate("/admin/orders/accept");
+                    setIsSelect("accept");
+                  }}
+                >
+                  <i className="fas fa-fw fa-tachometer-alt" />
+                  <span
+                    className={`collabse-drow-item ${
+                      isSelect == "accept" ? "active-nav" : ""
+                    }`}
+                  >
+                    Đơn chờ xác nhận
+                  </span>
+                </button>
+                <hr style={{ borderTop: "1px solid rgba(0, 0, 0, .3);" }} />
+                <button
+                  className={`nav-link `}
+                  onClick={() => {
+                    navigate("/admin/orders/move");
+                    setIsSelect("move");
+                  }}
+                >
+                  <i className="fas fa-fw fa-tachometer-alt" />
+                  <span
+                    className={`collabse-drow-item ${
+                      isSelect == "move" ? "active-nav" : ""
+                    }`}
+                  >
+                    Đơn đang vận chuyển
+                  </span>
+                </button>
+                <hr style={{ borderTop: "1px solid rgba(0, 0, 0, .30);" }} />
+                <button
+                  className={`nav-link `}
+                  onClick={() => {
+                    navigate("/admin/orders/finish");
+                    setIsSelect("finish");
+                  }}
+                >
+                  <i className="fas fa-fw fa-tachometer-alt" />
+                  <span
+                    className={`collabse-drow-item ${
+                      isSelect == "finish" ? "active-nav" : ""
+                    }`}
+                  >
+                    Đơn đã hoàn thành
+                  </span>
+                </button>
+                <hr style={{ borderTop: "1px solid rgba(0, 0, 0, .30);" }} />
+                <button
+                  className={`nav-link `}
+                  onClick={() => {
+                    navigate("/admin/orders/cancel");
+                    setIsSelect("cancel");
+                  }}
+                >
+                  <i className="fas fa-fw fa-tachometer-alt" />
+                  <span
+                    className={`collabse-drow-item ${
+                      isSelect == "cancel" ? "active-nav" : ""
+                    }`}
+                  >
+                    Đơn đã hủy
+                  </span>
+                </button>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
         </li>
         {/* Divider */}
         <hr className="sidebar-divider" />
 
         {/* Nav Item - Quan li user */}
-        <li className="nav-item ">
-          <a className="nav-link" href="#">
+        <li className={`nav-item ${isSelect == "user" ? "active" : ""}`}>
+          <button
+            className="nav-link"
+            onClick={() => {
+              navigate("/admin/products");
+              setIsSelect("user");
+            }}
+          >
             <i className="fas fa-fw fa-tachometer-alt" />
             <span>Quản lí user</span>
-          </a>
+          </button>
         </li>
         {/* Divider */}
         <hr className="sidebar-divider" />
         {/* Heading */}
-        <div className="sidebar-heading">Interface</div>
-        {/* Nav Item - Pages Collapse Menu */}
-        <li className="nav-item">
-          <a
-            className="nav-link collapsed"
-            href="#"
-            data-toggle="collapse"
-            data-target="#collapseTwo"
-            aria-expanded="true"
-            aria-controls="collapseTwo"
+        {/* <div className="sidebar-heading">Interface</div> */}
+
+        <li className={`nav-item ${isSelect == "out" ? "active" : ""}`}>
+          <button
+            className="nav-link"
+            onClick={() => {
+              navigate("/admin/products");
+              setIsSelect("out");
+            }}
           >
-            <i className="fas fa-fw fa-cog" />
-            <span>Components</span>
-          </a>
-          <div
-            id="collapseTwo"
-            className="collapse"
-            aria-labelledby="headingTwo"
-            data-parent="#accordionSidebar"
-          >
-            <div className="bg-white py-2 collapse-inner rounded">
-              <h6 className="collapse-header">Custom Components:</h6>
-              <a className="collapse-item" href="buttons.html">
-                Buttons
-              </a>
-              <a className="collapse-item" href="cards.html">
-                Cards
-              </a>
-            </div>
-          </div>
+            <i className="fas fa-fw fa-tachometer-alt" />
+            <span>Đăng xuất</span>
+          </button>
         </li>
-        {/* Nav Item - Utilities Collapse Menu */}
+
+        {/*
         <li className="nav-item">
           <a
             className="nav-link collapsed"
@@ -142,11 +242,11 @@ export default function HeaderAdmin() {
             </div>
           </div>
         </li>
-        {/* Divider */}
+
         <hr className="sidebar-divider" />
-        {/* Heading */}
+
         <div className="sidebar-heading">Addons</div>
-        {/* Nav Item - Pages Collapse Menu */}
+
         <li className="nav-item">
           <a
             className="nav-link collapsed"
@@ -187,26 +287,26 @@ export default function HeaderAdmin() {
             </div>
           </div>
         </li>
-        {/* Nav Item - Charts */}
+
         <li className="nav-item">
           <a className="nav-link" href="charts.html">
             <i className="fas fa-fw fa-chart-area" />
             <span>Charts</span>
           </a>
         </li>
-        {/* Nav Item - Tables */}
+
         <li className="nav-item">
           <a className="nav-link" href="tables.html">
             <i className="fas fa-fw fa-table" />
             <span>Tables</span>
           </a>
         </li>
-        {/* Divider */}
+
         <hr className="sidebar-divider d-none d-md-block" />
-        {/* Sidebar Toggler (Sidebar) */}
+
         <div className="text-center d-none d-md-inline">
           <button className="rounded-circle border-0" id="sidebarToggle" />
-        </div>
+        </div> */}
       </ul>
 
       {/* <div id="content-wrapper" class="d-flex flex-column">

@@ -19,7 +19,10 @@ import AddProduct from "./admin/ManagerProduct/AddProduct.js";
 import EditProduct from "./admin/ManagerProduct/EditProduct.js";
 import Order from "./component/Order/Order.js";
 import History from "./component/Order/History.js";
-
+import ManagerOrderAccept from "./admin/ManagerOrder/ManagerOrderAccept.js";
+import ManagerOrderMove from "./admin/ManagerOrder/ManagerOrderMove.js";
+import ManagerOrderFinish from "./admin/ManagerOrder/ManagerOrderFinish.js";
+import ManagerOrderCancel from "./admin/ManagerOrder/ManagerOrderCancel.js";
 function App() {
   return (
     <Provider store={store}>
@@ -45,10 +48,10 @@ function App() {
           <Route path="/order" element={<Order></Order>}></Route>
           <Route path="/order/history" element={<History></History>}></Route>
 
-          <Route
-            path="/admin/dashboard"
+          {/* <Route
+            path="/admin"
             element={<HeaderAdmin></HeaderAdmin>}
-          ></Route>
+          ></Route> */}
 
           <Route
             path="/admin/products"
@@ -63,6 +66,25 @@ function App() {
           <Route
             path="/admin/products/edit/:id"
             element={<EditProduct></EditProduct>}
+          ></Route>
+
+          <Route
+            path="/admin/orders/accept"
+            element={<ManagerOrderAccept></ManagerOrderAccept>}
+          ></Route>
+
+          <Route
+            path="/admin/orders/move"
+            element={<ManagerOrderMove></ManagerOrderMove>}
+          ></Route>
+
+          <Route
+            path="/admin/orders/finish"
+            element={<ManagerOrderFinish></ManagerOrderFinish>}
+          ></Route>
+          <Route
+            path="/admin/orders/cancel"
+            element={<ManagerOrderCancel></ManagerOrderCancel>}
           ></Route>
         </Routes>
       </div>
