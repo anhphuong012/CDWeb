@@ -102,7 +102,26 @@ export default function History() {
                         </td>
 
                         <td data-th="Status">
-                          <div class="">Chờ xác nhận</div>
+                          {item.status == 0 && (
+                            <div class="">
+                              <span class="badge bg-primary">Chờ xác nhận</span>
+                            </div>
+                          )}
+                          {item.status == 1 && (
+                            <span class="badge bg-info">Đang vận chuyển</span>
+                          )}
+                          {item.status == 2 && (
+                            <div class="">
+                              <span class="badge bg-success">
+                                Đã hoàn thành
+                              </span>
+                            </div>
+                          )}
+                          {item.status == -1 && (
+                            <div class="">
+                              <span class="badge bg-danger">Đã hủy</span>
+                            </div>
+                          )}
                         </td>
                         <td className="actions" data-th="">
                           <button

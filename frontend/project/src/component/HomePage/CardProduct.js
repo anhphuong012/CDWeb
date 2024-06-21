@@ -50,22 +50,63 @@ export function Card(props) {
 
       try {
         const user = JSON.parse(sessionStorage.getItem("user"));
-        const response = await axios.post(
-          `/api/cart/${user.id}?productId=${product.id}&quanlity=1&size=${size}`
-        );
-        console.log(response);
-        if (response.status == 200) {
-          console.log("Size:" + size);
-          console.log(cartProduct);
-          props.buyProduct(cartProduct);
-          toast.success("Thêm vào giỏ thành công!", {
-            className: "Thông báo",
-          });
-        } else {
-          toast.error("xảy ra lỗi!", {
-            className: "Thông báo",
-          });
-        }
+
+        // const header = {
+        //   Authorization: sessionStorage.getItem("token").toString(),
+        // };
+
+        // console.log(header);
+        // console.log("Token:" + sessionStorage.getItem("token"));
+        // const response = await axios.post(
+        //   `/api/cart/${user.id}?productId=${product.id}&quanlity=1&size=${size}`,
+        //   {
+        //     headers: {
+        //       Authorization:
+        //         "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJsb2NhbGhvc3QzMDAwIiwic3ViIjoiYW5ocGh1b25nMUBnbWFpbC5jb20iLCJleHAiOjE3MTg5NzQ2OTcsImN1c3RvbUNsYWltIjoiQ3VzdG9tIiwiaWF0IjoxNzE4OTcxMDk3fQ.9bxaYRmm0Ow7IYvVW6YI-jcia9dvxB6MCLVZJvdME2yANUtLRxV4aVcTy4sik-gNbaLiz-lUEubLygTbDeFTpA",
+        //     },
+        //   }
+        // );
+        // console.log(response);
+        // if (response.status == 200) {
+        //   console.log("Size:" + size);
+        //   console.log(cartProduct);
+        //   props.buyProduct(cartProduct);
+        //   toast.success("Thêm vào giỏ thành công!", {
+        //     className: "Thông báo",
+        //   });
+        // } else {
+        //   toast.error("xảy ra lỗi!", {
+        //     className: "Thông báo",
+        //   });
+        // }
+
+        await axios({
+          method: "post",
+          maxBodyLength: Infinity,
+          url: `/api/cart/${user.id}?productId=${product.id}&quanlity=1&size=${size}`,
+
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage
+              .getItem("token")
+              .toString()}`,
+          },
+          mode: "cors",
+          data: "",
+        }).then(function (response) {
+          if (response.status == 200) {
+            console.log("Size:" + size);
+            console.log(cartProduct);
+            props.buyProduct(cartProduct);
+            toast.success("Thêm vào giỏ thành công!", {
+              className: "Thông báo",
+            });
+          } else {
+            toast.error("xảy ra lỗi!", {
+              className: "Thông báo",
+            });
+          }
+        });
       } catch (error) {
         console.log(error);
       }

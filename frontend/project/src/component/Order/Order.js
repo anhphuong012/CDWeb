@@ -49,39 +49,164 @@ function Order(props) {
     try {
       const user = JSON.parse(sessionStorage.getItem("user"));
       if (value == "direct") {
-        const response = await axios.post(`/api/order/${user.id}`);
-        if (response.status == 200) {
-          sessionStorage.setItem("cart", []);
-          clearCart();
-          setIsDelete(!isDelete);
-          // navigate("/order/history");
-          document.location.href = "/order/history";
-        }
+        // const response = await axios.post(`/api/order/${user.id}`);
+        // if (response.status == 200) {
+        //   sessionStorage.setItem("cart", []);
+        //   clearCart();
+        //   setIsDelete(!isDelete);
+        //   // navigate("/order/history");
+        //   document.location.href = "/order/history";
+        // }
+
+        await axios({
+          method: "post",
+          maxBodyLength: Infinity,
+          url: `/api/order/${user.id}`,
+
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage
+              .getItem("token")
+              .toString()}`,
+          },
+          mode: "cors",
+          data: "",
+        }).then(function (response) {
+          if (response.status == 200) {
+            sessionStorage.setItem("cart", []);
+            clearCart();
+            setIsDelete(!isDelete);
+            // navigate("/order/history");
+            document.location.href = "/order/history";
+          }
+          //  else {
+          //    toast.error("xảy ra lỗi!", {
+          //      className: "Thông báo",
+          //    });
+          //  }
+        });
       } else {
-        const response = await axios.post(
-          `/api/payment/create?amount=${calculateTotalPrice(props.cart)}`
-        );
-        if (response.status == 200) {
-          document.location.href = response.data.data;
-        } else {
-          toast.error("Lỗi vui lòng chọn thanh toán trực tiêp!", {
-            className: "Thông báo",
-          });
-        }
+        // const response = await axios.post(
+        //   `/api/payment/create?amount=${calculateTotalPrice(props.cart)}`
+        // );
+        // if (response.status == 200) {
+        //   document.location.href = response.data.data;
+        // } else {
+        //   toast.error("Lỗi vui lòng chọn thanh toán trực tiêp!", {
+        //     className: "Thông báo",
+        //   });
+        // }
+
+        await axios({
+          method: "post",
+          maxBodyLength: Infinity,
+          url: `/api/payment/create?amount=${calculateTotalPrice(props.cart)}`,
+
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage
+              .getItem("token")
+              .toString()}`,
+          },
+          mode: "cors",
+          data: "",
+        }).then(function (response) {
+          if (response.status == 200) {
+            document.location.href = response.data.data;
+          } else {
+            toast.error("Lỗi vui lòng chọn thanh toán trực tiêp!", {
+              className: "Thông báo",
+            });
+          }
+        });
       }
     } catch (error) {}
   };
 
+  // const deleteSate = async (product) => {
+  //   try {
+  //     const user = JSON.parse(sessionStorage.getItem("user"));
+  //     const response = await axios.delete(
+  //       `/api/cart/${user.id}?productId=${product.product.id}&quanlity=1&size=${product.size}`
+  //     );
+  //     if (response.status == 200) {
+  //       props.deleteProduct(product);
+  //       setIsDelete(!isDelete);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // const increState = async (product) => {
+  //   const cartProduct = props.cart.find(
+  //     (item) =>
+  //       item.product.id == product.product.id && product.size == item.size
+  //   );
+  //   console.log(cartProduct);
+  //   try {
+  //     const user = JSON.parse(sessionStorage.getItem("user"));
+  //     const response = await axios.put(
+  //       `/api/cart/${user.id}?productId=${cartProduct.product.id}&quanlity=1&size=${cartProduct.size}&type=1`
+  //     );
+  //     if (response.status == 200) {
+  //       props.increaProduct(product);
+  //       setIsDelete(!isDelete);
+  //     }
+  //   } catch (error) {}
+  // };
+  // const decreState = async (product) => {
+  //   const cartProduct = props.cart.find(
+  //     (item) =>
+  //       item.product.id == product.product.id && product.size == item.size
+  //   );
+  //   console.log(cartProduct);
+  //   try {
+  //     const user = JSON.parse(sessionStorage.getItem("user"));
+  //     const response = await axios.put(
+  //       `/api/cart/${user.id}?productId=${cartProduct.product.id}&quanlity=1&size=${cartProduct.size}&type=-1`
+  //     );
+  //     if (response.status == 200) {
+  //       props.decreaProduct(product);
+  //       setIsDelete(!isDelete);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const deleteSate = async (product) => {
     try {
       const user = JSON.parse(sessionStorage.getItem("user"));
-      const response = await axios.delete(
-        `/api/cart/${user.id}?productId=${product.product.id}&quanlity=1&size=${product.size}`
-      );
-      if (response.status == 200) {
-        props.deleteProduct(product);
-        setIsDelete(!isDelete);
-      }
+      // const response = await axios.delete(
+      //   `/api/cart/${user.id}?productId=${product.product.id}&quanlity=1&size=${product.size}`
+      // );
+
+      // if (response.status == 200) {
+      //   props.deleteProduct(product);
+      //   setIsDelete(!isDelete);
+      // }
+
+      await axios({
+        method: "delete",
+        maxBodyLength: Infinity,
+        url: `/api/cart/${user.id}?productId=${product.product.id}&quanlity=1&size=${product.size}`,
+
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("token").toString()}`,
+        },
+        mode: "cors",
+        data: "",
+      }).then(function (response) {
+        if (response.status == 200) {
+          props.deleteProduct(product);
+          setIsDelete(!isDelete);
+        }
+        //  else {
+        //    toast.error("xảy ra lỗi!", {
+        //      className: "Thông báo",
+        //    });
+        //  }
+      });
     } catch (error) {
       console.log(error);
     }
@@ -94,13 +219,36 @@ function Order(props) {
     console.log(cartProduct);
     try {
       const user = JSON.parse(sessionStorage.getItem("user"));
-      const response = await axios.put(
-        `/api/cart/${user.id}?productId=${cartProduct.product.id}&quanlity=1&size=${cartProduct.size}&type=1`
-      );
-      if (response.status == 200) {
-        props.increaProduct(product);
-        setIsDelete(!isDelete);
-      }
+      // const response = await axios.put(
+      //   `/api/cart/${user.id}?productId=${cartProduct.product.id}&quanlity=1&size=${cartProduct.size}&type=1`
+      // );
+      // if (response.status == 200) {
+      //   props.increaProduct(product);
+      //   setIsDelete(!isDelete);
+      // }
+
+      await axios({
+        method: "put",
+        maxBodyLength: Infinity,
+        url: `/api/cart/${user.id}?productId=${cartProduct.product.id}&quanlity=1&size=${cartProduct.size}&type=1`,
+
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("token").toString()}`,
+        },
+        mode: "cors",
+        data: "",
+      }).then(function (response) {
+        if (response.status == 200) {
+          props.increaProduct(product);
+          setIsDelete(!isDelete);
+        }
+        //  else {
+        //    toast.error("xảy ra lỗi!", {
+        //      className: "Thông báo",
+        //    });
+        //  }
+      });
     } catch (error) {}
   };
   const decreState = async (product) => {
@@ -111,13 +259,36 @@ function Order(props) {
     console.log(cartProduct);
     try {
       const user = JSON.parse(sessionStorage.getItem("user"));
-      const response = await axios.put(
-        `/api/cart/${user.id}?productId=${cartProduct.product.id}&quanlity=1&size=${cartProduct.size}&type=-1`
-      );
-      if (response.status == 200) {
-        props.decreaProduct(product);
-        setIsDelete(!isDelete);
-      }
+      // const response = await axios.put(
+      //   `/api/cart/${user.id}?productId=${cartProduct.product.id}&quanlity=1&size=${cartProduct.size}&type=-1`
+      // );
+      // if (response.status == 200) {
+      //   props.decreaProduct(product);
+      //   setIsDelete(!isDelete);
+      // }
+
+      await axios({
+        method: "put",
+        maxBodyLength: Infinity,
+        url: `/api/cart/${user.id}?productId=${cartProduct.product.id}&quanlity=1&size=${cartProduct.size}&type=-1`,
+
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("token").toString()}`,
+        },
+        mode: "cors",
+        data: "",
+      }).then(function (response) {
+        if (response.status == 200) {
+          props.decreaProduct(product);
+          setIsDelete(!isDelete);
+        }
+        //  else {
+        //    toast.error("xảy ra lỗi!", {
+        //      className: "Thông báo",
+        //    });
+        //  }
+      });
     } catch (error) {
       console.log(error);
     }

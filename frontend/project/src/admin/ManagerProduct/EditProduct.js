@@ -85,6 +85,7 @@ export default function EditProduct() {
         console.log(value);
       }
       console.log(selectedFile);
+      const token = sessionStorage.getItem("");
 
       await axios({
         method: "put",
@@ -93,6 +94,7 @@ export default function EditProduct() {
 
         headers: {
           "Content-Type": `multipart/form-data boundary=${formData._boundary}`,
+          Authorization: `Bearer ${sessionStorage.getItem("token").toString()}`,
         },
         mode: "cors",
         data: formData,
@@ -134,8 +136,12 @@ export default function EditProduct() {
   };
 
   useEffect(() => {
-    fetchData();
-    fetchItem();
+    if (sessionStorage.getItem("user") == null) {
+      navigate("/login");
+    } else {
+      fetchData();
+      fetchItem();
+    }
   }, []);
   console.log(selectCategory);
   return (

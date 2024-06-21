@@ -39,24 +39,47 @@ function Payment(props) {
       const callApi = async () => {
         try {
           const user = JSON.parse(sessionStorage.getItem("user"));
-          const response = await axios.post(
-            `/api/order/${user.id}?orderId=${orderId}&idVnpay=${vnpayId}`
-          );
-          if (response.status == 200) {
-            sessionStorage.setItem("cart", []);
-            clearCart();
-            setIsDelete(!isDelete);
-            const timer = setInterval(() => {
-              setCountdown((prevCountdown) => {
-                if (prevCountdown === 1) {
-                  clearInterval(timer);
-                  document.location.href = "/order/history";
-                  return;
-                }
-                return prevCountdown - 1;
-              });
-            }, 1000);
-          }
+          // const response = await axios.post(
+          //   `/api/order/${user.id}?orderId=${orderId}&idVnpay=${vnpayId}`
+          // );
+          // if (response.status == 200) {
+          //   sessionStorage.setItem("cart", []);
+          //   clearCart();
+          //   setIsDelete(!isDelete);
+          //   const timer = setInterval(() => {
+          //     setCountdown((prevCountdown) => {
+          //       if (prevCountdown === 1) {
+          //         clearInterval(timer);
+          //         document.location.href = "/order/history";
+          //         return;
+          //       }
+          //       return prevCountdown - 1;
+          //     });
+          //   }, 1000);
+          //   document.location.href = "/order/history";
+          // }
+          await axios({
+            method: "post",
+            maxBodyLength: Infinity,
+            url: `/api/order/${user.id}?orderId=${orderId}&idVnpay=${vnpayId}`,
+
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${sessionStorage
+                .getItem("token")
+                .toString()}`,
+            },
+            mode: "cors",
+            data: "",
+          }).then(function (response) {
+            if (response.status == 200) {
+              sessionStorage.setItem("cart", []);
+              clearCart();
+              setIsDelete(!isDelete);
+
+              document.location.href = "/order/history";
+            }
+          });
         } catch (error) {
           // setError(error.message);
           console.log(error);

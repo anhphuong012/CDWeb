@@ -197,7 +197,8 @@ export default function HeaderAdmin() {
           <button
             className="nav-link"
             onClick={() => {
-              navigate("/admin/products");
+              sessionStorage.clear();
+              navigate("/");
               setIsSelect("out");
             }}
           >

@@ -115,6 +115,7 @@ export default function AddProduct() {
 
         headers: {
           "Content-Type": `multipart/form-data boundary=${formData._boundary}`,
+          Authorization: `Bearer ${sessionStorage.getItem("token").toString()}`,
         },
         mode: "cors",
         data: formData,
