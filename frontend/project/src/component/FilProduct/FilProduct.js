@@ -130,8 +130,8 @@ export default function FilProduct() {
       } else {
         var check =
           minPrice > maxPrice
-            ? max < item.price && item.price < min
-            : min < item.price && item.price < max;
+            ? max <= item.price && item.price <= min
+            : min <= item.price && item.price <= max;
 
         if (check && !result.includes(item)) {
           result.push(item);

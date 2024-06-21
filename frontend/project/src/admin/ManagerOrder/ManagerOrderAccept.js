@@ -107,19 +107,47 @@ export default function ManagerOrderAccept() {
   };
 
   const changeStatus = async (orderId) => {
-    const response = await axios.put(`/api/order?status=1&orderId=${orderId}`);
-    if (response.status == 200) {
-      if (response.data.data != null) {
+    // const response = await axios.put(`/api/order?status=1&orderId=${orderId}`);
+    // if (response.status == 200) {
+    //   if (response.data.data != null) {
+    //     const updateData = data.filter((item) => item.id != orderId);
+    //     setData(updateData);
+    //     toast.success("Chấp nhận thành công");
+    //   }
+    // }
+
+    await axios({
+      method: "put",
+      maxBodyLength: Infinity,
+      url: `/api/order?status=1&orderId=${orderId}`,
+
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("token").toString()}`,
+      },
+      mode: "cors",
+      data: "",
+    }).then(function (response) {
+      if (response.status == 200) {
         const updateData = data.filter((item) => item.id != orderId);
         setData(updateData);
         toast.success("Chấp nhận thành công");
       }
-    }
+      //  else {
+      //    toast.error("xảy ra lỗi!", {
+      //      className: "Thông báo",
+      //    });
+      //  }
+    });
   };
 
   useEffect(() => {
-    fetchData();
-    setIsLoad(true);
+    if (sessionStorage.getItem("user") == null) {
+      navigate("/login");
+    } else {
+      fetchData();
+      setIsLoad(true);
+    }
   }, []);
 
   const convertDate = (dateStr) => {

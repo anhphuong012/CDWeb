@@ -98,9 +98,10 @@ public class OrderService implements IOrderService{
 
     public List<OrderModel> findOrderByUserId(Long userId){
         System.out.println("service");
+        Sort sort = Sort.by("dateCreate");
         UserEntity user = userRepository.findById(userId).get();
         System.out.println("User:" + user.getId());
-        List<OrderEntity> orders = orderRepository.findByUser(user);
+        List<OrderEntity> orders = orderRepository.findByUser(user,sort.descending());
         System.out.println(orders.size());
         List<OrderModel> ordersModel = new ArrayList<>();
 

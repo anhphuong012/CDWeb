@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface OrderRepository extends CrudRepository<OrderEntity,Long> {
-    List<OrderEntity> findByUser(UserEntity user);
+    List<OrderEntity> findByUser(UserEntity user,Sort sort);
     List<OrderEntity> findAll(Sort sort);
     List<OrderEntity> findByStatus(int status,Sort sort);
 }

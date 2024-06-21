@@ -110,7 +110,9 @@ export default function ManagerProduct() {
       method: "delete",
       maxBodyLength: Infinity,
       url: "/api/products/product/" + selectDelete,
-
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token").toString()}`,
+      },
       data: "",
     }).then(function (response) {
       console.log(response);

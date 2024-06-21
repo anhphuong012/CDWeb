@@ -286,7 +286,15 @@ const Header = ({ product }) => {
                   >
                     Đơn đặt hàng
                   </MenuItem>
-                  <MenuItem onClick={handleClose}>Logout</MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      sessionStorage.clear();
+                      setAnchorEl(null);
+                      navigate("/");
+                    }}
+                  >
+                    Đăng xuất
+                  </MenuItem>
                 </Menu>
               </div>
             )}
