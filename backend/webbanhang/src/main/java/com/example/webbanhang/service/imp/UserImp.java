@@ -1,9 +1,11 @@
 package com.example.webbanhang.service.imp;
 
 import com.example.webbanhang.Entity.UserEntity;
+import com.example.webbanhang.dto.request.PasswordChangeRequest;
 import com.example.webbanhang.dto.request.UserCreationRequest;
 import com.example.webbanhang.exception.AppException;
 import com.example.webbanhang.exception.ErrorCode;
+import com.example.webbanhang.model.UserModel;
 import com.example.webbanhang.repository.UserEntityRepository;
 import com.example.webbanhang.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ public class UserImp implements UserService {
 
     @Autowired
     private UserEntityRepository userRepository;
+
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
     @Override
     public UserEntity addUser(UserCreationRequest request) {
@@ -43,28 +47,18 @@ public class UserImp implements UserService {
     public UserEntity getUser(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("1"));
     }
-//    UserCreationRequest UserCreationRequest;
 
+    public boolean changePassword(Long userId, PasswordChangeRequest request) {
+        UserEntity user = userRepository.findById(userId).orElseThrow();
 
-//    public LoginMesage  loginEmployee(LoginDTO loginDTO) {
-//        String msg = "";
-//        Employee employee1 = employeeRepo.findByEmail(loginDTO.getEmail());
-//        if (employee1 != null) {
-//            String password = loginDTO.getPassword();
-//            String encodedPassword = employee1.getPassword();
-//            Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
-//            if (isPwdRight) {
-//                Optional<Employee> employee = employeeRepo.findOneByEmailAndPassword(loginDTO.getEmail(), encodedPassword);
-//                if (employee.isPresent()) {
-//                    return new LoginMesage("Login Success", true);
-//                } else {
-//                    return new LoginMesage("Login Failed", false);
-//                }
-//            } else {
-//                return new LoginMesage("password Not Match", false);
-//            }
-//        }else {
-//            return new LoginMesage("Email not exits", false);
-//        }
-//    }
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+           return false;
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getRePassword()));
+        userRepository.save(user);
+        return true;
+
+    }
+
 }

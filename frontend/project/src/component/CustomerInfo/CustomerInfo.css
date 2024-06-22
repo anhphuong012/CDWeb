@@ -1,0 +1,215 @@
+@media (min-width: 1200px) {
+    .container_customer {
+        width: 1140px;
+    }
+}
+@media (max-width: 992px) {
+    .container_customer {
+        width: 970px;
+    }
+}
+@media (max-width: 768px) {
+    .container_customer {
+        width: 750px;
+    }
+}
+
+.container_customer {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+.container_customer {
+    margin-top: 100px;
+    margin-bottom: 50px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 100%;
+}
+
+
+.order-block__title h2 {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 32px;
+    text-transform: uppercase;
+    color: #221f20;
+    display: flex;
+    align-items: center;
+}
+@media (max-width: 1024px) {
+    .order-block__title h2 {
+        font-size: 16px;
+        line-height: 24px;
+        text-transform: unset;
+    }
+}
+
+
+/*  */
+@media (max-width: 1024px) {
+    .order-block__title + .order-block {
+        margin-top: 16px;
+    }
+}
+.order-block__title + .order-block {
+    margin-top: 32px;
+}
+
+
+
+
+/*  */
+.alert-primary {
+    color: #004085;
+    background-color: #cce5ff;
+    border-color: #b8daff;
+}
+.alert {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+
+/*  */
+@media (max-width: 1024px) {
+    .my-account-wrapper .col-md-7 {
+        order: 2;
+    }
+}
+@media (min-width: 768px) {
+    .col-md-7 {
+        flex: 0 0 58.333333%;
+        max-width: 58.333333%;
+    }
+}
+
+/*  */
+.my-account-wrapper .form-group {
+    align-items: center;
+}
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+
+@media (max-width: 1024px) {
+    .order-block__title {
+        margin-top: 16px;
+    }
+}
+
+/*  */
+.my-account-wrapper .col-input .form-control {
+    width: 100%;
+    font-size: 14px;
+    line-height: 16px;
+    color: #57585a;
+}
+
+@media (max-width: 320.98px) {
+    .order-block__title {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .order-block__title {
+        padding-bottom: 16px;
+        border-bottom: 1px solid #f7f8f9;
+    }
+}
+
+
+
+@media (min-width: 1200px) {
+    .col-xl {
+        flex-basis: 0;
+        flex-grow: 1;
+        max-width: 100%;
+    }
+}
+@media (min-width: 1025px) {
+    .col-lg-8 {
+        flex: 0 0 66.666667%;
+        max-width: 66.666667%;
+    }
+}
+
+
+blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+    border: 0;
+    font-size: 100%;
+    margin: 0;
+    outline: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+/*  */
+@media (min-width: 1200px) {
+    .col-xl {
+        flex-basis: 0;
+        flex-grow: 1;
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 1025px) {
+    .col-lg-8 {
+        flex: 0 0 66.666667%;
+        max-width: 66.666667%;
+    }
+}
+/* button */
+.my-account-wrapper .col-input {
+    max-width: 530px;
+}
+.my-account-wrapper .form-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.my-account-wrapper .form-buttons .btn {
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+.btn--large {
+    padding: 12px 24px;
+    border-radius: 16px 0px;
+    font-size: 16px;
+    line-height: 24px;
+    background-color: #221f20;
+    color: #f7f8f9;
+    border: 1px solid transparent;
+}
+.btn {
+    border: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Montserrat", sans-serif;
+    cursor: pointer;
+}
+.btn--large.btn--outline {
+    background-color: white;
+    border: 1px solid #221f20;
+    color: #221f20;
+}
+
+
