@@ -39,7 +39,7 @@ public class AuthenticationImp implements AuthenticationService {
     UserEntityRepository userEntityRepository;
 
     protected static final String SIGNER_KEY =
-        "fEu/rrsgAbh+C9njm/UkISfYRFfGGC8jUvhYXe265ukwV/b7T1Fguw8yP+PJ1cb3";
+            "fEu/rrsgAbh+C9njm/UkISfYRFfGGC8jUvhYXe265ukwV/b7T1Fguw8yP+PJ1cb3";
 
 
     @Override
@@ -58,12 +58,17 @@ public class AuthenticationImp implements AuthenticationService {
 
         var token = generateToken(user);
 
-        return  AuthenticationResponse.builder()
-                .token(token)
-                .authenticated(true)
-                .user(UserModel.convert(user))
-                .build();
-
+        try {
+            return AuthenticationResponse.builder()
+                    .token(token)
+                    .authenticated(true)
+                    .user(UserModel.convert(user))
+                    .build();
+        } catch (Exception e) {
+            // Xử lý ngoại lệ ở đây
+            System.out.println("Lỗi khi chuyển đổi user: " + e.getMessage());
+            return null; // Hoặc trả về một giá trị mặc định
+        }
     }
 
     @Override
@@ -78,7 +83,7 @@ public class AuthenticationImp implements AuthenticationService {
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
-                .claim("customClaim","Custom")
+//                .claim("customClaim","Custom")
 //                .claim("userId",user.getId())
 //                .claim("name",user.getFullname())
                 .build();
@@ -92,6 +97,7 @@ public class AuthenticationImp implements AuthenticationService {
             return jwsObject.serialize();
         } catch (JOSEException e) {
             log.error("Cannot create token", e);
+            System.out.println("ahahah");
             throw new RuntimeException(e);
         }
     }

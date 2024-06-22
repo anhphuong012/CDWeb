@@ -10,6 +10,8 @@ import Login from "./component/login/Login.js";
 import Register from "./component/Register/Register.js";
 import SearchKey from "./component/Search/Search.js";
 import Payment from "./component/ResultPayment/ResultPayment.js";
+import Customer from "./component/CustomerInfo/CustomerInfo.js";
+import ChangePassword from "./component/ChangePass/ChangePass.js";
 import { Provider } from "react-redux";
 import store from "./store.js";
 
@@ -62,6 +64,18 @@ function App() {
             path="/admin/products/add"
             element={<AddProduct></AddProduct>}
           ></Route>
+
+          <Route
+            path="/customer/info"
+            element={<Customer></Customer>}
+          ></Route>
+
+          <Route
+            path="/customer/password"
+            element={<ChangePassword></ChangePassword>}
+          >
+
+          </Route>
 
           <Route
             path="/admin/products/edit/:id"

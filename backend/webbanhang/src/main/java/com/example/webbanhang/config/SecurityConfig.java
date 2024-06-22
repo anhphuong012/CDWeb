@@ -19,7 +19,7 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final String [] PUBLIC_POST_ENDPOINT = {"/auth/token", "/auth/introspect", "/api/user"};
+    private final String [] PUBLIC_POST_ENDPOINT = {"/auth/token", "/auth/introspect", "/api/user/register"};
     private final String [] PUBLIC_GET_ENDPOINT = { "/api/**"};
 
     private String signerKey = "fEu/rrsgAbh+C9njm/UkISfYRFfGGC8jUvhYXe265ukwV/b7T1Fguw8yP+PJ1cb3";
