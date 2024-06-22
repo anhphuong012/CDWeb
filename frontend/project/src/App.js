@@ -12,6 +12,8 @@ import SearchKey from "./component/Search/Search.js";
 import Payment from "./component/ResultPayment/ResultPayment.js";
 import Customer from "./component/CustomerInfo/CustomerInfo.js";
 import ChangePassword from "./component/ChangePass/ChangePass.js";
+import ManagerOder from "./component/ManagerOd/ManagerOd.js";
+import OrderDetail from "./component/OrderDetail/OrdelDetail.js";
 import { Provider } from "react-redux";
 import store from "./store.js";
 
@@ -74,7 +76,18 @@ function App() {
             path="/customer/password"
             element={<ChangePassword></ChangePassword>}
           >
+          </Route>
 
+          <Route
+            path="/customer/manager-oder"
+            element={<ManagerOder></ManagerOder>}
+          >
+          </Route>
+
+          <Route
+            path="/customer/order-detail/:id"
+            element={<OrderDetail></OrderDetail>}
+          >
           </Route>
 
           <Route

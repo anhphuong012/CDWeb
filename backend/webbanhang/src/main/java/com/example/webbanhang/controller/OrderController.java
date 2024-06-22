@@ -21,6 +21,13 @@ public class OrderController {
                 .body(new ReposeOject("OK", " Success",orderService.findOrderByUserId(id) ));
     }
 
+    @GetMapping(value = "/{id}/{status}")
+    public @ResponseBody ResponseEntity<ReposeOject> getOrder(@PathVariable Long id, @PathVariable int status){
+        System.out.println("find");
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ReposeOject("OK", " Success",orderService.findByStatusAndUserId(id, status) ));
+    }
+
     @GetMapping()
     public @ResponseBody ResponseEntity<ReposeOject> getAllOrder(@RequestParam(value = "status",required = false) String status){
         System.out.println("find");
@@ -46,6 +53,8 @@ public class OrderController {
                     .body(new ReposeOject("Failed", " Failed",false ));
         }
     }
+
+
     @PutMapping
     public @ResponseBody ResponseEntity<ReposeOject> update(@RequestParam(value = "orderId")Long orderId,@RequestParam(value = "status") int status){
         return ResponseEntity.status(HttpStatus.OK)

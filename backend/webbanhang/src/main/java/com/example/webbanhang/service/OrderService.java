@@ -144,6 +144,26 @@ public class OrderService implements IOrderService{
         return ordersModel;
     }
 
+
+
+    public List<OrderModel> findByStatusAndUserId(Long userId, int status){
+        System.out.println("service");
+        Sort sort = Sort.by("dateCreate");
+        UserEntity user = userRepository.findById(userId).get();
+        System.out.println("User:" + user.getId());
+        List<OrderEntity> orders = orderRepository.findByStatusAndUserId(status, userId ,sort.descending());
+        System.out.println(orders.size());
+        List<OrderModel> ordersModel = new ArrayList<>();
+
+        for (OrderEntity entity:
+                orders) {
+            ordersModel.add(OrderModel.orderModel(entity));
+
+        }
+
+        return ordersModel;
+    }
+
     public OrderModel changeStatus(Long orderId,int status){
         OrderEntity entity = orderRepository.findById(orderId).get();
         entity.setStatus(status);

@@ -68,9 +68,9 @@ export default function CustomerInfo() {
                                 <div class="row form-radio-checkbox form-group">
                                     <div class="col col-label"></div>
                                     <div class="col-12 col-input form-buttons">
-                                        <button class="btn btn--large">Cập nhật</button>
+                                        <button class="btn btn-outline-light text-dark btn-shop">Cập nhật</button>
                                         <button
-                                            className="btn btn--large btn--outline"
+                                            className="btn btn-outline-light text-dark btn-shop"
                                             onClick={() => {
                                                 navigate('/customer/password');
                                             }}

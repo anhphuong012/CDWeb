@@ -277,7 +277,12 @@ const Header = ({ product }) => {
                     "aria-labelledby": "basic-button",
                   }}
                 >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      handleClose();
+                      navigate("/customer/info");
+                    }}
+                  >Profile</MenuItem>
                   <MenuItem
                     onClick={() => {
                       handleClose();
