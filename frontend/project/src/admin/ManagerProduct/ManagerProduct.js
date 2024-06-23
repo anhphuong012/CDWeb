@@ -118,7 +118,7 @@ export default function ManagerProduct() {
       console.log(response);
       if (response.status == 200) {
         if (response.data.data == true) {
-          const updatedProducts = data.filter(
+          const updatedProducts = temp.filter(
             (product) => product.id !== selectDelete
           );
           setData(updatedProducts);

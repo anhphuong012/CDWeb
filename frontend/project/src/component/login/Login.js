@@ -37,38 +37,44 @@ export default function Login() {
       if (response.data.result.authenticated) {
         const cart = response.data.result.user.cart.listCartItem;
         const user = response.data.result.user;
-        // Lưu token vào Session Storage
-        sessionStorage.setItem("token", response.data.result.token);
+        if (user.role == 2) {
+          setMessage("Tài khoản đã bị khóa");
+        } else {
+          // Lưu token vào Session Storage
+          sessionStorage.setItem("token", response.data.result.token);
 
-        try {
-          sessionStorage.setItem("user", JSON.stringify(user));
-          if (cart == null) {
-            sessionStorage.setItem("cart", []);
-          } else {
-            sessionStorage.setItem("cart", JSON.stringify(cart));
+          try {
+            sessionStorage.setItem("user", JSON.stringify(user));
+            if (cart == null) {
+              sessionStorage.setItem("cart", []);
+            } else {
+              sessionStorage.setItem("cart", JSON.stringify(cart));
+            }
+            console.log("Ok");
+          } catch (error) {
+            console.log(error);
           }
-          console.log("Ok");
-        } catch (error) {
-          console.log(error);
-        }
-        console.log(Array.isArray(response.data.result.user.cart.listCartItem));
-        const cartSession = sessionStorage.getItem("cart");
-        console.log(cartSession);
+          console.log(
+            Array.isArray(response.data.result.user.cart.listCartItem)
+          );
+          const cartSession = sessionStorage.getItem("cart");
+          console.log(cartSession);
 
-        const role = user.role;
-        switch (role) {
-          case 0:
-            navigate("/admin/products");
-            break;
-          case 1:
-            document.location.href = "/";
-            break;
+          const role = user.role;
+          switch (role) {
+            case 0:
+              navigate("/admin/products");
+              break;
+            case 1:
+              document.location.href = "/";
+              break;
+          }
         }
       } else {
-        setMessage("Login failed", response.data);
+        setMessage("Sai tài khoản hoặc mật khẩu", response.data);
       }
     } catch (error) {
-      setMessage("Login failed", error.response);
+      setMessage("Sai tài khoản hoặc mật khẩu", error.response);
     }
   };
 
@@ -164,7 +170,7 @@ export default function Login() {
                     </button>
                   </div>
                 </form>
-                {message && <p>{message}</p>}
+                {message && <p style={{ color: "red" }}>{message}</p>}
               </div>
             </div>
 

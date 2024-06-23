@@ -21,6 +21,7 @@ import Box from "@mui/material/Box";
 import Bot from "../image/bg-bot.jpg";
 
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 function CustomTabPanel(props) {
