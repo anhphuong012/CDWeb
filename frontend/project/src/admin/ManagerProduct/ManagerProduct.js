@@ -137,8 +137,9 @@ export default function ManagerProduct() {
     if (value == "") {
       setData(temp);
     } else {
-      const updateData = data.filter((product) =>
-        product.name.toLowerCase().includes(value.toLowerCase())
+      console.log("Log:" + value);
+      const updateData = temp.filter((product) =>
+        product.name.trim().toLowerCase().includes(value.trim().toLowerCase())
       );
       setData(updateData);
     }

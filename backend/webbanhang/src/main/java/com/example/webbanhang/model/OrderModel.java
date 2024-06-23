@@ -33,6 +33,7 @@ public class OrderModel {
 
     private VNPayModel pay;
 
+    private String address;
 
     public OrderModel() {
     }
@@ -87,7 +88,7 @@ public class OrderModel {
         return isPay;
     }
 
-    public void setPay(boolean pay) {
+    public void setIsPay(boolean pay) {
         isPay = pay;
     }
 
@@ -123,6 +124,14 @@ public class OrderModel {
         this.user = user;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public static OrderModel orderModel(OrderEntity entity){
         OrderModel model = new OrderModel();
 
@@ -137,6 +146,12 @@ public class OrderModel {
         model.setDateCreate(entity.getDateCreate());
         model.setTypePayment(entity.getTypePayment());
         model.setTotalPrice(entity.getTotalPrice());
+
+        if(entity.getAddress() != null) {
+            model.setAddress(entity.getAddress());
+        }
+        model.setIsPay(entity.isPay());
+
         OrderItemModel temp;
         for (OrderItemEntity item: orderItemEntityList
              ) {

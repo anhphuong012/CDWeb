@@ -28,6 +28,9 @@ public class OrderEntity {
     private int status;
 
 
+    private String address;
+
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy="order", orphanRemoval = true)
     private List<OrderItemEntity> orderItems = new ArrayList<>();
     @OneToOne(fetch = FetchType.LAZY,mappedBy = "order")
@@ -118,5 +121,17 @@ public class OrderEntity {
 
     public void setOrderItems(List<OrderItemEntity> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public void setPay(boolean pay) {
+        isPay = pay;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
