@@ -77,9 +77,6 @@ function Order(props) {
             clearCart();
             setIsDelete(!isDelete);
             // navigate("/order/history");
-            console.log(sessionStorage
-              .getItem("token")
-              .toString());
             document.location.href = "/order/history";
           }
           //  else {
@@ -123,7 +120,7 @@ function Order(props) {
           }
         });
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   // const deleteSate = async (product) => {
@@ -252,7 +249,7 @@ function Order(props) {
         //    });
         //  }
       });
-    } catch (error) { }
+    } catch (error) {}
   };
   const decreState = async (product) => {
     const cartProduct = props.cart.find(

@@ -61,12 +61,7 @@ export default function EditProduct() {
     }
 
     const fetchItem = async () => {
-        const response = await axios.get(`/api/user/${id}`, {
-            headers: {
-                Authorization: `Bearer ${sessionStorage.getItem("token").toString()}`,
-            },
-        });
-
+        const response = await axios.get(`/api/user/${id}`);
         console.log(response.data);
 
         if (response.status == 200) {

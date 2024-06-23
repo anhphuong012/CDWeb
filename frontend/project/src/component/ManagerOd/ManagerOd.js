@@ -38,21 +38,13 @@ export default function ManagerOd() {
             all += `/${status}`;
         }
 
-        try {
-            const response = await axios.get(all, {
-                headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem("token").toString()}`,
-                },
-            });
+        const response = await axios.get(all);
 
-            if (response.status === 200) {
-                if (response.data.data != null) {
-                    setData(response.data.data);
-                    console.log(response.data.data);
-                }
+        if (response.status == 200) {
+            if (response.data.data != null) {
+                setData(response.data.data);
+                console.log(response.data.data);
             }
-        } catch (error) {
-            console.error('Error fetching data:', error);
         }
     };
 
