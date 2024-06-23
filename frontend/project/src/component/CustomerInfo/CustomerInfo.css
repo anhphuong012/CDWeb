@@ -189,7 +189,7 @@ blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font,
 .btn:not(:disabled):not(.disabled) {
     cursor: pointer;
 }
-.btn--large {
+/* .btn--large {
     padding: 12px 24px;
     border-radius: 16px 0px;
     font-size: 16px;
@@ -210,6 +210,6 @@ blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font,
     background-color: white;
     border: 1px solid #221f20;
     color: #221f20;
-}
+} */
 
 

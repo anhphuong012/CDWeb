@@ -1,5 +1,6 @@
 package com.example.webbanhang.repository;
 
+import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 import com.example.webbanhang.Entity.UserEntity;
@@ -13,5 +14,10 @@ public interface UserEntityRepository extends CrudRepository<UserEntity,Long>{
     Optional<UserEntity> findByUsername(String username);
 
     Optional<UserEntity> findByEmail(String email);
+
+    Optional<UserEntity> findById(Long id);
+
+
+    List<UserEntity> findAll();
 
 }
