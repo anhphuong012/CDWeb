@@ -70,7 +70,7 @@ export function ProductDetail(props) {
 
         let cartProduct = {
           product: product,
-          quanlity: 1,
+          quanlity: value,
           size: selectSize,
         };
         // cartProduct.quanlity = 1;
@@ -97,7 +97,7 @@ export function ProductDetail(props) {
           await axios({
             method: "post",
             maxBodyLength: Infinity,
-            url: `/api/cart/${user.id}?productId=${product.id}&quanlity=1&size=${selectSize}`,
+            url: `/api/cart/${user.id}?productId=${product.id}&quanlity=${cartProduct.quanlity}&size=${selectSize}`,
 
             headers: {
               "Content-Type": "application/json",
@@ -127,6 +127,16 @@ export function ProductDetail(props) {
       } else {
         toast.error("Vui lòng chọn size!");
       }
+    }
+  };
+
+  const handleIncreement = () => {
+    setValue(value + 1);
+  };
+
+  const handDecreement = () => {
+    if (value > 1) {
+      setValue(value - 1);
     }
   };
   return (
@@ -211,13 +221,20 @@ export function ProductDetail(props) {
                 <span>Số lượng:</span>
                 <div className="ml" style={{ position: "relative" }}>
                   <input
-                    className="input-quanlity"
+                    className="input-quanlity-detail"
                     type="number"
                     value={value}
+                    readOnly
                   />
 
-                  <button className="btn-quanlity">-</button>
-                  <button className="btn-quanlity" style={{ right: 0 }}>
+                  <button className="btn-quanlity" onClick={handDecreement}>
+                    -
+                  </button>
+                  <button
+                    className="btn-quanlity"
+                    style={{ right: 0 }}
+                    onClick={handleIncreement}
+                  >
                     +
                   </button>
                 </div>
@@ -232,12 +249,12 @@ export function ProductDetail(props) {
                   Thêm vào giỏ hàng
                 </button>
 
-                <button
+                {/* <button
                   type="button"
                   className={"btn btn-outline-light text-dark btn-shop ml"}
                 >
                   Mua ngay
-                </button>
+                </button> */}
               </div>
               <ToastContainer position="bottom-right" />
               <div className="infor-product">
