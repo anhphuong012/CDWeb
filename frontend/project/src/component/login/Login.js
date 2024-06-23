@@ -32,7 +32,6 @@ export default function Login() {
       console.log("aaaaa");
 
       const response = await axios.post("http://172.17.90.48:8081/auth/token", {
-
         email,
         password,
       });
@@ -60,14 +59,12 @@ export default function Login() {
         const role = user.role;
         switch (role) {
           case 0:
-            navigate('/admin/products');
+            navigate("/admin/products");
             break;
           case 1:
-            navigate('/');
+            document.location.href = "/";
             break;
         }
-
-
       } else {
         setMessage("Login failed", response.data);
       }
@@ -75,7 +72,6 @@ export default function Login() {
       setMessage("Login failed", error.response);
     }
   };
-
 
   console.log(message);
   return (
