@@ -43,6 +43,7 @@ public class OrderService implements IOrderService{
         order.setUser(user);
         order.setDateCreate(LocalDateTime.now());
         order.setStatus(ORDER_WAITTING_ACCEPT);
+        order.setAddress(user.getWard()+"," + user.getDistrict() +"," + user.getCity());
 
         if(orderId ==null){
             order.setId(Long.parseLong(VNPayConfig.getRandomNumber(8)));
