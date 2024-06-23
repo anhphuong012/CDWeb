@@ -9,19 +9,61 @@ import "./OrderDetail.css";
 
 export default function OrderDetail() {
 
-    const [order, setOrder] = useState(null);
+    const [orderI, setOrderI] = useState(null);
+    const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const { id } = useParams();
 
     const navigate = useNavigate();
 
-    const OrderDetailPage = ({ orders }) => {
-        const { orderId } = useParams(); // Lấy orderId từ URL params
-        const order = orders.find(order => order.id === parseInt(orderId)); // Tìm đơn hàng với id tương ứng
-
-        if (!order) {
-            return <div>Đơn hàng không tồn tại hoặc đã bị xóa.</div>;
+    useEffect(() => {
+        if (sessionStorage.getItem("user") == null) {
+            navigate("/login");
+        } else {
+            var user = JSON.parse(sessionStorage.getItem("user"));
+            console.log(user);
+            fetchOrder(id);
+            fetchData(user.id);
         }
-    }
+
+
+    }, [id]);
+    const fetchOrder = async (id) => {
+        let all = 'http://192.168.1.146:8081/api/order/orders/${id}';
+
+        const response = await axios.get(all);
+
+        if (response.status == 200) {
+            if (response.data.data != null) {
+                setOrderI(response.data.data);
+                console.log(response.data.data);
+            }
+        }
+    };
+
+    const fetchData = async (userId, status) => {
+        let all = 'http://192.168.1.146:8081/api/order/${userId}';
+
+        const response = await axios.get(all);
+
+        if (response.status == 200) {
+            if (response.data.data != null) {
+                setData(response.data.data);
+                console.log(response.data.data);
+            }
+        }
+    };
+
+    console.log(id);
+    console.log(orderI);
+
+    const convertDate = (dateStr) => {
+        const dateAndTime = dateStr.split("T");
+        const Time = dateAndTime[1];
+        const date = dateAndTime[0].split("-");
+        return Time + " " + date[2] + "-" + date[1] + "-" + date[0];
+    };
+
 
     return (
         <div>
@@ -33,12 +75,12 @@ export default function OrderDetail() {
                 <div className="col-lg col-account-content">
                     <div className="order-block__title">
                         <h2>
-                            <span className="icon-ic_back"> </span>CHI TIẾT ĐƠN HÀNG <b>{order.id}</b>
+                            <span className="icon-ic_back"> </span>CHI TIẾT ĐƠN HÀNG <b>{id}</b>
                         </h2>
-                        <div className={`order__status order--${order.status === -1 ? 'cancel' : 'active'}`}>
+                        <div className="order__status order--cancel">
                             {/* Hiển thị trạng thái đơn hàng */}
                             <span className="icon-ic_reload"></span>
-                            <span>{order.status === -1 ? 'Đã hủy đơn hàng' : 'Đang giao hàng'}</span>
+                            <span>{'Đang giao hàng'}</span>
                         </div>
                     </div>
                     <div className="order-block row">
@@ -46,22 +88,22 @@ export default function OrderDetail() {
                             <div className="order-block__products checkout-my-cart">
                                 <table className="cart__tables">
                                     <tbody>
-                                        {order.orderItems.map((item, index) => (
+                                        {orderI != null && orderI.map((item, index) => (
                                             <tr key={index}>
                                                 <td>
                                                     <div className="cart__product-item">
                                                         <div className="cart__product-item__img">
-                                                            <a href={item.product.link}>
-                                                                <img src={item.product.image} alt={item.product.name} />
-                                                            </a>
+
+                                                            <img src={item.product.image} alt={item.product.name} ></img>
+
                                                         </div>
                                                         <div className="cart__product-item__content">
                                                             <h3 className="cart__product-item__title">{item.product.name}</h3>
                                                             <div className="cart__product-item__properties">
-                                                                <p>Size: <span>{item.size}</span></p>
+                                                                <p>Size: <span>{item.sizes.size}</span></p>
                                                             </div>
                                                             <div className="cart__product-item__properties">
-                                                                <p>Số lượng: <span>{item.quantity}</span></p>
+                                                                <p>Số lượng: <span>{item.sizes.quantity}</span></p>
                                                             </div>
                                                             <div className="cart__product-item__properties">
                                                                 <p>SKU: <span>{item.product.sku}</span></p>
@@ -83,46 +125,34 @@ export default function OrderDetail() {
                                     <h3>Tóm tắt đơn hàng</h3>
                                     <div className="cart-summary__overview__item">
                                         <p>Ngày tạo đơn</p>
-                                        <p><span className="price">{order.dateCreate}</span></p>
+                                        <p><span className="price">{convertDate(data.dateCreate + " ")}</span></p>
                                     </div>
                                     <div className="cart-summary__overview__item">
                                         <p>Tổng tiền</p>
-                                        <p><b>{order.totalPrice.toLocaleString("vi-VN")} đ</b></p>
+                                        <p><b>{data.totalPrice.toLocaleString("vi-VN")} đ</b></p>
                                     </div>
                                 </div>
                                 <div className="cart-summary__payment">
                                     <h4>Hình thức thanh toán</h4>
                                     <div className="cart-summary__overview__item">
-                                        <p>{order.typePayment}</p>
+                                        <p>{data.typePayment}</p>
                                     </div>
                                 </div>
-                                <div className="cart-summary__delivery">
-                                    <h4>Đơn vị vận chuyển</h4>
-                                    <div className="cart-summary__overview__item">
-                                        <p>{order.shippingMethod}</p>
-                                    </div>
-                                </div>
-                                <div className="cart-summary__address">
+                                {/* <div className="cart-summary__address">
                                     <h4>Địa chỉ</h4>
-                                    <div className="cart-summary__overview__item">
-                                        <p>{order.customerName}</p>
-                                    </div>
                                     <div className="cart-summary__overview__item">
                                         <p>{order.address}</p>
                                     </div>
-                                    <div className="cart-summary__overview__item">
-                                        <p>Điện thoại: {order.phone}</p>
-                                    </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
                     <div className="order-buttons">
-                        <a className="btn btn--large btn--outline" href={`https://ivymoda.com/customer/order_follow/${order.id}`}>Theo dõi đơn hàng</a>
+                        <a className="btn btn--large btn--outline" href={`https://ivymoda.com/customer/order_follow/${orderI.id}`}>Theo dõi đơn hàng</a>
                     </div>
                 </div>
             </div>
             <Footer />
-        </div>
+        </div >
     );
 }

@@ -27,6 +27,8 @@ import ManagerOrderAccept from "./admin/ManagerOrder/ManagerOrderAccept.js";
 import ManagerOrderMove from "./admin/ManagerOrder/ManagerOrderMove.js";
 import ManagerOrderFinish from "./admin/ManagerOrder/ManagerOrderFinish.js";
 import ManagerOrderCancel from "./admin/ManagerOrder/ManagerOrderCancel.js";
+import ManagerUser from "./admin/ManagerUser/ManagerUser.js";
+import EditUser from "./admin/ManagerUser/EditUser.js";
 function App() {
   return (
     <Provider store={store}>
@@ -112,6 +114,17 @@ function App() {
           <Route
             path="/admin/orders/cancel"
             element={<ManagerOrderCancel></ManagerOrderCancel>}
+          ></Route>
+
+          <Route
+            path="/admin/user"
+            element={<ManagerUser></ManagerUser>}
+          >
+          </Route>
+
+          <Route
+            path="/admin/user/edit/:id"
+            element={<EditUser></EditUser>}
           ></Route>
         </Routes>
       </div>

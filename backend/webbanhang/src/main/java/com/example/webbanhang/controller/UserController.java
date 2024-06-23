@@ -6,17 +6,23 @@ import com.example.webbanhang.dto.Respone.PasswordChangeResponse;
 import com.example.webbanhang.dto.UserDTO;
 import com.example.webbanhang.dto.request.PasswordChangeRequest;
 import com.example.webbanhang.dto.request.UserCreationRequest;
+import com.example.webbanhang.dto.request.UserUpdateRequest;
+import com.example.webbanhang.model.ReposeOject;
 import com.example.webbanhang.model.UserModel;
 import com.example.webbanhang.repository.UserEntityRepository;
 import com.example.webbanhang.service.UserService;
 import com.example.webbanhang.service.imp.UserImp;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import com.example.webbanhang.model.UserModel;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/user")
@@ -46,7 +52,29 @@ public class UserController {
     }
 
 
+    @GetMapping("/all")
+    public @ResponseBody ResponseEntity<ReposeOject> getAllUser(){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ReposeOject("OK", " Success",userService.getAllUsers() ));
+    }
 
+    @GetMapping("/{id}")
+    public @ResponseBody ResponseEntity<ReposeOject> getUserById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ReposeOject("OK", " Success",userService.getUserById(id) ));
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<ReposeOject> updateUserRole(@PathVariable Long userId, @RequestBody UserUpdateRequest request) {
+        boolean check = userService.updateUserRole(userId, request.getRole());
+        if(check){
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ReposeOject("OK", " Success",true ));
+        }else {
+            return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY)
+                    .body(new ReposeOject("Failed", " Failed",false ));
+        }
+    }
 
 //    @PostMapping("/login")
 //    public String loginUser(@ModelAttribute("user") UserLoginRequest loginRequest, Model model) {

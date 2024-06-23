@@ -11,7 +11,9 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ManagerOd.css"
 
-export default function CustomerInfo() {
+import { ToastContainer, toast } from "react-toastify";
+
+export default function ManagerOd() {
     const [user, setUser] = useState(null);
     const [data, setData] = useState(null);
     const [orderStatus, setOrderStatus] = useState("")
@@ -44,6 +46,41 @@ export default function CustomerInfo() {
                 console.log(response.data.data);
             }
         }
+    };
+
+    const changeStatus = async (orderId) => {
+        // const response = await axios.put(`/api/order?status=1&orderId=${orderId}`);
+        // if (response.status == 200) {
+        //   if (response.data.data != null) {
+        //     const updateData = data.filter((item) => item.id != orderId);
+        //     setData(updateData);
+        //     toast.success("Chấp nhận thành công");
+        //   }
+        // }
+
+        await axios({
+            method: "put",
+            maxBodyLength: Infinity,
+            url: `/api/order?status=-1&orderId=${orderId}`,
+
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${sessionStorage.getItem("token").toString()}`,
+            },
+            mode: "cors",
+            data: "",
+        }).then(function (response) {
+            if (response.status == 200) {
+                const updateData = data.filter((item) => item.id != orderId);
+                setData(updateData);
+                toast.success("Chấp nhận thành công");
+            }
+            //  else {
+            //    toast.error("xảy ra lỗi!", {
+            //      className: "Thông báo",
+            //    });
+            //  }
+        });
     };
 
     const convertDate = (dateStr) => {
@@ -152,12 +189,17 @@ export default function CustomerInfo() {
                                                         <RemoveRedEyeIcon></RemoveRedEyeIcon>
                                                     </button>
 
-                                                    <button
-                                                        className="ml-2 btn btn-danger btn-sm"
-                                                        fdprocessedid="0h411qi"
-                                                    >
-                                                        <DeleteIcon></DeleteIcon>
-                                                    </button>
+                                                    {item.status === -1 ? null : (
+                                                        <button
+                                                            className="ml-2 btn btn-danger btn-sm"
+                                                            fdprocessedid="0h411qi"
+                                                            onClick={() => {
+                                                                changeStatus(item.id);
+                                                            }}
+                                                        >
+                                                            <DeleteIcon></DeleteIcon>
+                                                        </button>
+                                                    )}
                                                 </td>
                                             </tr>
                                         );

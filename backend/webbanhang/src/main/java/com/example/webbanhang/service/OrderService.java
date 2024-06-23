@@ -2,7 +2,9 @@ package com.example.webbanhang.service;
 
 import com.example.webbanhang.Entity.*;
 import com.example.webbanhang.config.VNPayConfig;
+import com.example.webbanhang.model.OrderItemModel;
 import com.example.webbanhang.model.OrderModel;
+import com.example.webbanhang.model.ProductModel;
 import com.example.webbanhang.repository.*;
 import com.example.webbanhang.util.PaymentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService implements IOrderService{
@@ -170,5 +173,9 @@ public class OrderService implements IOrderService{
         OrderEntity save = orderRepository.save(entity);
         return OrderModel.orderModel(save);
     }
+    public List<OrderItemModel> getOrderById(Long id){
+        return orderRepository.findByOrderId(id).stream().map(OrderItemModel::convert).toList();
+    }
+
 
 }

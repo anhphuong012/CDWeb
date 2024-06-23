@@ -13,6 +13,11 @@ public class OrderController {
 
     @Autowired
     OrderService orderService;
+    @GetMapping(value = "orders/{id}")
+    public @ResponseBody ResponseEntity<ReposeOject> getOrderById(@PathVariable(name = "id") Long id){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ReposeOject("OK", " Success",orderService.getOrderById(id) ));
+    }
 
     @GetMapping(value = "/{id}")
     public @ResponseBody ResponseEntity<ReposeOject> getOrder(@PathVariable Long id){
