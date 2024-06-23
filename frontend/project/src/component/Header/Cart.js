@@ -132,37 +132,41 @@ export function Cart(props) {
     );
     console.log(cartProduct);
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      // const response = await axios.put(
-      //   `/api/cart/${user.id}?productId=${cartProduct.product.id}&quanlity=1&size=${cartProduct.size}&type=-1`
-      // );
-      // if (response.status == 200) {
-      //   props.decreaProduct(product);
-      //   setIsDelete(!isDelete);
-      // }
+      if (cartProduct.quanlity > 1) {
+        const user = JSON.parse(sessionStorage.getItem("user"));
+        // const response = await axios.put(
+        //   `/api/cart/${user.id}?productId=${cartProduct.product.id}&quanlity=1&size=${cartProduct.size}&type=-1`
+        // );
+        // if (response.status == 200) {
+        //   props.decreaProduct(product);
+        //   setIsDelete(!isDelete);
+        // }
 
-      await axios({
-        method: "put",
-        maxBodyLength: Infinity,
-        url: `/api/cart/${user.id}?productId=${cartProduct.product.id}&quanlity=1&size=${cartProduct.size}&type=-1`,
+        await axios({
+          method: "put",
+          maxBodyLength: Infinity,
+          url: `/api/cart/${user.id}?productId=${cartProduct.product.id}&quanlity=1&size=${cartProduct.size}&type=-1`,
 
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("token").toString()}`,
-        },
-        mode: "cors",
-        data: "",
-      }).then(function (response) {
-        if (response.status == 200) {
-          props.decreaProduct(product);
-          setIsDelete(!isDelete);
-        }
-        //  else {
-        //    toast.error("xảy ra lỗi!", {
-        //      className: "Thông báo",
-        //    });
-        //  }
-      });
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage
+              .getItem("token")
+              .toString()}`,
+          },
+          mode: "cors",
+          data: "",
+        }).then(function (response) {
+          if (response.status == 200) {
+            props.decreaProduct(product);
+            setIsDelete(!isDelete);
+          }
+          //  else {
+          //    toast.error("xảy ra lỗi!", {
+          //      className: "Thông báo",
+          //    });
+          //  }
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -178,7 +182,8 @@ export function Cart(props) {
 
   const handleOrder = () => {
     if (props.cart.length == 0) {
-      toast.error("Vui lòng thêm sản phẩm vào giỏ để đặt hàng");
+      // toast.error("Vui lòng thêm sản phẩm vào giỏ để đặt hàng");
+      alert("Vui lòng thêm sản phẩm vào giỏ");
     } else {
       navigate("/order");
     }
@@ -448,7 +453,7 @@ export function Cart(props) {
         {DrawerList}
       </Drawer>
 
-      <ToastContainer position="bottom-left" style={{ zIndex: 99999 }} />
+      {/* <ToastContainer position="bottom-left" style={{ zIndex: 99999 }} /> */}
     </div>
   );
 }

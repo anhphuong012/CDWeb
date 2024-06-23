@@ -297,7 +297,7 @@ const Header = ({ product }) => {
                     onClick={() => {
                       sessionStorage.clear();
                       setAnchorEl(null);
-                      navigate("/");
+                      document.location.href = "/";
                     }}
                   >
                     Đăng xuất
