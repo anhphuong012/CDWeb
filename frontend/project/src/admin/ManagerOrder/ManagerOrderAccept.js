@@ -145,8 +145,13 @@ export default function ManagerOrderAccept() {
     if (sessionStorage.getItem("user") == null) {
       navigate("/login");
     } else {
-      fetchData();
-      setIsLoad(true);
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      if (user.role != 0) {
+        navigate("/");
+      } else {
+        fetchData();
+        setIsLoad(true);
+      }
     }
   }, []);
 

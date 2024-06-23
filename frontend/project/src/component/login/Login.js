@@ -30,13 +30,7 @@ export default function Login() {
     e.preventDefault();
     try {
       console.log("aaaaa");
-<<<<<<< HEAD
-      const response = await axios.post("http://192.168.0.109:8081/auth/token", {
-=======
-
       const response = await axios.post("http://172.17.90.48:8081/auth/token", {
-
->>>>>>> 1e7740426aca6822fc6ba047b70aca97d4efc5d9
         email,
         password,
       });
@@ -64,14 +58,12 @@ export default function Login() {
         const role = user.role;
         switch (role) {
           case 0:
-            navigate('/admin/products');
+            navigate("/admin/products");
             break;
           case 1:
-            navigate('/');
+            document.location.href = "/";
             break;
         }
-
-
       } else {
         setMessage("Login failed", response.data);
       }
@@ -79,7 +71,6 @@ export default function Login() {
       setMessage("Login failed", error.response);
     }
   };
-
 
   console.log(message);
   return (

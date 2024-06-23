@@ -107,8 +107,19 @@ export default function ManagerOrderFinish() {
   };
 
   useEffect(() => {
-    fetchData();
-    setIsLoad(true);
+    // fetchData();
+    // setIsLoad(true);
+    if (sessionStorage.getItem("user") == null) {
+      navigate("/login");
+    } else {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      if (user.role != 0) {
+        navigate("/");
+      } else {
+        fetchData();
+        setIsLoad(true);
+      }
+    }
   }, []);
 
   const convertDate = (dateStr) => {

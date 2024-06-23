@@ -146,8 +146,17 @@ export default function ManagerProduct() {
   }, [value]);
 
   useEffect(() => {
-    fetchData();
-    setIsLoad(true);
+    if (sessionStorage.getItem("user") == null) {
+      navigate("/");
+    } else {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      if (user.role != 0) {
+        navigate("/");
+      } else {
+        fetchData();
+        setIsLoad(true);
+      }
+    }
   }, []);
   return (
     <div className="container-main mb-5">
