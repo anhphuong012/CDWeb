@@ -76,10 +76,12 @@ public class AuthenticationImp implements AuthenticationService {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         System.out.println("Entity:" + user.getId());
+        String newRole = convertRoleToString(user.getRole());
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(user.getEmail())
                 .issuer("localhost3000")
                 .issueTime(new Date())
+                .claim("scope", newRole)
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
@@ -119,5 +121,17 @@ public class AuthenticationImp implements AuthenticationService {
                 .build();
     }
 
+    public  String convertRoleToString(int role) {
+        switch (role) {
+            case 0:
+                return "ADMIN";
+            case 1:
+                return "USER";
+            case 2:
+                return "LOCK";
+            default:
+                throw new IllegalArgumentException("Unsupported role: " + role);
+        }
+    }
 
 }

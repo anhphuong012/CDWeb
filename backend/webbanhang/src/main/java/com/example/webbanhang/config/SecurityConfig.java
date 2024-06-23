@@ -29,8 +29,12 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests(request ->
 
-                request.requestMatchers(HttpMethod.GET,PUBLIC_GET_ENDPOINT).permitAll()
+                request
+//                        .requestMatchers(HttpMethod.GET,PUBLIC_GET_ENDPOINT).permitAll()
                         .requestMatchers(HttpMethod.POST,PUBLIC_POST_ENDPOINT).permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/user/all")
+                        .hasAnyAuthority("SCOPE_ADMIN")
+//                        .requestMatchers(HttpMethod.GET,"/api/user/all") .hasAnyAuthority("1")
 //                        .requestMatchers(HttpMethod.PUT,PUBLIC_POST_ENDPOINT).permitAll()
 //                        .requestMatchers(HttpMethod.DELETE,PUBLIC_POST_ENDPOINT).permitAll()
                         .anyRequest().authenticated());
