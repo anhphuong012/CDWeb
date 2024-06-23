@@ -19,6 +19,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+
   const navigate = useNavigate();
 
   const handleRegisterClick = () => {
@@ -29,7 +30,9 @@ export default function Login() {
     e.preventDefault();
     try {
       console.log("aaaaa");
+
       const response = await axios.post("http://172.17.90.48:8081/auth/token", {
+
         email,
         password,
       });
@@ -54,7 +57,17 @@ export default function Login() {
         const cartSession = sessionStorage.getItem("cart");
         console.log(cartSession);
 
-        document.location.href = "/";
+        const role = user.role;
+        switch (role) {
+          case 0:
+            navigate('/admin/products');
+            break;
+          case 1:
+            navigate('/');
+            break;
+        }
+
+
       } else {
         setMessage("Login failed", response.data);
       }
@@ -62,6 +75,8 @@ export default function Login() {
       setMessage("Login failed", error.response);
     }
   };
+
+
   console.log(message);
   return (
     <div>
