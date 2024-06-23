@@ -91,15 +91,20 @@ export default function ManagerProduct() {
     const navigate = useNavigate();
 
     const fetchData = async () => {
-        const response = await axios.get(`/api/user/all`);
+        const response = await axios.get('/api/user/all', {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token").toString()}`,
+            },
+        });
 
-        if (response.status == 200) {
+        if (response.status === 200) {
             if (response.data.data != null) {
                 setData(response.data.data);
                 setTemp(response.data.data);
                 console.log(data);
             }
         }
+
     };
 
 
