@@ -19,6 +19,9 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export function Cart(props) {
   const [open, setOpen] = React.useState(false);
   const [isDelete, setIsDelete] = React.useState(false);
@@ -171,6 +174,14 @@ export function Cart(props) {
       total += item.product.price * item.quanlity;
     });
     return total;
+  };
+
+  const handleOrder = () => {
+    if (props.cart.length == 0) {
+      toast.error("Vui lòng thêm sản phẩm vào giỏ để đặt hàng");
+    } else {
+      navigate("/order");
+    }
   };
 
   const DrawerList = (
@@ -415,7 +426,7 @@ export function Cart(props) {
             type="button"
             class="btn btn-outline-dark btn-cart"
             onClick={() => {
-              navigate("/order");
+              handleOrder();
             }}
           >
             Đặt hàng
@@ -436,6 +447,8 @@ export function Cart(props) {
       <Drawer open={open} onClose={toggleDrawer(false)} anchor={"right"}>
         {DrawerList}
       </Drawer>
+
+      <ToastContainer position="bottom-left" style={{ zIndex: 99999 }} />
     </div>
   );
 }
