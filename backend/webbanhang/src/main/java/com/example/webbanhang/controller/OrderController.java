@@ -13,12 +13,24 @@ public class OrderController {
 
     @Autowired
     OrderService orderService;
+    @GetMapping(value = "orders/{id}")
+    public @ResponseBody ResponseEntity<ReposeOject> getOrderById(@PathVariable(name = "id") Long id){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ReposeOject("OK", " Success",orderService.getOrderById(id) ));
+    }
 
     @GetMapping(value = "/{id}")
     public @ResponseBody ResponseEntity<ReposeOject> getOrder(@PathVariable Long id){
         System.out.println("find");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ReposeOject("OK", " Success",orderService.findOrderByUserId(id) ));
+    }
+
+    @GetMapping(value = "/{id}/{status}")
+    public @ResponseBody ResponseEntity<ReposeOject> getOrder(@PathVariable Long id, @PathVariable int status){
+        System.out.println("find");
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ReposeOject("OK", " Success",orderService.findByStatusAndUserId(id, status) ));
     }
 
     @GetMapping()
@@ -46,6 +58,8 @@ public class OrderController {
                     .body(new ReposeOject("Failed", " Failed",false ));
         }
     }
+
+
     @PutMapping
     public @ResponseBody ResponseEntity<ReposeOject> update(@RequestParam(value = "orderId")Long orderId,@RequestParam(value = "status") int status){
         return ResponseEntity.status(HttpStatus.OK)

@@ -18,6 +18,7 @@ export default function CustomerInfo() {
     const [rePassword, setRePassword] = useState("");
     const [cPassword, setCPassword] = useState("");
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
     const user = JSON.parse(sessionStorage.getItem("user"));
     if (!user) {
@@ -27,18 +28,10 @@ export default function CustomerInfo() {
     const handleChangePassword = async (event) => {
         event.preventDefault();
         if (rePassword !== cPassword) {
-            setMessage("New password and confirm password do not match");
+            setMessage("mật khẩu xác nhận không đúng");
             return;
         }
         try {
-            // const response = await axios.delete(
-            //   `/api/cart/${user.id}?productId=${product.product.id}&quanlity=1&size=${product.size}`
-            // );
-
-            // if (response.status == 200) {
-            //   props.deleteProduct(product);
-            //   setIsDelete(!isDelete);
-            // }
 
             const token = sessionStorage.getItem('token');
             const userId = JSON.parse(sessionStorage.getItem('user')).id;
@@ -114,7 +107,10 @@ export default function CustomerInfo() {
                                 <div class="row form-radio-checkbox form-group">
                                     <div class="col col-label"></div>
                                     <div class="col-12 col-input form-buttons">
-                                        <button btn="btn--large" onClick={handleChangePassword}>Cập nhật</button>
+                                        <button className="btn btn-outline-light text-dark btn-shop" onClick={handleChangePassword}>Cập nhật</button>
+                                        <button className="btn btn-outline-light text-dark btn-shop" onClick={() => {
+                                            navigate("/customer/info");
+                                        }}>Trở về</button>
                                     </div>
                                 </div>
                             </form>

@@ -12,6 +12,8 @@ import SearchKey from "./component/Search/Search.js";
 import Payment from "./component/ResultPayment/ResultPayment.js";
 import Customer from "./component/CustomerInfo/CustomerInfo.js";
 import ChangePassword from "./component/ChangePass/ChangePass.js";
+import ManagerOder from "./component/ManagerOd/ManagerOd.js";
+import OrderDetail from "./component/OrderDetail/OrdelDetail.js";
 import { Provider } from "react-redux";
 import store from "./store.js";
 
@@ -25,6 +27,8 @@ import ManagerOrderAccept from "./admin/ManagerOrder/ManagerOrderAccept.js";
 import ManagerOrderMove from "./admin/ManagerOrder/ManagerOrderMove.js";
 import ManagerOrderFinish from "./admin/ManagerOrder/ManagerOrderFinish.js";
 import ManagerOrderCancel from "./admin/ManagerOrder/ManagerOrderCancel.js";
+import ManagerUser from "./admin/ManagerUser/ManagerUser.js";
+import EditUser from "./admin/ManagerUser/EditUser.js";
 function App() {
   return (
     <Provider store={store}>
@@ -74,7 +78,18 @@ function App() {
             path="/customer/password"
             element={<ChangePassword></ChangePassword>}
           >
+          </Route>
 
+          <Route
+            path="/customer/manager-oder"
+            element={<ManagerOder></ManagerOder>}
+          >
+          </Route>
+
+          <Route
+            path="/customer/order-detail/:id"
+            element={<OrderDetail></OrderDetail>}
+          >
           </Route>
 
           <Route
@@ -99,6 +114,17 @@ function App() {
           <Route
             path="/admin/orders/cancel"
             element={<ManagerOrderCancel></ManagerOrderCancel>}
+          ></Route>
+
+          <Route
+            path="/admin/user"
+            element={<ManagerUser></ManagerUser>}
+          >
+          </Route>
+
+          <Route
+            path="/admin/user/edit/:id"
+            element={<EditUser></EditUser>}
           ></Route>
         </Routes>
       </div>

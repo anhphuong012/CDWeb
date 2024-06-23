@@ -28,7 +28,7 @@ export default function HeaderAdmin() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     //  id="wrapper"
@@ -110,9 +110,8 @@ export default function HeaderAdmin() {
                 >
                   <i className="fas fa-fw fa-tachometer-alt" />
                   <span
-                    className={`collabse-drow-item ${
-                      isSelect == "accept" ? "active-nav" : ""
-                    }`}
+                    className={`collabse-drow-item ${isSelect == "accept" ? "active-nav" : ""
+                      }`}
                   >
                     Đơn chờ xác nhận
                   </span>
@@ -127,9 +126,8 @@ export default function HeaderAdmin() {
                 >
                   <i className="fas fa-fw fa-tachometer-alt" />
                   <span
-                    className={`collabse-drow-item ${
-                      isSelect == "move" ? "active-nav" : ""
-                    }`}
+                    className={`collabse-drow-item ${isSelect == "move" ? "active-nav" : ""
+                      }`}
                   >
                     Đơn đang vận chuyển
                   </span>
@@ -144,9 +142,8 @@ export default function HeaderAdmin() {
                 >
                   <i className="fas fa-fw fa-tachometer-alt" />
                   <span
-                    className={`collabse-drow-item ${
-                      isSelect == "finish" ? "active-nav" : ""
-                    }`}
+                    className={`collabse-drow-item ${isSelect == "finish" ? "active-nav" : ""
+                      }`}
                   >
                     Đơn đã hoàn thành
                   </span>
@@ -161,9 +158,8 @@ export default function HeaderAdmin() {
                 >
                   <i className="fas fa-fw fa-tachometer-alt" />
                   <span
-                    className={`collabse-drow-item ${
-                      isSelect == "cancel" ? "active-nav" : ""
-                    }`}
+                    className={`collabse-drow-item ${isSelect == "cancel" ? "active-nav" : ""
+                      }`}
                   >
                     Đơn đã hủy
                   </span>
@@ -180,7 +176,7 @@ export default function HeaderAdmin() {
           <button
             className="nav-link"
             onClick={() => {
-              navigate("/admin/products");
+              navigate("/admin/user");
               setIsSelect("user");
             }}
           >

@@ -14,6 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserImp implements UserService {
 
@@ -60,5 +64,35 @@ public class UserImp implements UserService {
         return true;
 
     }
+    public List<UserModel> getAllUsers() {
+        List<UserEntity> userEntities = userRepository.findAll();
+        List<UserModel> userModels = new ArrayList<>();
 
+        for (UserEntity userEntity : userEntities) {
+            UserModel userModel = UserModel.convert(userEntity); // Convert UserEntity sang UserModel nếu cần thiết
+            userModels.add(userModel);
+        }
+
+        return userModels;
+    }
+
+
+    public UserModel getUserById(Long id)  {
+        Optional<UserEntity> user = userRepository.findById(id);
+
+        UserEntity userEntity = user.orElseThrow(() -> new RuntimeException("User not found"));
+
+        return UserModel.convert(userEntity);
+    }
+
+    public boolean updateUserRole(Long userId, int newRole) {
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        userEntity.setRole(newRole);
+        userRepository.save(userEntity);
+        if (userEntity.getRole() == newRole)
+            return true;
+        return false;
+    }
 }
