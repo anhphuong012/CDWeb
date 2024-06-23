@@ -23,6 +23,8 @@ export default function EditProduct() {
   const [descreption, setDescreption] = useState("");
   const [selectCategory, setSelectCategory] = useState(null);
 
+  const [loadCate, setIsLoadCate] = useState(false);
+
   const params = useParams();
   const id = params.id;
   const navigate = useNavigate();
@@ -114,6 +116,7 @@ export default function EditProduct() {
       console.log(response.data);
       if (response.data.status == "OK") {
         setCategory(response.data.data);
+
         console.log(category);
       }
     }
@@ -131,6 +134,7 @@ export default function EditProduct() {
         setPrice(response.data.data.price);
         setDescreption(response.data.data.descreption);
         setPreview(response.data.data.image);
+        setIsLoadCate(true);
       }
     }
   };
@@ -248,7 +252,7 @@ export default function EditProduct() {
             </div>
 
             <div className="mt-3">
-              {category != null && (
+              {category != null && loadCate && (
                 <TextField
                   id="category"
                   select

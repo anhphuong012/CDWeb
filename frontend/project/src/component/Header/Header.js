@@ -282,7 +282,9 @@ const Header = ({ product }) => {
                       handleClose();
                       navigate("/customer/info");
                     }}
-                  >Profile</MenuItem>
+                  >
+                    Thông tin
+                  </MenuItem>
                   <MenuItem
                     onClick={() => {
                       handleClose();

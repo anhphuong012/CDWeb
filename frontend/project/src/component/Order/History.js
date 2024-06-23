@@ -14,8 +14,16 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+
+import CircularProgress from "@mui/material/CircularProgress";
+
 export default function History() {
   const [data, setData] = useState(null);
+
+  const [show, setShow] = useState(false);
+  const [selectShow, setSelectShow] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,6 +52,49 @@ export default function History() {
     const Time = dateAndTime[1];
     const date = dateAndTime[0].split("-");
     return Time + " " + date[2] + "-" + date[1] + "-" + date[0];
+  };
+  console.log(data);
+
+  const handleClose = () => setShow(false);
+
+  const handleShow = (selectShow) => {
+    setShow(true);
+    setSelectShow(selectShow);
+  };
+
+  const changeStatus = async (orderId) => {
+    // const response = await axios.put(`/api/order?status=1&orderId=${orderId}`);
+    // if (response.status == 200) {
+    //   if (response.data.data != null) {
+    //     const updateData = data.filter((item) => item.id != orderId);
+    //     setData(updateData);
+    //     toast.success("Chấp nhận thành công");
+    //   }
+    // }
+
+    await axios({
+      method: "put",
+      maxBodyLength: Infinity,
+      url: `/api/order?status=-1&orderId=${orderId}`,
+
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("token").toString()}`,
+      },
+      mode: "cors",
+      data: "",
+    }).then(function (response) {
+      if (response.status == 200) {
+        const updateData = data.map((item) => {
+          if (item.id === orderId) {
+            return { ...item, status: -1 };
+          }
+          return item;
+        });
+        setData(updateData);
+        toast.success("Hủy thành công");
+      }
+    });
   };
   return (
     <div>
@@ -127,16 +178,24 @@ export default function History() {
                           <button
                             className="btn btn-primary btn-sm"
                             fdprocessedid="0h411qi"
+                            onClick={() => {
+                              handleShow(item);
+                            }}
                           >
                             <RemoveRedEyeIcon></RemoveRedEyeIcon>
                           </button>
 
-                          <button
-                            className="ml-2 btn btn-danger btn-sm"
-                            fdprocessedid="0h411qi"
-                          >
-                            <DeleteIcon></DeleteIcon>
-                          </button>
+                          {item.status == 0 && (
+                            <button
+                              className="ml-2 btn btn-danger btn-sm"
+                              fdprocessedid="0h411qi"
+                              onClick={() => {
+                                changeStatus(item.id);
+                              }}
+                            >
+                              <DeleteIcon></DeleteIcon>
+                            </button>
+                          )}
                         </td>
                       </tr>
                     );
@@ -157,6 +216,48 @@ export default function History() {
             </table>
           </div>
         </>
+
+        {selectShow != null && (
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Thông tin đơn hàng</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div>Mã đơn hàng: {selectShow.id}</div>
+              <div className="roll-infor mt-3">
+                {selectShow.orderItems.map((item, index) => {
+                  return (
+                    <div className="">
+                      <span>{index + 1}</span>
+                      <span style={{ marginLeft: "10px" }}>
+                        {item.product.name}
+                      </span>
+                      <span style={{ marginLeft: "10px" }}>
+                        {" "}
+                        SL:{item.quanlity}
+                      </span>
+                      <span style={{ marginLeft: "10px" }}>
+                        {" "}
+                        {item.product.price.toLocaleString("vi-VN")} VNĐ
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="mt-3">
+                <strong> Địa chỉ:</strong> {selectShow.address}
+              </div>
+              <div className="mt-3">
+                <strong> Hình thức thanh toán:</strong> {selectShow.typePayment}
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Trở Lại
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        )}
         <ToastContainer position="bottom-right" />
       </div>
       <Footer></Footer>

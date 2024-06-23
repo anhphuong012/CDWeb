@@ -308,6 +308,9 @@ export default function ManagerOrderAccept() {
               })}
             </div>
             <div className="mt-3">
+              <strong> Địa chỉ:</strong> {selectShow.address}
+            </div>
+            <div className="mt-3">
               <strong> Hình thức thanh toán:</strong> {selectShow.typePayment}
             </div>
           </Modal.Body>

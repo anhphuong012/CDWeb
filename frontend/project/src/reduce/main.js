@@ -63,7 +63,10 @@ const cartReducer = (state = initState, action) => {
             item.product.id === action.payload.product.id &&
             item.size == action.payload.size
           ) {
-            return { ...item, quanlity: item.quanlity + 1 };
+            return {
+              ...item,
+              quanlity: item.quanlity + action.payload.quanlity,
+            };
           }
           return item;
         });
